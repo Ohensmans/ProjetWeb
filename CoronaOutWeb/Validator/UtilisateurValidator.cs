@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
-using Modeles;
-using Modeles.POC;
+using ModelesApi.POC;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,31 +24,54 @@ namespace CoronaOutWeb.Validator
                 .MaximumLength(50).WithMessage("Maximum 50 caractères")
                 .Matches(@"^[a-zA-Z""'\s]*$").WithMessage("Les caractères spéciaux et les chiffres ne sont pas acceptés");
 
-            RuleFor(x => x.AdresseEmail)
+            RuleFor(x => x.Email)
                 .NotNull().WithMessage("Ce champ est obligatoire")
                 .MaximumLength(255).WithMessage("Maximum 255 caractères")
                 .EmailAddress().WithMessage("L'adresse mail doit être valide")
                 .Must(MailEstUnique).WithMessage("Cette adresse mail est déjà utilisée");
 
-            RuleFor(x => x.NumeroTelephone)
+            RuleFor(x => x.PhoneNumber)
                 .MaximumLength(25).WithMessage("Maximum 25 caractères")
-                .Matches(@"[0-9]{4,6}+/+[0-9\.\s]{6,18}").WithMessage("Les caractères spéciaux et les chiffres ne sont pas acceptés");
+                .Matches(@"^([0-9\.\\+]*").WithMessage("Les caractères spéciaux ainsi que les lettres ne sont pas acceptés")
+                .Must(NumTelEstValide).WithMessage("Le numéro de gsm doit être valide");
 
             RuleFor(x => x.Sexe)
                 .NotNull().WithMessage("Ce champ est obligatoire")
                 .Must(GenreEstDansListe).WithMessage("Ce genre n'est pas dans la liste");
 
-            //Attention à finir
+            RuleFor(x => x.DateNaissance)
+                .NotNull().WithMessage("Ce champ est obligatoire");
+
+            RuleFor(x => x.estProfessionel)
+                .NotNull().WithMessage("Ce champ est obligatoire");
 
         }
 
         public bool MailEstUnique(Utilisateur user, string newValue)
         {
-            return _Utilisateurs.All(u => u.Equals(user) || u.AdresseEmail != newValue);
+            return _Utilisateurs.All(u => u.Equals(user) || u.Email != newValue);
         }
 
         public bool GenreEstDansListe(string newValue)
+        {
+            return new GenreUtilisateur().genres.Any(x => x.Equals(newValue));
+        }
 
+        public bool NumTelEstValide(string newValue)
+        {
+            try
+            {
+                var phoneNumberUtil = PhoneNumbers.PhoneNumberUtil.GetInstance();
+                var phoneNumber = phoneNumberUtil.Parse(newValue, null);
+                return phoneNumberUtil.IsValidNumber(phoneNumber);
+            }
+            catch (PhoneNumbers.NumberParseException)
+            {
+                return false;
+            }
+        }
+
+        public bool DateBonFormat(string newValue)
         {
             return new GenreUtilisateur().genres.Any(x => x.Equals(newValue));
         }

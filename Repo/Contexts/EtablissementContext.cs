@@ -13,8 +13,6 @@ namespace Repo.Contexts
 
         public DbSet<Etablissement> Etablissements { get; set; }
         public DbSet<Horaire> Horaires { get; set; }
-        public DbSet<Pays> Pays { get; set; }
-
         public DbSet<PhotoEtablissement> PhotosEtablissement { get; set; }
 
     }

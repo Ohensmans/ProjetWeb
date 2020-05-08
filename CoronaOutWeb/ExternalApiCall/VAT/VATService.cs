@@ -11,11 +11,10 @@ namespace CoronaOutWeb.ExternalApiCall.VAT
         private const string baseUrl = "apilayer.net/api/validate";
         private const string api_Key = "?access_key=e69175a478f42ba9c0dff7a8285c4d1b";
         private readonly HttpClient _client;
-        private string _VAT;
 
-        public VATService(HttpClient client)
+        public VATService()
         {
-            _client = client;
+            _client = Program.client;
         }
 
         public async Task<VATResponseModele> GetVATResponse(String VAT)
