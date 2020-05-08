@@ -1,0 +1,9 @@
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Modeles\bin\Debug\netcoreapp3.1\Modeles.deps.json
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Modeles\bin\Debug\netcoreapp3.1\Modeles.dll
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Modeles\obj\Debug\netcoreapp3.1\Modeles.csprojAssemblyReference.cache
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Modeles\obj\Debug\netcoreapp3.1\Modeles.AssemblyInfoInputs.cache
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Modeles\obj\Debug\netcoreapp3.1\Modeles.AssemblyInfo.cs
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Modeles\bin\Debug\netcoreapp3.1\Modeles.pdb
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Modeles\obj\Debug\netcoreapp3.1\Modeles.csproj.CoreCompileInputs.cache
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Modeles\obj\Debug\netcoreapp3.1\Modeles.dll
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Modeles\obj\Debug\netcoreapp3.1\Modeles.pdb

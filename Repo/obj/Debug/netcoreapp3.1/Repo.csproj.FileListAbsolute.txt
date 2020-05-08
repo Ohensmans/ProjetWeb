@@ -1,0 +1,5 @@
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Repo\bin\Debug\netcoreapp3.1\Repo.deps.json
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Repo\bin\Debug\netcoreapp3.1\Repo.dll
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Repo\obj\Debug\netcoreapp3.1\Repo.csprojAssemblyReference.cache
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Repo\obj\Debug\netcoreapp3.1\Repo.AssemblyInfoInputs.cache
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Repo\obj\Debug\netcoreapp3.1\Repo.AssemblyInfo.cs
