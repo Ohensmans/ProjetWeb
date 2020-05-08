@@ -8,7 +8,6 @@ namespace Repo.Contexts
     {
         public EtablissementContext() : base()
         {
-
         }
 
         public DbSet<Etablissement> Etablissements { get; set; }

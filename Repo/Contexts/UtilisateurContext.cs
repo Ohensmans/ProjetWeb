@@ -1,10 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ModelesApi.POC;
+using System.Data.Entity;
 
 namespace Repo.Contexts
 {
-    class UtilisateurContext
+    public class UtilisateurContext
     {
+        public UtilisateurContext() : base()
+        {
+        }
+
+        public DbSet<Utilisateur> Utilisateurs { get; set; }
+
     }
 }
+

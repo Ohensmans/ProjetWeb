@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using CoronaOutWeb.Validator;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +12,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ModelesApi.POC;
 
 namespace CoronaOutWeb
 {
@@ -44,6 +47,8 @@ namespace CoronaOutWeb
                         options.SignInScheme = "cookie";
                     });
             services.UseServicesVAT();
+            services.AddTransient<IValidator<Utilisateur>, UtilisateurValidator>();
+            services.AddTransient<IValidator<Etablissement>, EtablissementValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
