@@ -27,7 +27,8 @@ namespace CoronaOutWeb.Validator
 
             RuleFor(x => x.AdresseEmailPro)
                 .NotNull().WithMessage("Ce champ est obligatoire")
-                .EmailAddress().WithMessage("L'adresse mail doit être valide")
+                .Matches(@"^([\w]+)@([\w]+)\.([\w]+)$").WithMessage("L'adresse mail doit être valide")
+                .Matches(@"^[\w]@\.").WithMessage("L'adresse mail ne doit pas contenir de caractères spéciaux")
                 .MaximumLength(255).WithMessage("Maximum 255 charactères");
 
             RuleFor(x => x.ZoneTexteLibre)

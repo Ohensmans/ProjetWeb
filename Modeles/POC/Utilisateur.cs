@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModelesApi.POC
 {
@@ -12,6 +13,7 @@ namespace ModelesApi.POC
 
         public string Sexe { get; set; }
 
+        [Key]
         public override string Email { get; set; }
 
         public override string PhoneNumber { get; set; }

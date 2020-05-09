@@ -6,6 +6,10 @@ namespace ModelesApi.POC
 {
     public class PhotoEtablissement
     {
-        public string nomFichier { get; set; }
+        public Guid Id { get; set; }
+
+        public string NomFichier { get; set; }
+
+        public Etablissement Etablissement { get; set; }
     }
 }

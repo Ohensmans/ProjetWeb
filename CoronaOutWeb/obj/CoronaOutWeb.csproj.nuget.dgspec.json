@@ -34,6 +34,9 @@
             "projectReferences": {
               "C:\\Users\\Olivier\\Desktop\\Projets Git\\ProjetWeb\\Modeles\\ModelesApi.csproj": {
                 "projectPath": "C:\\Users\\Olivier\\Desktop\\Projets Git\\ProjetWeb\\Modeles\\ModelesApi.csproj"
+              },
+              "C:\\Users\\Olivier\\Desktop\\Projets Git\\ProjetWeb\\Repo\\Repo.csproj": {
+                "projectPath": "C:\\Users\\Olivier\\Desktop\\Projets Git\\ProjetWeb\\Repo\\Repo.csproj"
               }
             }
           }
@@ -55,6 +58,20 @@
               "target": "Package",
               "version": "[3.1.3, )"
             },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
             "Microsoft.Extensions.DependencyInjection": {
               "target": "Package",
               "version": "[3.1.3, )"
@@ -63,13 +80,17 @@
               "target": "Package",
               "version": "[3.1.3, )"
             },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[12.0.3, )"
             },
             "libphonenumber-csharp": {
               "target": "Package",
-              "version": "[8.12.2, )"
+              "version": "[8.12.3, )"
             }
           },
           "imports": [
@@ -138,6 +159,83 @@
               "version": "[2.2.0, )"
             },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Olivier\\Desktop\\Projets Git\\ProjetWeb\\Repo\\Repo.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Olivier\\Desktop\\Projets Git\\ProjetWeb\\Repo\\Repo.csproj",
+        "projectName": "Repo",
+        "projectPath": "C:\\Users\\Olivier\\Desktop\\Projets Git\\ProjetWeb\\Repo\\Repo.csproj",
+        "packagesPath": "C:\\Users\\Olivier\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Olivier\\Desktop\\Projets Git\\ProjetWeb\\Repo\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "E:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Olivier\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Olivier\\Desktop\\Projets Git\\ProjetWeb\\Modeles\\ModelesApi.csproj": {
+                "projectPath": "C:\\Users\\Olivier\\Desktop\\Projets Git\\ProjetWeb\\Modeles\\ModelesApi.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[3.1.3, )"
             }

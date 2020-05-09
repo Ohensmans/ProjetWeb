@@ -6,3 +6,4 @@ C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Modeles\obj\Debug\netcoreapp3.1\M
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Modeles\obj\Debug\netcoreapp3.1\ModelesApi.AssemblyInfo.cs
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Modeles\obj\Debug\netcoreapp3.1\ModelesApi.dll
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Modeles\obj\Debug\netcoreapp3.1\ModelesApi.pdb
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Modeles\obj\Debug\netcoreapp3.1\ModelesApi.csproj.CoreCompileInputs.cache

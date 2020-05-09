@@ -1,11 +1,11 @@
-﻿using ModelesApi.POC;
-using System.Data.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using ModelesApi.POC;
 
 namespace Repo.Contexts
 {
-    public class UtilisateurContext
+    public class UtilisateurContext : DbContext
     {
-        public UtilisateurContext() : base()
+        public UtilisateurContext(DbContextOptions<UtilisateurContext> options) : base(options)
         {
         }
 

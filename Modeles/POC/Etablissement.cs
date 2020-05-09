@@ -44,9 +44,9 @@ namespace ModelesApi.POC
 
         public string AdresseLinkedin { get; set; }
 
-        public List<PhotoEtablissement> lPhotos { get; set; }
+        public ICollection<PhotoEtablissement> lPhotos { get; set; }
 
-        public List<Horaire> lHoraire { get; set; }
+        public ICollection<Horaire> lHoraire { get; set; }
 
     }
 }

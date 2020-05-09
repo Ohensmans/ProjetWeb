@@ -1,25 +1,26 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Threading.Tasks;
+using CoronaOutWeb.ExternalApiCall.VAT;
 using CoronaOutWeb.Validator;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModelesApi.POC;
+using Repo.Contexts;
 
 namespace CoronaOutWeb
 {
     public class Startup
     {
+        protected readonly IConfiguration _configuration;
+
         public Startup(IConfiguration configuration)
         {
+            _configuration = configuration;
             Configuration = configuration;
         }
 
@@ -46,9 +47,16 @@ namespace CoronaOutWeb
                         options.ClientId = "openIdConnectClient";
                         options.SignInScheme = "cookie";
                     });
+
+
+
             services.UseServicesVAT();
             services.AddTransient<IValidator<Utilisateur>, UtilisateurValidator>();
             services.AddTransient<IValidator<Etablissement>, EtablissementValidator>();
+
+            services.AddDbContext<EtablissementContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbEtablissement")));
+            services.AddDbContext<NewsContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbNews")));
+            services.AddDbContext<UtilisateurContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbUser")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
