@@ -165,3 +165,7 @@ C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\bin\Debug\netcoreapp
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\CoronaOutWeb.csproj.CoreCompileInputs.cache
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\CoronaOutWeb.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\CoronaOutWeb.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\Administration\CreateRole.cshtml.g.cs
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\Administration\ListeRoles.cshtml.g.cs
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\Administration\EditRole.cshtml.g.cs
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\Administration\EditUsersInRole.cshtml.g.cs

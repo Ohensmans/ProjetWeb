@@ -17,7 +17,7 @@ namespace CoronaOutWeb.ExternalApiCall.VAT
         public VATService()
         {
             _client = Program.client;
-            // this.apiKey = config.GetConnectionString("VATApi");
+            //this.apiKey = config.GetConnectionString("VATApi");
             this.apiKey = "?access_key=e69175a478f42ba9c0dff7a8285c4d1b";
         }
 

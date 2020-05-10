@@ -35,4 +35,8 @@
     <ProjectReference Include="..\Repo\Repo.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\Etablissement\" />
+  </ItemGroup>
+
 </Project>

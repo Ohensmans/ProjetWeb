@@ -1,6 +1,8 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
+using CoronaOutWeb.ExternalApiCall.VAT;
 using CoronaOutWeb.Validator;
+using CoronaOutWeb.ViewModel;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -52,12 +54,18 @@ namespace CoronaOutWeb
             services.UseServicesVAT();
             services.AddTransient<IValidator<Utilisateur>, UtilisateurValidator>();
             services.AddTransient<IValidator<Etablissement>, EtablissementValidator>();
+            services.AddTransient<IValidator<CreateRoleViewModel>, CreateRoleValidator>();
+            services.AddTransient<IValidator<EditRoleViewModel>, EditRoleValidator>();
 
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
             services.AddDbContext<EtablissementContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbEtablissement"), sql => sql.MigrationsAssembly(migrationsAssembly)));
             services.AddDbContext<NewsContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbNews"),sql => sql.MigrationsAssembly(migrationsAssembly)));
             services.AddDbContext<UserContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbUser"),sql => sql.MigrationsAssembly(migrationsAssembly)));
+
+            services.AddIdentity<Utilisateur, IdentityRole>()
+                .AddEntityFrameworkStores<UserContext>()
+                .AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
