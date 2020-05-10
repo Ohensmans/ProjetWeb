@@ -1,10 +1,11 @@
 using System.IdentityModel.Tokens.Jwt;
-using CoronaOutWeb.ExternalApiCall.VAT;
+using System.Reflection;
 using CoronaOutWeb.Validator;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,15 +49,15 @@ namespace CoronaOutWeb
                         options.SignInScheme = "cookie";
                     });
 
-
-
             services.UseServicesVAT();
             services.AddTransient<IValidator<Utilisateur>, UtilisateurValidator>();
             services.AddTransient<IValidator<Etablissement>, EtablissementValidator>();
 
-            services.AddDbContext<EtablissementContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbEtablissement")));
-            services.AddDbContext<NewsContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbNews")));
-            services.AddDbContext<UtilisateurContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbUser")));
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
+            services.AddDbContext<EtablissementContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbEtablissement"), sql => sql.MigrationsAssembly(migrationsAssembly)));
+            services.AddDbContext<NewsContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbNews"),sql => sql.MigrationsAssembly(migrationsAssembly)));
+            services.AddDbContext<UserContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbUser"),sql => sql.MigrationsAssembly(migrationsAssembly)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

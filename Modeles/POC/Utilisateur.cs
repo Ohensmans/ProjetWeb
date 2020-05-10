@@ -5,16 +5,15 @@ using System.ComponentModel.DataAnnotations;
 namespace ModelesApi.POC
 {
     public class Utilisateur : IdentityUser
-    {
-        
+    {       
         public string Nom { get; set; }
 
         public string Prenom { get; set; }
 
         public string Sexe { get; set; }
 
-        [Key]
-        public override string Email { get; set; }
+        //adresse mail
+        public override string Id { get; set; }
 
         public override string PhoneNumber { get; set; }
 
@@ -22,6 +21,5 @@ namespace ModelesApi.POC
 
         public bool estProfessionel { get; set; }
 
-        public string Roles { get; set; }
     }
 }

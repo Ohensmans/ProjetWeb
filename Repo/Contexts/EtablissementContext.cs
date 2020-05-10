@@ -19,8 +19,6 @@ namespace Repo.Contexts
         {
             modelBuilder.Entity<Etablissement>()
                         .Property(e => e.Id)
-                        .HasDefaultValue(new Guid())
-                        .ValueGeneratedOnAdd()
                         .IsRequired();
 
             modelBuilder.Entity<Etablissement>()
@@ -76,8 +74,7 @@ namespace Repo.Contexts
             modelBuilder.Entity<Etablissement>()
                 .Property(e => e.AdresseEmailEtablissement)
                 .HasMaxLength(255);
-
-            
+           
             modelBuilder.Entity<Etablissement>()
                 .HasMany<Horaire>(e => e.lHoraire)
                 .WithOne(h => h.Etablissement)
@@ -90,15 +87,22 @@ namespace Repo.Contexts
                 //supprime les enfants si l'établissement est supprimé
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Etablissement>()
+                .Property(e => e.PublieParUserId)
+                .IsRequired();
+
+            modelBuilder.Entity<Etablissement>()
+                .Property(e => e.PublieParUserId)
+                .HasDefaultValue(DateTime.Now)
+                .IsRequired();
+
             modelBuilder.Entity<Horaire>()
                 .Property(h => h.Id)
-                .HasDefaultValue(new Guid())
-                .ValueGeneratedOnAdd();
+                .IsRequired();
 
             modelBuilder.Entity<PhotoEtablissement>()
                 .Property(pe => pe.Id)
-                .HasDefaultValue(new Guid())
-                .ValueGeneratedOnAdd();
+                .IsRequired();
 
         }
     }

@@ -7,7 +7,6 @@ namespace ModelesApi.POC
 {
     public class Etablissement
     {
-        [Key]
         public Guid Id { get; set; }
 
         public string Type { get; set; }
@@ -47,6 +46,10 @@ namespace ModelesApi.POC
         public ICollection<PhotoEtablissement> lPhotos { get; set; }
 
         public ICollection<Horaire> lHoraire { get; set; }
+
+        public string PublieParUserId { get; set; }
+
+        public DateTime DatePublication { get; set; }
 
     }
 }

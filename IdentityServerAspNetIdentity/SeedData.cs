@@ -6,11 +6,11 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using IdentityModel;
-using IdentityServerAspNetIdentity.Data;
-using IdentityServerAspNetIdentity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using ModelesApi.POC;
+using Repo.Contexts;
 using Serilog;
 
 namespace IdentityServerAspNetIdentity
@@ -21,25 +21,25 @@ namespace IdentityServerAspNetIdentity
         {
             var services = new ServiceCollection();
             services.AddLogging();
-            services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseSqlite(connectionString));
+            services.AddDbContext<UserContext>(options =>
+               options.UseSqlServer(connectionString));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+            services.AddIdentity<Utilisateur, IdentityRole>()
+                .AddEntityFrameworkStores<UserContext>()
                 .AddDefaultTokenProviders();
 
             using (var serviceProvider = services.BuildServiceProvider())
             {
                 using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+                    var context = scope.ServiceProvider.GetService<UserContext>();
                     context.Database.Migrate();
 
-                    var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                    var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<Utilisateur>>();
                     var alice = userMgr.FindByNameAsync("alice").Result;
                     if (alice == null)
                     {
-                        alice = new ApplicationUser
+                        alice = new Utilisateur
                         {
                             UserName = "alice"
                         };
@@ -72,7 +72,7 @@ namespace IdentityServerAspNetIdentity
                     var bob = userMgr.FindByNameAsync("bob").Result;
                     if (bob == null)
                     {
-                        bob = new ApplicationUser
+                        bob = new Utilisateur
                         {
                             UserName = "bob"
                         };

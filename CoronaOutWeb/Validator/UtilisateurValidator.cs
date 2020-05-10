@@ -24,10 +24,11 @@ namespace CoronaOutWeb.Validator
                 .MaximumLength(50).WithMessage("Maximum 50 caractères")
                 .Matches(@"^[a-zA-Z""'\s]*$").WithMessage("Les caractères spéciaux et les chiffres ne sont pas acceptés");
 
-            RuleFor(x => x.Email)
+            RuleFor(x => x.Id)
                 .NotNull().WithMessage("Ce champ est obligatoire")
                 .MaximumLength(255).WithMessage("Maximum 255 caractères")
-                .EmailAddress().WithMessage("L'adresse mail doit être valide")
+                .Matches(@"^([\w]+)@([\w]+)\.([\w]+)$").WithMessage("L'adresse mail doit être valide")
+                .Matches(@"^[\w]@\.").WithMessage("L'adresse mail ne doit pas contenir de caractères spéciaux")
                 .Must(MailEstUnique).WithMessage("Cette adresse mail est déjà utilisée");
 
             RuleFor(x => x.PhoneNumber)
