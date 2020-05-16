@@ -41,13 +41,23 @@ namespace CoronaOutWeb
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = "cookie";
+                options.DefaultChallengeScheme = "oidc";
             })
                     .AddCookie("cookie")
                     .AddOpenIdConnect("oidc", options =>
                     {
-                        options.Authority = "https://localhost:57582/";
-                        options.ClientId = "openIdConnectClient";
                         options.SignInScheme = "cookie";
+                        options.Authority = "https://localhost:5001/";
+                        options.RequireHttpsMetadata = false;
+                        options.ResponseType = "code id_token";
+                        options.GetClaimsFromUserInfoEndpoint = true;
+
+                        options.ClientId = "CoronaOutWeb";
+                        options.ClientSecret = "secret";
+                        options.SaveTokens = true;
+
+                        options.Scope.Add("Api");
+                        options.Scope.Add("ApiExterne");
                     });
 
             services.UseServicesVAT();

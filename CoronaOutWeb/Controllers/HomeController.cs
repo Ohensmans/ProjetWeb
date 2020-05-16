@@ -34,5 +34,12 @@ namespace CoronaOutWeb.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        //pour actionner le log out
+        public IActionResult Logout()
+        {
+            return SignOut("Cookies", "oidc");
+        }
     }
 }

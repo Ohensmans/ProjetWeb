@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CoronaOutWeb.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +18,10 @@ namespace CoronaOutWeb.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            return View();
+            RegisterViewModel rvm = new RegisterViewModel();
+            rvm.lGenres = new GenreUtilisateur().genres;
+
+            return View(rvm);
         }
 
         [HttpPost]
@@ -29,8 +29,8 @@ namespace CoronaOutWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new Utilisateur { UserName = model.user.Nom };
-                var result = await userManager.CreateAsync(user, model.password);
+                var user = model.User;
+                var result = await userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {

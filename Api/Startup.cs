@@ -31,6 +31,14 @@ namespace Api
 
             services.AddDbContext<EtablissementContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbEtablissement"), sql => sql.MigrationsAssembly(migrationsAssembly)));
             services.AddDbContext<NewsContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbNews"), sql => sql.MigrationsAssembly(migrationsAssembly)));
+
+            services.AddAuthentication(defaultScheme: "Bearer")
+                .AddIdentityServerAuthentication(authenticationScheme: "Bearer", configureOptions: options =>
+        {
+            options.Authority = "http://localhost:5001";
+            options.RequireHttpsMetadata = false;
+            options.ApiName = "Api";
+        });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +54,8 @@ namespace Api
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

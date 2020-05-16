@@ -17,6 +17,7 @@ namespace ModelesApi.POC
 
         public override string PhoneNumber { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime DateNaissance { get; set; }
 
         public bool estProfessionel { get; set; }

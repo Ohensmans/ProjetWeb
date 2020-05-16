@@ -28,12 +28,12 @@ namespace CoronaOutWeb.Validator
                 .NotNull().WithMessage("Ce champ est obligatoire")
                 .MaximumLength(255).WithMessage("Maximum 255 caractères")
                 .Matches(@"^([\w]+)@([\w]+)\.([\w]+)$").WithMessage("L'adresse mail doit être valide")
-                .Matches(@"^[\w]@\.").WithMessage("L'adresse mail ne doit pas contenir de caractères spéciaux")
+                .Matches(@"^[\w]@\.$").WithMessage("L'adresse mail ne doit pas contenir de caractères spéciaux")
                 .Must(MailEstUnique).WithMessage("Cette adresse mail est déjà utilisée");
 
             RuleFor(x => x.PhoneNumber)
                 .MaximumLength(25).WithMessage("Maximum 25 caractères")
-                .Matches(@"^([0-9\.\\+]*").WithMessage("Les caractères spéciaux ainsi que les lettres ne sont pas acceptés")
+                .Matches(@"^[0-9\.\\+]*$").WithMessage("Les caractères spéciaux ainsi que les lettres ne sont pas acceptés")
                 .Must(NumTelEstValide).WithMessage("Le numéro de gsm doit être valide");
 
             RuleFor(x => x.Sexe)
