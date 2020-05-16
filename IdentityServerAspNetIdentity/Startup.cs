@@ -21,6 +21,7 @@ namespace IdentityServerAspNetIdentity
 {
     public class Startup
     {
+
         public IWebHostEnvironment Environment { get; }
         public IConfiguration Configuration { get; }
 
@@ -49,10 +50,8 @@ namespace IdentityServerAspNetIdentity
             });
 
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-            const string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;Database=IdentityServerProjetWeb;trusted_connection=yes;";
 
-            services.AddDbContext<UserContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DbUser")));
+            services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbUser"), sql => sql.MigrationsAssembly(migrationsAssembly)));
 
             services.AddIdentity<Utilisateur, IdentityRole>()
                 .AddEntityFrameworkStores<UserContext>()
@@ -67,11 +66,11 @@ namespace IdentityServerAspNetIdentity
                 })
                 .AddConfigurationStore(options =>
                 {
-                    options.ConfigureDbContext = b => b.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+                    options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("DbIdentity"), sql => sql.MigrationsAssembly(migrationsAssembly));
                 })
                 .AddOperationalStore(options =>
                 {
-                    options.ConfigureDbContext = b => b.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+                    options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("DbIdentity"), sql => sql.MigrationsAssembly(migrationsAssembly));
                 })
                 .AddAspNetIdentity<Utilisateur>();
 

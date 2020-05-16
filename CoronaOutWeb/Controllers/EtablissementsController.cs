@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Repo.Contexts;
 using System.Linq;
 
 namespace CoronaOutWeb.Controllers
 {
+    [Authorize]
     public class EtablissementsController : Controller
     {
         private readonly EtablissementContext _ctx;

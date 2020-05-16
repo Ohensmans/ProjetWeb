@@ -35,29 +35,103 @@ namespace IdentityServerAspNetIdentity
                     var context = scope.ServiceProvider.GetService<UserContext>();
                     context.Database.Migrate();
 
-                    var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<Utilisateur>>();
-                    var alice = userMgr.FindByNameAsync("alice").Result;
-                    if (alice == null)
+                    var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                    var admin = roleMgr.FindByNameAsync("Administrateur").Result;
+                    if (admin == null)
                     {
-                        alice = new Utilisateur
+                        admin = new IdentityRole
                         {
-                            UserName = "alice"
+                            Name = "Administrateur"
                         };
-                        var result = userMgr.CreateAsync(alice, "Pass123$").Result;
+                        var result = roleMgr.CreateAsync(admin).Result;
                         if (!result.Succeeded)
                         {
                             throw new Exception(result.Errors.First().Description);
                         }
 
-                        result = userMgr.AddClaimsAsync(alice, new Claim[]{
-                        new Claim(JwtClaimTypes.Name, "Alice Smith"),
-                        new Claim(JwtClaimTypes.GivenName, "Alice"),
-                        new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                        new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
-                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                        new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
-                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
-                    }).Result;
+                        if (!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+                        Log.Debug("admin created");
+                    }
+                    else
+                    {
+                        Log.Debug("admin already exists");
+                    }
+
+                    var gest = roleMgr.FindByNameAsync("Gestionnaire").Result;
+                    if (gest == null)
+                    {
+                        gest = new IdentityRole
+                        {
+                            Name = "Gestionnaire"
+                        };
+                        var result = roleMgr.CreateAsync(gest).Result;
+                        if (!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+
+                        if (!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+                        Log.Debug("gestionnaire created");
+                    }
+                    else
+                    {
+                        Log.Debug("gestionnaire already exists");
+                    }
+
+                    var user = roleMgr.FindByNameAsync("Utilisateur").Result;
+                    if (user == null)
+                    {
+                        user = new IdentityRole
+                        {
+                            Name = "Utilisateur"
+                        };
+                        var result = roleMgr.CreateAsync(user).Result;
+                        if (!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+
+                        if (!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+                        Log.Debug("Utilisateur created");
+                    }
+                    else
+                    {
+                        Log.Debug("Utilisateur already exists");
+                    }
+
+
+
+                    var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<Utilisateur>>();
+                    var alice = userMgr.FindByNameAsync("alice@merveille.be").Result;
+                    if (alice == null)
+                    {
+                        alice = new Utilisateur
+                        {
+                            UserName = "alice@merveille.be",
+                            Nom = "Merveille",
+                            Prenom = "Alice",
+                            Sexe = "Femme",
+                            Id = "alice@merveille.be",
+                            PhoneNumber = "010123456",
+                            DateNaissance = new DateTime(1920, 10, 1),
+                            estProfessionel = false
+
+                        };
+                        var result = userMgr.CreateAsync(alice, "Ephec*1234").Result;
+                        if (!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+
                         if (!result.Succeeded)
                         {
                             throw new Exception(result.Errors.First().Description);
@@ -69,41 +143,40 @@ namespace IdentityServerAspNetIdentity
                         Log.Debug("alice already exists");
                     }
 
-                    var bob = userMgr.FindByNameAsync("bob").Result;
-                    if (bob == null)
+                    var robinson = userMgr.FindByNameAsync("robinson@crusoe.be").Result;
+                    if (robinson == null)
                     {
-                        bob = new Utilisateur
+                        robinson = new Utilisateur
                         {
-                            UserName = "bob"
+                            UserName = "robinson@crusoe.be",
+                            Nom = "Crusoé",
+                            Prenom = "Robinson",
+                            Sexe = "Femme",
+                            Id = "robinson@crusoe.be",
+                            PhoneNumber = "010123456",
+                            DateNaissance = new DateTime(1920, 10, 1),
+                            estProfessionel = false
+
                         };
-                        var result = userMgr.CreateAsync(bob, "Pass123$").Result;
+                        var result = userMgr.CreateAsync(robinson, "Ephec*1234").Result;
                         if (!result.Succeeded)
                         {
                             throw new Exception(result.Errors.First().Description);
                         }
 
-                        result = userMgr.AddClaimsAsync(bob, new Claim[]{
-                        new Claim(JwtClaimTypes.Name, "Bob Smith"),
-                        new Claim(JwtClaimTypes.GivenName, "Bob"),
-                        new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                        new Claim(JwtClaimTypes.Email, "BobSmith@email.com"),
-                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                        new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
-                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
-                        new Claim("location", "somewhere")
-                    }).Result;
                         if (!result.Succeeded)
                         {
                             throw new Exception(result.Errors.First().Description);
                         }
-                        Log.Debug("bob created");
+                        Log.Debug("robinson created");
                     }
                     else
                     {
-                        Log.Debug("bob already exists");
+                        Log.Debug("robinson already exists");
                     }
                 }
             }
+
         }
     }
 }

@@ -1,6 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
-using CoronaOutWeb.ExternalApiCall.VAT;
 using CoronaOutWeb.Validator;
 using CoronaOutWeb.ViewModel;
 using FluentValidation;

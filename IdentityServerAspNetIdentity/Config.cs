@@ -29,10 +29,10 @@ namespace IdentityServerAspNetIdentity
             // interactive ASP.NET Core MVC client
             new Client
             {
-                ClientId = "mvc",
+                ClientId = "CoronaOutWeb",
                 ClientSecrets = { new Secret("secret".Sha256()) },
 
-                AllowedGrantTypes = GrantTypes.Code,
+                AllowedGrantTypes = GrantTypes.Hybrid,
                 RequireConsent = false,
                 RequirePkce = true,
 
