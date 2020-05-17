@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CoronaOutWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoronaOutWeb.Controllers
 {
@@ -23,7 +20,7 @@ namespace CoronaOutWeb.Controllers
             return View();
         }
 
-        
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();

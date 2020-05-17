@@ -44,8 +44,6 @@ namespace IdentityServerAspNetIdentity
                 ClientSecrets = { new Secret("secret".Sha256()) },
 
                 AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
-                RequireConsent = false,
-                RequirePkce = true,
 
                 // where to redirect to after login
                 RedirectUris = { "http://localhost:5000/signin-oidc" },

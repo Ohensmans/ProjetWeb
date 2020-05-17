@@ -1,18 +1,17 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Reflection;
+
+using CoronaOutWeb.ExternalApiCall.Users;
 using CoronaOutWeb.Validator;
 using CoronaOutWeb.ViewModel;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using IdentityServer4.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModelesApi.POC;
-using Repo.Contexts;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace CoronaOutWeb
 {
@@ -33,39 +32,47 @@ namespace CoronaOutWeb
         {
             services.AddControllersWithViews();
 
-            services.AddMvc(option => option.EnableEndpointRouting = false)
+            services.AddMvc(options => options.EnableEndpointRouting = false)
                     .AddFluentValidation();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             services.AddAuthentication(options =>
             {
-                options.DefaultScheme = "cookie";
+                options.DefaultScheme = "Cookies";
                 options.DefaultChallengeScheme = "oidc";
             })
-                    .AddCookie("cookie")
+                    .AddCookie("Cookies")
                     .AddOpenIdConnect("oidc", options =>
                     {
-                        options.SignInScheme = "cookie";
-                        options.Authority = "https://localhost:5001/";
+                        options.SignInScheme = "Cookies";
+
+                        options.Authority = "https://localhost:5001";
                         options.RequireHttpsMetadata = false;
+                        
                         options.ResponseType = "code id_token";
                         options.GetClaimsFromUserInfoEndpoint = true;
 
                         options.ClientId = "CoronaOutWeb";
-                        options.ClientSecret = "secret";
+                        options.ClientSecret = "secret" ;
                         options.SaveTokens = true;
 
                         options.Scope.Add("Api");
                         options.Scope.Add("ApiExterne");
                     });
 
-            services.UseServicesVAT();
+            
+            
+
+            services.UseServicesVAT(_configuration);
+            services.UseServicesUser(_configuration);
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IValidator<Utilisateur>, UtilisateurValidator>();
             services.AddTransient<IValidator<Etablissement>, EtablissementValidator>();
             services.AddTransient<IValidator<CreateRoleViewModel>, CreateRoleValidator>();
             services.AddTransient<IValidator<EditRoleViewModel>, EditRoleValidator>();
 
+            /*
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
             services.AddDbContext<EtablissementContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbEtablissement"), sql => sql.MigrationsAssembly(migrationsAssembly)));
@@ -75,6 +82,7 @@ namespace CoronaOutWeb
             services.AddIdentity<Utilisateur, IdentityRole>()
                 .AddEntityFrameworkStores<UserContext>()
                 .AddDefaultTokenProviders();
+                */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,14 +103,8 @@ namespace CoronaOutWeb
 
             app.UseRouting();
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseMvcWithDefaultRoute();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
         }
     }
 }

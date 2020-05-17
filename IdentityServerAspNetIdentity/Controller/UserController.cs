@@ -26,7 +26,7 @@ namespace IdentityServerAspNetIdentity.Controller
 
         // GET: api/User
         [HttpGet]
-        public ActionResult<IEnumerable<Utilisateur>> GetUser()
+        public ActionResult<IEnumerable<Utilisateur>> GetAllUser()
         {
             return userManager.Users.ToList();
         }
@@ -76,7 +76,7 @@ namespace IdentityServerAspNetIdentity.Controller
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<Utilisateur>> PostUser(Utilisateur user, string password)
+        public async Task<ActionResult<Utilisateur>> PostUser(string password, Utilisateur user)
         {
             var result = await userManager.CreateAsync(user, password);
 
@@ -109,5 +109,4 @@ namespace IdentityServerAspNetIdentity.Controller
             return userManager.Users.Any(u => u.Id == id);
         }
     }
-}
 }

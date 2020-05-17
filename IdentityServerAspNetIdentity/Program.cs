@@ -37,6 +37,7 @@ namespace IdentityServerAspNetIdentity
 
             try
             {
+                //var seed = true;
                 var seed = args.Contains("/seed");
                 if (seed)
                 {
@@ -49,7 +50,7 @@ namespace IdentityServerAspNetIdentity
                 {
                     Log.Information("Seeding database...");
                     var config = host.Services.GetRequiredService<IConfiguration>();
-                    var connectionString = config.GetConnectionString("Test");
+                    var connectionString = config.GetConnectionString("DbUser");
                     SeedData.EnsureSeedData(connectionString);
                     Log.Information("Done seeding database.");
                     return 0;

@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using CoronaOutWeb.ExternalApiCall.Users;
 using CoronaOutWeb.ViewModel;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ModelesApi.POC;
 
@@ -8,11 +9,11 @@ namespace CoronaOutWeb.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<Utilisateur> userManager;
+        private readonly IUserService userService;
 
-        public AccountController (UserManager<Utilisateur> userManager)
+        public AccountController (IUserService userService)
         {
-            this.userManager = userManager;
+            this.userService = userService;
         }
 
         [HttpGet]
@@ -29,13 +30,19 @@ namespace CoronaOutWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = model.User;
-                var result = await userManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
+                try
                 {
-                    // logger
+                    if (model.Password.Equals(model.ConfirmPassword))
+                    {
+                        var result = await userService.CreateUserAsync(model.Password, model.User);
+                    }                  
                 }
+                catch (Exception ex)
+                {
+                    return View("Error");
+                }
+
+                //login
             }
             return View();
         }
