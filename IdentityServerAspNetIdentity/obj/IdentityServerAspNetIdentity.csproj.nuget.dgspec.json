@@ -47,6 +47,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[8.6.2, )"
+            },
             "IdentityServer4.AspNetIdentity": {
               "target": "Package",
               "version": "[3.1.3, )"
@@ -98,6 +102,10 @@
             "System.Security.Principal.Windows": {
               "target": "Package",
               "version": "[4.7.0, )"
+            },
+            "libphonenumber-csharp": {
+              "target": "Package",
+              "version": "[8.12.3, )"
             }
           },
           "imports": [

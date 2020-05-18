@@ -8,6 +8,7 @@ using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
+using IdentityServerAspNetIdentity.Quickstart.Account;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -46,6 +47,42 @@ namespace IdentityServer4.Quickstart.UI
             _schemeProvider = schemeProvider;
             _events = events;
         }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            RegisterViewModel rvm = new RegisterViewModel();
+            rvm.lGenres = new GenreUtilisateur().genres;
+
+            return View(rvm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                if (model.Password.Equals(model.ConfirmPassword))
+                {
+                    var result = await _userManager.CreateAsync(model.User, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        
+                    }
+                    
+                }
+                
+
+                //login
+            }
+            return View();
+        }
+
+
+
+
 
         /// <summary>
         /// Entry point into the login workflow

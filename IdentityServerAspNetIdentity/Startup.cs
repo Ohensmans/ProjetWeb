@@ -2,9 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using FluentValidation;
 using IdentityServer4;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
+using IdentityServerAspNetIdentity.Validator;
+using IdentityServerAspNetIdentity.ViewsModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -74,6 +77,9 @@ namespace IdentityServerAspNetIdentity
                 })
                 .AddAspNetIdentity<Utilisateur>();
 
+            services.AddTransient<IValidator<Utilisateur>, UtilisateurValidator>();
+            services.AddTransient<IValidator<RegisterViewModel>, RegisterValidator>();
+
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
@@ -87,7 +93,7 @@ namespace IdentityServerAspNetIdentity
                 app.UseDatabaseErrorPage();
             }
 
-            InitializeDatabase(app);
+            //InitializeDatabase(app);
 
             app.UseStaticFiles();
 

@@ -15,6 +15,18 @@
           "lib/netstandard2.0/AutoMapper.dll": {}
         }
       },
+      "FluentValidation/8.6.2": {
+        "type": "package",
+        "dependencies": {
+          "System.ComponentModel.Annotations": "4.4.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/FluentValidation.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/FluentValidation.dll": {}
+        }
+      },
       "IdentityModel/4.1.1": {
         "type": "package",
         "dependencies": {
@@ -98,6 +110,18 @@
         },
         "runtime": {
           "lib/netstandard2.0/IdentityServer4.Storage.dll": {}
+        }
+      },
+      "libphonenumber-csharp/8.12.3": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections.Immutable": "1.7.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/PhoneNumbers.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/PhoneNumbers.dll": {}
         }
       },
       "Microsoft.AspNetCore.Authentication/2.2.0": {
@@ -3472,6 +3496,25 @@
         "lib/netstandard2.0/AutoMapper.xml"
       ]
     },
+    "FluentValidation/8.6.2": {
+      "sha512": "N2vz+f6pAX9AI19hu83U2LJjjc/ETzWGlICVanu3DIG76QhzEu3PR/CQSFBX69PRuBTivrW4jhBzeV7dXIfqyw==",
+      "type": "package",
+      "path": "fluentvalidation/8.6.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fluentvalidation.8.6.2.nupkg.sha512",
+        "fluentvalidation.nuspec",
+        "lib/net45/FluentValidation.dll",
+        "lib/net45/FluentValidation.xml",
+        "lib/netstandard1.1/FluentValidation.dll",
+        "lib/netstandard1.1/FluentValidation.xml",
+        "lib/netstandard1.6/FluentValidation.dll",
+        "lib/netstandard1.6/FluentValidation.xml",
+        "lib/netstandard2.0/FluentValidation.dll",
+        "lib/netstandard2.0/FluentValidation.xml"
+      ]
+    },
     "IdentityModel/4.1.1": {
       "sha512": "l9YnaY3tkKbI3VHdU9Rhsk1RPTv6hvA5An6xE1DEYCMKrv+fQC0Z6mo+b/xyegpD6UJYbNhdkv5GF5tAMvPBNw==",
       "type": "package",
@@ -3566,6 +3609,29 @@
         "lib/netstandard2.0/IdentityServer4.Storage.dll",
         "lib/netstandard2.0/IdentityServer4.Storage.pdb",
         "lib/netstandard2.0/IdentityServer4.Storage.xml"
+      ]
+    },
+    "libphonenumber-csharp/8.12.3": {
+      "sha512": "7HNnEfsI6KiJVGqjfMQASs2/EHsuK98TxMZkdxI7HBaEg5l7GB0ZA8a+/YnKh0hQZ2ORnaGNC1nJKVABDGhXhA==",
+      "type": "package",
+      "path": "libphonenumber-csharp/8.12.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/PhoneNumbers.dll",
+        "lib/net35/PhoneNumbers.xml",
+        "lib/net40/PhoneNumbers.dll",
+        "lib/net40/PhoneNumbers.xml",
+        "lib/net46/PhoneNumbers.dll",
+        "lib/net46/PhoneNumbers.xml",
+        "lib/netstandard1.3/PhoneNumbers.dll",
+        "lib/netstandard1.3/PhoneNumbers.xml",
+        "lib/netstandard2.0/PhoneNumbers.dll",
+        "lib/netstandard2.0/PhoneNumbers.xml",
+        "lib/portable-net45+win8+wp8+wpa81/PhoneNumbers.dll",
+        "lib/portable-net45+win8+wp8+wpa81/PhoneNumbers.xml",
+        "libphonenumber-csharp.8.12.3.nupkg.sha512",
+        "libphonenumber-csharp.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Authentication/2.2.0": {
@@ -10361,6 +10427,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "FluentValidation >= 8.6.2",
       "IdentityServer4.AspNetIdentity >= 3.1.3",
       "IdentityServer4.EntityFramework >= 3.1.3",
       "IdentityServer4.Storage >= 3.1.3",
@@ -10374,7 +10441,8 @@
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 3.1.2",
       "Repo >= 1.0.0",
       "Serilog.AspNetCore >= 3.2.0",
-      "System.Security.Principal.Windows >= 4.7.0"
+      "System.Security.Principal.Windows >= 4.7.0",
+      "libphonenumber-csharp >= 8.12.3"
     ]
   },
   "packageFolders": {
@@ -10425,6 +10493,10 @@
     "frameworks": {
       "netcoreapp3.1": {
         "dependencies": {
+          "FluentValidation": {
+            "target": "Package",
+            "version": "[8.6.2, )"
+          },
           "IdentityServer4.AspNetIdentity": {
             "target": "Package",
             "version": "[3.1.3, )"
@@ -10476,6 +10548,10 @@
           "System.Security.Principal.Windows": {
             "target": "Package",
             "version": "[4.7.0, )"
+          },
+          "libphonenumber-csharp": {
+            "target": "Package",
+            "version": "[8.12.3, )"
           }
         },
         "imports": [

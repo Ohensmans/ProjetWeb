@@ -30,17 +30,13 @@ namespace CoronaOutWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
-                {
+
                     if (model.Password.Equals(model.ConfirmPassword))
                     {
                         var result = await userService.CreateUserAsync(model.Password, model.User);
                     }                  
-                }
-                catch (Exception ex)
-                {
-                    return View("Error");
-                }
+                
+
 
                 //login
             }

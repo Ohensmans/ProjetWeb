@@ -47,7 +47,7 @@ namespace CoronaOutWeb
                     {
                         options.SignInScheme = "Cookies";
 
-                        options.Authority = "https://localhost:5001";
+                        options.Authority = "http://localhost:5001";
                         options.RequireHttpsMetadata = false;
                         
                         options.ResponseType = "code id_token";
