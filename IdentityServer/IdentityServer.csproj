@@ -1,8 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\UserDb\20200517145517_CreateUserDb.cs" />
+    <Compile Remove="Data\Migrations\UserDb\20200517145517_CreateUserDb.Designer.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
@@ -24,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
+    <Folder Include="Data\Migrations\UserDb\" />
     <Folder Include="Models\" />
     <Folder Include="wwwroot\img\Etablissement\" />
   </ItemGroup>

@@ -3,6 +3,7 @@ using ModelesApi.POC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace IdentityServer.Validator
@@ -25,10 +26,10 @@ namespace IdentityServer.Validator
                 .MaximumLength(50).WithMessage("Maximum 50 caractères")
                 .Matches(@"^[a-zA-Z""'\s]*$").WithMessage("Les caractères spéciaux et les chiffres ne sont pas acceptés");
 
-            RuleFor(x => x.Id)
+            RuleFor(x => x.UserName)
                 .NotNull().WithMessage("Le champ 'Email' est obligatoire")
                 .MaximumLength(255).WithMessage("Maximum 255 caractères")
-                .Matches(@"^[A-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\.[A-Z0-9_!#$%&'*+/=?`{|}~^-]+↵)*@[A-Z0-9-]+(?:\.[A-Z0-9-]+)*$$").WithMessage("L'adresse mail doit être valide")
+                .Must(MailEstValide).WithMessage("L'adresse mail doit être valide")
                 .Must(MailEstUnique).WithMessage("Cette adresse mail est déjà utilisée");
 
             RuleFor(x => x.PhoneNumber)
@@ -51,6 +52,19 @@ namespace IdentityServer.Validator
         public bool MailEstUnique(Utilisateur user, string newValue)
         {
             return _Utilisateurs.All(u => u.Equals(user) || u.Email != newValue);
+        }
+
+        public bool MailEstValide(string newValue)
+        {
+            try
+            {
+                MailAddress email = new MailAddress(newValue);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
 
         public bool GenreEstDansListe(string newValue)

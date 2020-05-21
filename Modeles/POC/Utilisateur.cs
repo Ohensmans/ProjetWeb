@@ -12,9 +12,6 @@ namespace ModelesApi.POC
 
         public string Sexe { get; set; }
 
-        //adresse mail
-        public override string Id { get; set; }
-
         public override string PhoneNumber { get; set; }
 
         [DataType(DataType.Date)]

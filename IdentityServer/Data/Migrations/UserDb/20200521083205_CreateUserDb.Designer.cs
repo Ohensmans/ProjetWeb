@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repo.Contexts;
 
-namespace IdentityServer.Data.Migrations.UserDb
+namespace IdentityServer.Data.Migrations.UserDB
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20200517145517_CreateUserDb")]
+    [Migration("20200521083205_CreateUserDb")]
     partial class CreateUserDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -87,7 +87,7 @@ namespace IdentityServer.Data.Migrations.UserDb
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -109,7 +109,7 @@ namespace IdentityServer.Data.Migrations.UserDb
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -121,7 +121,7 @@ namespace IdentityServer.Data.Migrations.UserDb
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(450)");
@@ -136,7 +136,7 @@ namespace IdentityServer.Data.Migrations.UserDb
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -155,8 +155,7 @@ namespace IdentityServer.Data.Migrations.UserDb
             modelBuilder.Entity("ModelesApi.POC.Utilisateur", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -220,8 +219,9 @@ namespace IdentityServer.Data.Migrations.UserDb
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<bool>("estProfessionel")
                         .HasColumnType("bit");

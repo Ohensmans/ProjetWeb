@@ -40,34 +40,41 @@ namespace IdentityServer.Controllers.Account
 
 
         [HttpGet]
-        public IActionResult Register(string returnUrl)
+        public IActionResult Register(string ReturnUrl)
         {
             RegisterViewModel rvm = new RegisterViewModel();
-            rvm.ReturnUrl = returnUrl;
+            rvm.ReturnUrl = ReturnUrl;
             rvm.lGenres = new GenreUtilisateur().genres;
 
             return View(rvm);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model, string button)
         {
             model.lGenres = new GenreUtilisateur().genres;
 
-            if (ModelState.IsValid)
+            if (button.Equals("register"))
             {
-                var result = await _userManager.CreateAsync(model.User, model.Password);
-
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    var signInResult = await _signInManager.PasswordSignInAsync(model.User, model.Password, false, false);
-                    return Redirect(model.ReturnUrl);
-                }
+                    var result = await _userManager.CreateAsync(model.User, model.Password);
 
-                return View(model);
+                    if (result.Succeeded)
+                    {
+                        var signInResult = await _signInManager.PasswordSignInAsync(model.User, model.Password, false, false);
+                        return Redirect(model.ReturnUrl);
+                    }
+
+                    return View(model);
+                }
+                else
+                    return View(model);
             }
             else
-            return View(model);
+            {
+                return Redirect(model.ReturnUrl);
+            }
         }
 
         [HttpGet]
@@ -84,7 +91,7 @@ namespace IdentityServer.Controllers.Account
 
             if (button.Equals("register"))
             {
-                return RedirectToAction("Register","Account",vm.ReturnUrl);
+                return RedirectToAction("Register","Account",new { returnUrl = vm.ReturnUrl });
             }
             else if (button.Equals("login"))
             {

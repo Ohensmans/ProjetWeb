@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace IdentityServer.Data.Migrations.UserDb
+namespace IdentityServer.Data.Migrations.UserDB
 {
     public partial class CreateUserDb : Migration
     {
@@ -25,8 +25,8 @@ namespace IdentityServer.Data.Migrations.UserDb
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(maxLength: 255, nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Id = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 255, nullable: false),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),

@@ -29,7 +29,7 @@ namespace Repo.Contexts
                         .HasMaxLength(50);
 
             modelBuilder.Entity<Utilisateur>()
-                        .Property(u => u.Id)
+                        .Property(u => u.UserName)
                         .IsRequired()
                         .HasMaxLength(255);
 
