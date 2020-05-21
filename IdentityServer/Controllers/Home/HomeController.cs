@@ -54,5 +54,12 @@ namespace IdentityServer.Controllers.Home
 
             return View("Error", vm);
         }
+
+        public IActionResult Error(ErrorViewModel vm)
+        {
+            return View("Error", vm);
+        }
+
+
     }
 }

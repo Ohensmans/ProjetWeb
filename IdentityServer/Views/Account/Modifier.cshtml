@@ -1,0 +1,109 @@
+﻿@model IdentityServer.ViewModel.ModifierViewModel
+@{
+    ViewData["Title"] = "Modifier ses informations";
+}
+
+<h1>Modifier ses informations</h1>
+
+@using (Html.BeginForm(FormMethod.Post, new { @class = "row" }))
+{
+    @Html.HiddenFor(model => model.ReturnUrl)
+
+    <div class="col-md-12">
+
+        <fieldset>
+            <legend>Informations générales</legend>
+
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            <br />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.User.Nom, new { @class = "control-label" })
+                <br />
+                @Html.TextBoxFor(model => model.User.Nom, new { @class = "form-control" })
+                <br />
+                @Html.ValidationMessageFor(model => model.User.Nom, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.User.Prenom, new { @class = "control-label" })
+                <br />
+                @Html.TextBoxFor(model => model.User.Prenom, new { @class = "form-control" })
+                <br />
+                @Html.ValidationMessageFor(model => model.User.Prenom, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.User.Sexe, new { @class = "control-label" })
+                <br />
+                @Html.DropDownListFor(model => model.User.Sexe, new SelectList(Model.lGenres), "Sélectionnez votre genre", new { @class = "form-control" })
+                <br />
+                @Html.ValidationMessageFor(model => model.User.Sexe, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.User.PhoneNumber, "Numéro de téléphone", new { @class = "control-label" })
+                <br />
+                @Html.TextBoxFor(model => model.User.PhoneNumber, new { @class = "form-control" })
+                <br />
+                @Html.ValidationMessageFor(model => model.User.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.User.DateNaissance, "Date de naissance", new { @class = "control-label" })
+                <br />
+                @Html.EditorFor(model => model.User.DateNaissance, new { @class = "form-control" })
+                <br />
+                @Html.ValidationMessageFor(model => model.User.DateNaissance, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.EditorFor(model => model.User.estProfessionel, new { @class = "form-control" })
+                @Html.LabelFor(model => model.User.estProfessionel, "Cochez cette case si vous représentez un ou des établissement(s)", new { @class = "control-label" })
+                <br />
+                @Html.ValidationMessageFor(model => model.User.estProfessionel, "", new { @class = "text-danger" })
+
+            </div>
+
+        </fieldset>
+        <fieldset>
+            <legend>Informations de connexion</legend>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.User.UserName, "Adresse mail / Login", new { @class = "control-label" })
+                <br />
+                @Html.TextBoxFor(model => model.User.UserName, new { @class = "form-control", @readonly = "readonly" })
+                <br />
+                @Html.ValidationMessageFor(model => model.User.Id, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CurrentPassword, "Mot de passe actuel", new { @class = "control-label" })
+                <br />
+                @Html.TextBoxFor(model => model.CurrentPassword, new { @class = "form-control", @type = "password" })
+                <br />
+                @Html.ValidationMessageFor(model => model.CurrentPassword, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NewPassword, "Nouveau mot de passe", new { @class = "control-label" })
+                <br />
+                @Html.TextBoxFor(model => model.NewPassword, new { @class = "form-control", @type = "password" })
+                <br />
+                @Html.ValidationMessageFor(model => model.NewPassword, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ConfirmPassword, "Confirmation du mot de passe", new { @class = "control-label" })
+                <br />
+                @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "form-control", @type = "password" })
+                <br />
+                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+            </div>
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary" name="button" value="register">Enregistrer</button>
+
+        <button type="submit" class="btn btn-danger" name="button" value="cancel">Retour</button>
+    </div>
+}

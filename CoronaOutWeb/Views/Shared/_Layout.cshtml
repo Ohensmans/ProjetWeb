@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Corona Out</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
 </head>
 <body>
     <header>
@@ -24,11 +25,31 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Etablissements" asp-action="Index">Etablissements</a>
                         </li>
-                        <li class="nav-item ml-auto">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-                        </li>
+
+                        @if (User?.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item dropdown ml-auto">
+                                <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("sub")).Value
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Mon compte</a>
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Se déconnecter", "logout","home",new {@class="dropdown-item", @style="text-align: center"})
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                                <li class="nav-item ml-auto">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Se connecter</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">S'enregistrer</a>
+                                </li>
+                        }
                     </ul>
-</div>
+                </div>
             </div>
         </nav>
     </header>

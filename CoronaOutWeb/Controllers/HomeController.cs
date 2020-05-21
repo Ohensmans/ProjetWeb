@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CoronaOutWeb.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using System.Threading.Tasks;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace CoronaOutWeb.Controllers
 {
@@ -21,8 +24,11 @@ namespace CoronaOutWeb.Controllers
         }
 
         [Authorize]
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
+            var idToken = await HttpContext.GetTokenAsync("id_token");
+
+            var _accessToken = new JwtSecurityTokenHandler().ReadJwtToken(idToken);
             return View();
         }
 
@@ -34,9 +40,17 @@ namespace CoronaOutWeb.Controllers
 
 
         //pour actionner le log out
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            return SignOut("Cookies", "oidc");
+            await HttpContext.SignOutAsync();
+            return Redirect("Index");    
+        }
+
+        //pour actionner le log in
+        [Authorize]
+        public  IActionResult Login()
+        {
+            return Redirect("Index");
         }
     }
 }

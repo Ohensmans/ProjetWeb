@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using IdentityServer.ViewModel;
+using IdentityServer4.Events;
+using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
@@ -134,5 +137,83 @@ namespace IdentityServer.Controllers.Account
             vm.RememberLogin = model.RememberLogin;
             return vm;
         }
+
+
+        [HttpGet]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout(string logoutId)
+        {
+            // get context information (client name, post logout redirect URI and iframe for federated signout)
+            var logout = await _interaction.GetLogoutContextAsync(logoutId);
+            var PostLogoutRedirectUri = logout?.PostLogoutRedirectUri;
+
+            if (User?.Identity.IsAuthenticated == true)
+            {
+
+                // delete local authentication cookie
+                await _signInManager.SignOutAsync();
+
+                // raise the logout event
+                await _events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
+            }
+
+            return Redirect(PostLogoutRedirectUri);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Modifier(string ReturnUrl)
+        {
+            if (User?.Identity.IsAuthenticated == true)
+            {
+                ModifierViewModel vm = new ModifierViewModel();
+                vm.ReturnUrl = ReturnUrl;
+                vm.lGenres = new GenreUtilisateur().genres;
+                var userId = User.GetSubjectId();
+
+                Utilisateur user = await _userManager.FindByIdAsync(userId);
+
+                if (user != null)
+                {
+                    vm.User = user;
+                    return View(vm);
+                }
+            }
+            ErrorViewModel evm = new ErrorViewModel("L'identité n'a pas pu être verifiée");
+            return View("Error", evm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Modifier(ModifierViewModel vm, string button)
+        {
+            vm.lGenres = new GenreUtilisateur().genres;
+
+            if (button.Equals("register"))
+            {
+                if (ModelState.IsValid)
+                {
+                    var result = await _userManager.UpdateAsync(vm.User);
+
+                    if (vm.CurrentPassword != null && vm.ConfirmPassword != null && vm.NewPassword != null)
+                    {
+                        if (vm.CurrentPassword != null)
+                        {
+                            var resultlogin = await _signInManager.CheckPasswordSignInAsync(vm.User, vm.CurrentPassword, true);
+                            if (!resultlogin.Succeeded)
+                            {
+                                ModelState.AddModelError(string.Empty, "Mot de passe invalide");
+                                return View(vm);
+                            }
+                            var modifPass = await _userManager.ChangePasswordAsync(vm.User, vm.CurrentPassword, vm.NewPassword);
+                        }
+                    }
+                }
+            }
+            return Redirect(vm.ReturnUrl);
+
+        }
+
+
+
+
     }
 }
