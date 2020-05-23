@@ -14,7 +14,7 @@ namespace IdentityServer.Validator
         {
             this.userManager = userManager;
 
-            RuleFor(x => x.CurrentPassword)
+            RuleFor(x => x.Password)
                 .Must(NulOuLongueurMin).WithMessage("Le mot de passe doit être composé de 6 caractères minimum")
                 .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{8,}$").WithMessage("Le mot de passe doit contenir au moins : une miniscule, une majuscule, un chiffre et un caractère spécial");
 

@@ -6,16 +6,12 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.ViewModel
 {
-    public class RegisterViewModel
+    public class RegisterViewModel : MonCompteViewModel
     {
-        public Utilisateur User { get; set; }
-
         public string Password { get; set; }
-
         public string ConfirmPassword { get; set; }
 
-        public List<string> lGenres;
+        public List<string> lGenres { get; set; }
 
-        public string ReturnUrl { get; set; }
     }
 }

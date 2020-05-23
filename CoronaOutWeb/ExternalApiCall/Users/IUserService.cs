@@ -8,6 +8,8 @@ namespace CoronaOutWeb.ExternalApiCall.Users
 {
     public interface IUserService
     {
+        public string BaseUrl { get; set; }
+
         Task<List<Utilisateur>> GetAllUserAsync();
 
         Task<Utilisateur> GetUserAsync(string id);

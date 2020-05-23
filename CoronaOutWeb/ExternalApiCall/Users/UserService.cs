@@ -14,13 +14,13 @@ namespace CoronaOutWeb.ExternalApiCall.Users
     public class UserService : IUserService
     {
         private readonly HttpClient client;
-        private const string BaseUrl = "https://localhost:5001/User/";
 
         public UserService()
         {
             this.client = Program.client;
         }
 
+        public string BaseUrl { get; set; }
 
         public async Task<Utilisateur> CreateUserAsync(string password, Utilisateur user)
         {

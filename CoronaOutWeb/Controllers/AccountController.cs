@@ -1,47 +1,59 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using CoronaOutWeb.ExternalApiCall.Users;
+using CoronaOutWeb.Models;
 using CoronaOutWeb.ViewModel;
+using IdentityServer4.Extensions;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Protocols;
 using ModelesApi.POC;
 
 namespace CoronaOutWeb.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUserService userService;
+        public string returnHomecoronaOutWebParam;
+        public string identityMonCompteUrl;
+        public string identityRegisterUrl;
 
-        public AccountController (IUserService userService)
+        public AccountController (IOptions<BaseUrl> url)
         {
-            this.userService = userService;
+            
+            this.returnHomecoronaOutWebParam = "?ReturnUrl=" + url.Value.CoronaOutWeb;
+            this.identityMonCompteUrl = url.Value.IdentityMonCompte;
+            this.identityRegisterUrl = url.Value.IdentityRegister;
         }
 
-        [HttpGet]
+        //pour actionner le log out
+        [Authorize]
+        public IActionResult Logout()
+        {
+            return SignOut("Cookies", "oidc");
+        }
+
+        //pour actionner le log in
+        [Authorize]
+        public IActionResult Login()
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        public IActionResult MonCompte()
+        {
+            return Redirect(identityMonCompteUrl+ returnHomecoronaOutWebParam);
+        }
+
         public IActionResult Register()
         {
-            RegisterViewModel rvm = new RegisterViewModel();
-            rvm.lGenres = new GenreUtilisateur().genres;
-
-            return View(rvm);
+            return Redirect(identityRegisterUrl + returnHomecoronaOutWebParam);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-
-                    if (model.Password.Equals(model.ConfirmPassword))
-                    {
-                        var result = await userService.CreateUserAsync(model.Password, model.User);
-                    }                  
-                
-
-
-                //login
-            }
-            return View();
-        }
 
     }
 }

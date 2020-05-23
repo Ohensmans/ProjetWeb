@@ -20,32 +20,32 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            @Html.ActionLink("Accueil", "Index", "Home", null, new { @class = "nav-link text-dark" })
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Etablissements" asp-action="Index">Etablissements</a>
+                            @Html.ActionLink("Etablissements", "Index", "Etablissements", null, new { @class = "nav-link text-dark" })
                         </li>
 
                         @if (User?.Identity != null && User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item dropdown ml-auto">
                                 <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    @User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("sub")).Value
+                                    @User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("name")).Value
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Mon compte</a>
+                                    @Html.ActionLink("Mon compte","moncompte","account", null, new { @class = "dropdown-item" })
                                     <div class="dropdown-divider"></div>
-                                    @Html.ActionLink("Se déconnecter", "logout","home",new {@class="dropdown-item", @style="text-align: center"})
+                                    @Html.ActionLink("Se déconnecter", "logout", "account", null, new { @class = "dropdown-item" })
                                 </div>
                             </li>
                         }
                         else
                         {
                                 <li class="nav-item ml-auto">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Se connecter</a>
+                                    @Html.ActionLink("S'identifier", "login", "account", null, new { @class = "nav-link text-dark" })
                                 </li>
                                 <li class="nav-item ">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">S'enregistrer</a>
+                                    @Html.ActionLink("S'enregistrer", "register", "account", null, new { @class = "nav-link text-dark" })
                                 </li>
                         }
                     </ul>

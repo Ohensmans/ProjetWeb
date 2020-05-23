@@ -29,6 +29,9 @@ namespace CoronaOutWeb.Controllers
             var idToken = await HttpContext.GetTokenAsync("id_token");
 
             var _accessToken = new JwtSecurityTokenHandler().ReadJwtToken(idToken);
+
+            var test = User.IsInRole("test");
+
             return View();
         }
 

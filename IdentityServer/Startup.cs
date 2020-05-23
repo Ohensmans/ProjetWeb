@@ -2,6 +2,7 @@ using System.Linq;
 using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using IdentityServer.Models;
 using IdentityServer.Validator;
 using IdentityServer.ViewModel;
 using IdentityServer4.EntityFramework.DbContexts;
@@ -33,8 +34,9 @@ namespace IdentityServer
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+
             services.AddMvc(options => options.EnableEndpointRouting = false).AddFluentValidation();
+            services.AddControllersWithViews();
 
             // configures IIS out-of-proc settings (see https://github.com/aspnet/AspNetCore/issues/14882)
             services.Configure<IISOptions>(iis =>
@@ -80,6 +82,9 @@ namespace IdentityServer
             services.AddTransient<IValidator<LoginInputViewModel>, LoginValidator>();
             services.AddTransient<IValidator<ModifierViewModel>, ModifierValidator>();
 
+            IConfigurationSection sec = Configuration.GetSection("BaseUrl");
+            services.Configure<BaseUrl>(sec);
+
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
@@ -99,12 +104,14 @@ namespace IdentityServer
             app.UseRouting();
             app.UseIdentityServer();
             app.UseAuthorization();
-            app.UseMvcWithDefaultRoute();
-            
-            /*app.UseEndpoints(endpoints =>
+
+            app.UseMvc();
+
+            app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
-            });*/
+            });
+
         }
 
         private void InitializeDatabase(IApplicationBuilder app)

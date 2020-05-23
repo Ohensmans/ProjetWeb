@@ -1,0 +1,50 @@
+﻿@model IdentityServer.ViewModel.Administration.ListeRoleViewModel
+
+@{
+    ViewData["Title"] = "Liste des rôles";
+}
+
+<h1>Liste des rôles</h1>
+@Html.HiddenFor(model => model.returnUrl)
+@if (Model.lRoles.Any())
+{
+    <br/>
+    @Html.ActionLink("Créer un nouveau rôle", "CreateRole", "Administration", new { returnUrl = Model.returnUrl }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Retour au tableau de bord", "Index", "Administration", new { returnUrl = Model.returnUrl }, new { @class = "btn btn-danger" })
+
+    foreach (var role in Model.lRoles)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                Role Id : @role.Id
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title">@role.Name</h5>
+            </div>
+
+            <div class="card-footer">
+
+                @Html.ActionLink("Modifier", "EditRole", "Administration", new { id = role.Id, returnUrl = Model.returnUrl }, new { @class = "btn btn-primary" })
+                <a class="btn btn-danger">Supprimer</a>
+            </div>
+        </div>
+
+    }
+
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            Il n'existe pas encore de rôles
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">
+                Utilisez le bouton ci-dessous pour créer un rôle
+            </h5>
+            @Html.ActionLink("Créer un nouveau rôle", "CreateRole", "Administration", new { returnUrl = Model.returnUrl }, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+}
+

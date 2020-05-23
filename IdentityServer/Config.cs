@@ -49,6 +49,8 @@ namespace IdentityServer
 
                 RequireConsent = false,
 
+                AlwaysIncludeUserClaimsInIdToken = true,
+
                 AllowedScopes = new List<string>
                 {
                     IdentityServerConstants.StandardScopes.OpenId,

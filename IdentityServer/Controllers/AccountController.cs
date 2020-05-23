@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ModelesApi.POC;
 
-namespace IdentityServer.Controllers.Account
+namespace IdentityServer.Controllers
 {
     public class AccountController : Controller
     {
@@ -68,11 +68,8 @@ namespace IdentityServer.Controllers.Account
                         var signInResult = await _signInManager.PasswordSignInAsync(model.User, model.Password, false, false);
                         return Redirect(model.ReturnUrl);
                     }
-
-                    return View(model);
                 }
-                else
-                    return View(model);
+                return View(model);
             }
             else
             {
@@ -140,7 +137,6 @@ namespace IdentityServer.Controllers.Account
 
 
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout(string logoutId)
         {
             // get context information (client name, post logout redirect URI and iframe for federated signout)
@@ -149,7 +145,6 @@ namespace IdentityServer.Controllers.Account
 
             if (User?.Identity.IsAuthenticated == true)
             {
-
                 // delete local authentication cookie
                 await _signInManager.SignOutAsync();
 
@@ -193,26 +188,64 @@ namespace IdentityServer.Controllers.Account
                 {
                     var result = await _userManager.UpdateAsync(vm.User);
 
-                    if (vm.CurrentPassword != null && vm.ConfirmPassword != null && vm.NewPassword != null)
+                    if (vm.Password != null && vm.ConfirmPassword != null && vm.NewPassword != null)
                     {
-                        if (vm.CurrentPassword != null)
+                        if (vm.Password != null)
                         {
-                            var resultlogin = await _signInManager.CheckPasswordSignInAsync(vm.User, vm.CurrentPassword, true);
+                            var resultlogin = await _signInManager.CheckPasswordSignInAsync(vm.User, vm.Password, true);
                             if (!resultlogin.Succeeded)
                             {
                                 ModelState.AddModelError(string.Empty, "Mot de passe invalide");
                                 return View(vm);
                             }
-                            var modifPass = await _userManager.ChangePasswordAsync(vm.User, vm.CurrentPassword, vm.NewPassword);
+                            var modifPass = await _userManager.ChangePasswordAsync(vm.User, vm.Password, vm.NewPassword);
                         }
                     }
                 }
             }
-            return Redirect(vm.ReturnUrl);
+            if (vm.ReturnUrl != null)
+                return Redirect(vm.ReturnUrl);
+            else
+                return Redirect("~/");
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> MonCompte(string ReturnUrl)
+        {
+            if (User?.Identity.IsAuthenticated == true)
+            {
+                MonCompteViewModel vm = new MonCompteViewModel();
+                vm.ReturnUrl = ReturnUrl;
+                var userId = User.GetSubjectId();
 
+                Utilisateur user = await _userManager.FindByIdAsync(userId);
+
+                if (user != null)
+                {
+                    vm.User = user;
+                    return View(vm);
+                }
+            }
+            ErrorViewModel evm = new ErrorViewModel("Veuillez vous connecter pour accéder à votre compte");
+            return View("Error", evm);
+        }
+
+        [HttpPost]
+        public IActionResult MonCompte(MonCompteViewModel vm, string button)
+        {
+            if (ModelState.IsValid)
+            {
+                if (button.Equals("modifier"))
+                {
+                    return RedirectToAction("Modifier", new { ReturnUrl = vm.ReturnUrl });
+                }
+            }
+            if (vm.ReturnUrl != null)
+                return Redirect(vm.ReturnUrl);
+            else
+                return Redirect("~/");
+        }
 
 
     }
