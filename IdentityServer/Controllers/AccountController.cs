@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Transactions;
+﻿using System.Threading.Tasks;
 using IdentityServer.ViewModel;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
@@ -10,6 +6,7 @@ using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ModelesApi.POC;
@@ -65,6 +62,11 @@ namespace IdentityServer.Controllers
 
                     if (result.Succeeded)
                     {
+                        if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrateur"))
+                        {
+                            return RedirectToAction("ListeUser", "Administration", new { returnUrl = model.ReturnUrl });
+                        }
+
                         var signInResult = await _signInManager.PasswordSignInAsync(model.User, model.Password, false, false);
                         return Redirect(model.ReturnUrl);
                     }
@@ -177,6 +179,7 @@ namespace IdentityServer.Controllers
             return View("Error", evm);
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Modifier(ModifierViewModel vm, string button)
         {
@@ -199,6 +202,18 @@ namespace IdentityServer.Controllers
                                 return View(vm);
                             }
                             var modifPass = await _userManager.ChangePasswordAsync(vm.User, vm.Password, vm.NewPassword);
+                            if (modifPass.Succeeded)
+                            {
+                                if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrateur"))
+                                {
+                                    return RedirectToAction("ListeUser", "Administration", new { returnUrl = vm.ReturnUrl });
+                                }
+
+                                if (vm.ReturnUrl != null)
+                                    return Redirect(vm.ReturnUrl);
+                                else
+                                    return Redirect("~/");
+                            }
                         }
                     }
                 }
@@ -245,6 +260,13 @@ namespace IdentityServer.Controllers
                 return Redirect(vm.ReturnUrl);
             else
                 return Redirect("~/");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
 
 

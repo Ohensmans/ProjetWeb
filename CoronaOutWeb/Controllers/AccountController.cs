@@ -54,6 +54,14 @@ namespace CoronaOutWeb.Controllers
             return Redirect(identityRegisterUrl + returnHomecoronaOutWebParam);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
+
 
     }
 }

@@ -5,6 +5,7 @@ using FluentValidation.AspNetCore;
 using IdentityServer.Models;
 using IdentityServer.Validator;
 using IdentityServer.ViewModel;
+using IdentityServer.ViewModel.Administration;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Builder;
@@ -77,10 +78,11 @@ namespace IdentityServer
                 })
                 .AddAspNetIdentity<Utilisateur>();
 
-            services.AddTransient<IValidator<Utilisateur>, UtilisateurValidator>();
+            services.AddScoped<IValidator<Utilisateur>, UtilisateurValidator>();
             services.AddTransient<IValidator<RegisterViewModel>, RegisterValidator>();
             services.AddTransient<IValidator<LoginInputViewModel>, LoginValidator>();
             services.AddTransient<IValidator<ModifierViewModel>, ModifierValidator>();
+            services.AddTransient<IValidator<EditUserViewModel>, EditUserValidator>();
 
             IConfigurationSection sec = Configuration.GetSection("BaseUrl");
             services.Configure<BaseUrl>(sec);

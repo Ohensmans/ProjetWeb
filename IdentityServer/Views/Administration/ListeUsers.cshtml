@@ -1,0 +1,72 @@
+﻿@model IdentityServer.ViewModel.Administration.ListeUserRoleViewModel
+
+@{
+    ViewData["Title"] = "ListeUsers";
+}
+
+<h1>Liste des utilisateurs</h1>
+@Html.HiddenFor(model => model.returnUrl)
+<br />
+@Html.ActionLink("Ajouter un nouvel utilisateur", "Register", "Account", new { returnUrl = Model.returnUrl }, new { @class = "btn btn-primary" })
+@Html.ActionLink("Retour au tableau de bord", "Index", "Administration", new { returnUrl = Model.returnUrl }, new { @class = "btn btn-danger" })
+<br />
+<br />
+
+@if (Model.lUser.Any())
+{
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>UserName</th>
+                <th>Modifier</th>
+                <th>Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.lUser)
+            {
+                <tr>
+                    <td>@Html.Label("", user.UserName)</td>
+                    <td>@Html.ActionLink("Modifier", "EditUser", "Administration", new { userId = user.Id, returnUrl = Model.returnUrl }, new { @class = "btn btn-primary" })</td>
+                    <td>
+                        @using (Html.BeginForm("DeleteUser", "Administration", new { userId = user.Id, returnUrl = Model.returnUrl }, FormMethod.Post))
+                        {
+                            <span id="confirmDeleteSpan_@user.Id" style="display:none">
+                                <span>Etes-vous sûr de vouloir supprimer ce rôle ?</span>
+                                <button type="submit" class="btn btn-danger">Oui</button>
+                                <a href="#" class="btn btn-primary" onclick="confirmDelete('@user.Id', false)">Non</a>
+                            </span>
+
+                            <span id="deleteSpan_@user.Id">
+                                <a href="#" class="btn btn-danger" onclick="confirmDelete('@user.Id', true)">Supprimer</a>
+                            </span>
+                        }
+                    </td>
+
+
+                    @Html.Hidden(user.Id, user.Id)
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            Il n'existe pas encore d'utilisateur
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">
+                Utilisez le bouton ci-dessous pour créer un utilisateur
+            </h5>
+            @Html.ActionLink("Ajouter un nouvel utilisateur", "Register", "Account", new { returnUrl = Model.returnUrl }, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+}
+
+@section Scripts{ 
+    <script src="~/js/site.js"></script>
+}
+

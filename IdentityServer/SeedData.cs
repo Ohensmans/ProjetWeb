@@ -116,7 +116,6 @@ namespace IdentityServer
                             Nom = "Merveille",
                             Prenom = "Alice",
                             Sexe = "Femme",
-                            Id = "alice@merveille.be",
                             PhoneNumber = "010123456",
                             DateNaissance = new DateTime(1920, 10, 1),
                             estProfessionel = false
@@ -148,7 +147,6 @@ namespace IdentityServer
                             Nom = "Crusoé",
                             Prenom = "Robinson",
                             Sexe = "Femme",
-                            Id = "robinson@crusoe.be",
                             PhoneNumber = "010123456",
                             DateNaissance = new DateTime(1920, 10, 1),
                             estProfessionel = false

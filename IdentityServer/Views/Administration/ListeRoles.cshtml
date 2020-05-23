@@ -5,32 +5,55 @@
 }
 
 <h1>Liste des rôles</h1>
+
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
 @Html.HiddenFor(model => model.returnUrl)
+
 @if (Model.lRoles.Any())
 {
-    <br/>
-    @Html.ActionLink("Créer un nouveau rôle", "CreateRole", "Administration", new { returnUrl = Model.returnUrl }, new { @class = "btn btn-primary" })
-    @Html.ActionLink("Retour au tableau de bord", "Index", "Administration", new { returnUrl = Model.returnUrl }, new { @class = "btn btn-danger" })
+    <br />
+    <div>
+        @Html.ActionLink("Créer un nouveau rôle", "CreateRole", "Administration", new { returnUrl = Model.returnUrl }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Retour au tableau de bord", "Index", "Administration", new { returnUrl = Model.returnUrl }, new { @class = "btn btn-success" })
+    </div>
+    <br />
+    <br />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Modifier</th>
+                <th>Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
 
-    foreach (var role in Model.lRoles)
-    {
-        <div class="card mb-3">
-            <div class="card-header">
-                Role Id : @role.Id
-            </div>
+            @foreach (var role in Model.lRoles)
+            {
 
-            <div class="card-body">
-                <h5 class="card-title">@role.Name</h5>
-            </div>
+                <tr>
+                    <td>@Html.Label("", role.Name)</td>
+                    <td>@Html.ActionLink("Modifier", "EditRole", "Administration", new { id = role.Id, returnUrl = Model.returnUrl }, new { @class = "btn btn-primary" })</td>
+                    <td>
+                        @using (Html.BeginForm("DeleteRole", "Administration", new { roleId = role.Id, returnUrl = Model.returnUrl }, FormMethod.Post))
+                        {
+                            <span id="confirmDeleteSpan_@role.Id" style="display:none">
+                                <span>Etes-vous sûr de vouloir supprimer ce rôle ?</span>
+                                <button type="submit" class="btn btn-danger">Oui</button>
+                                <a href="#" class="btn btn-primary" onclick="confirmDelete('@role.Id', false)">Non</a>
+                            </span>
 
-            <div class="card-footer">
-
-                @Html.ActionLink("Modifier", "EditRole", "Administration", new { id = role.Id, returnUrl = Model.returnUrl }, new { @class = "btn btn-primary" })
-                <a class="btn btn-danger">Supprimer</a>
-            </div>
-        </div>
-
-    }
+                            <span id="deleteSpan_@role.Id">
+                                <a href="#" class="btn btn-danger" onclick="confirmDelete('@role.Id', true)">Supprimer</a>
+                            </span>
+                        }
+                    </td>
+                    @Html.Hidden(role.Id, role.Id)
+                </tr>
+            }
+        </tbody>
+    </table>
 
 }
 else
@@ -43,8 +66,13 @@ else
             <h5 class="card-title">
                 Utilisez le bouton ci-dessous pour créer un rôle
             </h5>
-            @Html.ActionLink("Créer un nouveau rôle", "CreateRole", "Administration", new { returnUrl = Model.returnUrl }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Créer un nouveau rôle", "CreateRole", "Administration", new { returnUrl = Model.returnUrl }, new { @class = "btn btn-success" })
         </div>
     </div>
+}
+
+
+@section Scripts{
+    <script src="~/js/site.js"></script>
 }
 

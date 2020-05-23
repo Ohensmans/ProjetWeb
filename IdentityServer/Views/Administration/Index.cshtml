@@ -1,0 +1,78 @@
+﻿@model IdentityServer.ViewModel.Administration.TableauBordViewModel
+@{
+    ViewData["Title"] = "Tableau de bord des utilisateurs";
+}
+
+<h1>Tableau de bord des utilisateurs</h1>
+
+<div class="col-md-12 row">
+    <div class="col-md-6">
+        <br />
+        <br />
+        <h2>Liste des rôles existants</h2>
+        @if (Model.RoleNames.Any())
+        {
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var role in Model.RoleNames)
+                    {
+
+                        <tr>
+                            <td>@Html.Label("", role)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h3>Il n'y a pas encore de rôles</h3>
+        }
+        <div>
+            @Html.ActionLink("Créer un nouveau rôle", "CreateRole", "Administration", new { returnUrl = Model.ReturnUrl }, new { @class = "btn btn-success" })
+            @Html.ActionLink("Gérer les rôles", "ListeRoles", "Administration", new { returnUrl = Model.ReturnUrl }, new { @class = "btn btn-primary" })
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+        <br />
+        <br />
+        <h2>Liste des utilisateurs existants</h2>
+        @if (Model.UserNames.Any())
+        {
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.UserNames)
+                    {
+
+                        <tr>
+                            <td>@Html.Label("", user)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h3>Il n'y a pas encore d'utilisateurs</h3>
+        }
+    <div>
+        @Html.ActionLink("Ajouter un nouvel utilisateur", "Register", "Account", new { returnUrl = Model.ReturnUrl }, new { @class = "btn btn-success" })
+        @Html.ActionLink("Gérer les utilisateurs", "ListeUsers", "Administration", new { returnUrl = Model.ReturnUrl }, new { @class = "btn btn-primary" })
+    </div>
+
+    </div>
+</div>

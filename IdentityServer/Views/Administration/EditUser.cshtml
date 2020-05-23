@@ -1,0 +1,97 @@
+﻿@model IdentityServer.ViewModel.Administration.EditUserViewModel
+@{
+    ViewData["Title"] = "Modifier un utilisateur";
+}
+
+<h1>Modifier un utilisateur</h1>
+
+@using (Html.BeginForm(FormMethod.Post, new { @class = "row" }))
+{
+    @Html.HiddenFor(model => model.ReturnUrl)
+
+<div class="col-md-12">
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <br />
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.User.Id, new { @class = "control-label col-sm-2" })
+        @Html.TextBoxFor(model => model.User.Id, new { @class = "form-control col-sm-10", @readonly = "readonly" })
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.User.UserName, new { @class = "control-label col-sm-2" })
+        @Html.TextBoxFor(model => model.User.UserName, new { @class = "form-control col-sm-10" })
+        @Html.ValidationMessageFor(model => model.User.UserName, "", new { @class = "text-danger" })
+    </div>
+
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.User.Nom, new { @class = "control-label col-sm-2" })
+        @Html.TextBoxFor(model => model.User.Nom, new { @class = "form-control col-sm-10" })
+        @Html.ValidationMessageFor(model => model.User.Nom, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.User.Prenom, new { @class = "control-label col-sm-2" })
+        @Html.TextBoxFor(model => model.User.Prenom, new { @class = "form-control col-sm-10" })
+        @Html.ValidationMessageFor(model => model.User.Prenom, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.User.Sexe, new { @class = "control-label col-sm-2" })
+        @Html.DropDownListFor(model => model.User.Sexe, new SelectList(Model.lGenres), "Sélectionnez votre genre", new { @class = "form-control col-sm-10" })
+        @Html.ValidationMessageFor(model => model.User.Sexe, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.User.PhoneNumber, "Numéro de téléphone", new { @class = "control-label col-sm-2" })
+        @Html.TextBoxFor(model => model.User.PhoneNumber, new { @class = "form-control col-sm-10" })
+        @Html.ValidationMessageFor(model => model.User.PhoneNumber, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.User.DateNaissance, "Date de naissance", new { @class = "control-label col-sm-2" })
+        @Html.EditorFor(model => model.User.DateNaissance, new { @class = "form-control col-sm-10" })
+        @Html.ValidationMessageFor(model => model.User.DateNaissance, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group row">
+        @Html.EditorFor(model => model.User.estProfessionel, new { @class = "form-control col-sm-2" })
+        @Html.LabelFor(model => model.User.estProfessionel, "est professionel", new { @class = "control-label col-sm-10" })
+        @Html.ValidationMessageFor(model => model.User.estProfessionel, "", new { @class = "text-danger" })
+    </div>
+
+    <br />
+    <div class="form-group row">
+        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+        @Html.ActionLink("Retour", "ListeUsers", "Administration", new { returnUrl = Model.ReturnUrl }, new { @class = "btn btn-danger" })
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>Rôles de l'utilisateur</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        @if (Model.Roles.Any())
+        {
+            @foreach (var role in Model.Roles)
+            {
+                @Html.Label("", role, new { @class = "card-title" })
+            }
+        }
+        else
+        {
+            @Html.Label("", "Pas de rôle pour le moment", new { @class = "card-title" })
+        }
+        <div class="card-footer">
+            @Html.ActionLink("Gérer les rôles", "ManageUserRoles", "Administration", new { userId = Model.User.Id,returnUrl = Model.ReturnUrl }, new { @class = "btn btn-success" })
+        </div>
+    </div>
+
+
+
+</div>
+}
+
+

@@ -25,6 +25,23 @@
                         <li class="nav-item">
                             @Html.ActionLink("Etablissements", "Index", "Etablissements", null, new { @class = "nav-link text-dark" })
                         </li>
+                        @if (User.IsInRole("Administrateur") || User.IsInRole("Gestionnaire"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Administration
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @if (User.IsInRole("Administrateur"))
+                                    {
+                                        @Html.ActionLink("Administration des utilisateurs", "Index", "Administration", null, new { @class = "nav-link text-dark" })
+                                        <div class="dropdown-divider"></div>
+                                    }
+                                </div>
+                            </li>
+                        }
+
+
 
                         @if (User?.Identity != null && User.Identity.IsAuthenticated)
                         {
@@ -33,7 +50,7 @@
                                     @User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("name")).Value
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    @Html.ActionLink("Mon compte","moncompte","account", null, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("Mon compte", "moncompte", "account", null, new { @class = "dropdown-item" })
                                     <div class="dropdown-divider"></div>
                                     @Html.ActionLink("Se déconnecter", "logout", "account", null, new { @class = "dropdown-item" })
                                 </div>
@@ -41,12 +58,12 @@
                         }
                         else
                         {
-                                <li class="nav-item ml-auto">
-                                    @Html.ActionLink("S'identifier", "login", "account", null, new { @class = "nav-link text-dark" })
-                                </li>
-                                <li class="nav-item ">
-                                    @Html.ActionLink("S'enregistrer", "register", "account", null, new { @class = "nav-link text-dark" })
-                                </li>
+                            <li class="nav-item ml-auto">
+                                @Html.ActionLink("S'identifier", "login", "account", null, new { @class = "nav-link text-dark" })
+                            </li>
+                            <li class="nav-item ">
+                                @Html.ActionLink("S'enregistrer", "register", "account", null, new { @class = "nav-link text-dark" })
+                            </li>
                         }
                     </ul>
                 </div>
