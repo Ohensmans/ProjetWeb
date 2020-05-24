@@ -180,5 +180,10 @@ C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\bin\Debug\netcoreapp3.1\ru\Mi
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\obj\Debug\netcoreapp3.1\Api.csproj.CoreCompileInputs.cache
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cache

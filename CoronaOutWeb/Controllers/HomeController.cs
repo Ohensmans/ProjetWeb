@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 namespace CoronaOutWeb.Controllers
 {
@@ -30,7 +31,7 @@ namespace CoronaOutWeb.Controllers
 
             var _accessToken = new JwtSecurityTokenHandler().ReadJwtToken(idToken);
 
-            var test = User.IsInRole("test");
+            var test = User.Claims.Any(x => x.Value == "Administrateur" && x.Type.ToString()=="role");
 
             return View();
         }

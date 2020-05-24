@@ -61,12 +61,11 @@ namespace IdentityServer.Controllers
                     var result = await _userManager.CreateAsync(model.User, model.Password);
 
                     if (result.Succeeded)
-                    {
+                    { 
                         if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrateur"))
                         {
                             return RedirectToAction("ListeUser", "Administration", new { returnUrl = model.ReturnUrl });
                         }
-
                         var signInResult = await _signInManager.PasswordSignInAsync(model.User, model.Password, false, false);
                         return Redirect(model.ReturnUrl);
                     }
@@ -189,6 +188,7 @@ namespace IdentityServer.Controllers
             {
                 if (ModelState.IsValid)
                 {
+
                     var result = await _userManager.UpdateAsync(vm.User);
 
                     if (vm.Password != null && vm.ConfirmPassword != null && vm.NewPassword != null)

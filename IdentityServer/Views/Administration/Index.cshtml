@@ -6,6 +6,7 @@
 <h1>Tableau de bord des utilisateurs</h1>
 
 <div class="col-md-12 row">
+    @Html.HiddenFor(model => model.ReturnUrl)
     <div class="col-md-6">
         <br />
         <br />
@@ -69,10 +70,17 @@
         {
             <h3>Il n'y a pas encore d'utilisateurs</h3>
         }
-    <div>
-        @Html.ActionLink("Ajouter un nouvel utilisateur", "Register", "Account", new { returnUrl = Model.ReturnUrl }, new { @class = "btn btn-success" })
-        @Html.ActionLink("Gérer les utilisateurs", "ListeUsers", "Administration", new { returnUrl = Model.ReturnUrl }, new { @class = "btn btn-primary" })
-    </div>
+        <div>
+            @Html.ActionLink("Ajouter un nouvel utilisateur", "Register", "Account", new { returnUrl = Model.ReturnUrl }, new { @class = "btn btn-success" })
+            @Html.ActionLink("Gérer les utilisateurs", "ListeUsers", "Administration", new { returnUrl = Model.ReturnUrl }, new { @class = "btn btn-primary" })
+        </div>
 
     </div>
 </div>
+<br />
+<br />
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <button style="width:auto" type="submit" name="button" value="back" class="btn btn-danger">Retour vers le site</button>
+}
+

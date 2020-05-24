@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModelesApi.POC;
@@ -23,9 +23,9 @@ namespace Api.Controllers
 
         // GET: api/Etablissements
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Etablissement>>> GetEtablissements()
+        public async Task<ActionResult<IEnumerable<Etablissement>>> GetAll()
         {
-            return await _context.Etablissements.ToListAsync();
+           return await _context.Etablissements.ToListAsync();
         }
 
         // GET: api/Etablissements/5
@@ -45,6 +45,7 @@ namespace Api.Controllers
         // PUT: api/Etablissements/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEtablissement(Guid id, Etablissement etablissement)
         {

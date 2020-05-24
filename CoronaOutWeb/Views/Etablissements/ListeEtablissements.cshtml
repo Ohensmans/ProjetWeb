@@ -1,0 +1,47 @@
+﻿@model CoronaOutWeb.ViewModel.ListeEtablissementsViewModel
+@{
+    ViewData["Title"] = "Liste des établissements enregistrés";
+}
+
+<h1>Liste des établissements enregistrés</h1>
+<br />
+<br />
+@if (Model.Etablissements.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Type</th>
+                <th>Rue</th>
+                <th>Numéro</th>
+                <th>Ville</th>
+                <th>Pays</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var etablissement in Model.Etablissements)
+            {
+                @if (etablissement.estValide)
+                {
+            <tr>
+                <td>@Html.Label("", etablissement.Nom)</td>
+                <td>@Html.Label("", etablissement.Type)</td>
+                <td>@Html.Label("", etablissement.Rue)</td>
+                <td>@Html.Label("", etablissement.NumeroBoite)</td>
+                <td>@Html.Label("", etablissement.Ville)</td>
+                <td>@Html.Label("", etablissement.Pays)</td>
+                <td>@Html.ActionLink("Détails", "Fiche", "Etablissements", new { id = etablissement.Id }, new { @class = "btn btn-success" })</td>
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+else
+{
+    <h3>Il n'y a pas encore d'établissments validés</h3>
+}
+

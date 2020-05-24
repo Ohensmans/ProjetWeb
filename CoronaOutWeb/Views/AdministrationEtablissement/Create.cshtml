@@ -1,0 +1,145 @@
+﻿@model CoronaOutWeb.ViewModel.MonEtablissementViewModel
+@{
+    ViewData["Title"] = "Créer un nouvel établissement";
+}
+
+<h1>Créer un nouvel établissement</h1>
+
+@using (Html.BeginForm(FormMethod.Post))
+{
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    <div class="col-md-12 row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Etab.Nom, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Etab.Nom, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.Nom, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Etab.Type, "Type d'établissement", new { @class = "control-label" })
+            @Html.DropDownListFor(model => model.Etab.Type, new SelectList(Model.lTypeEtablissement), "Sélectionnez le type d'établissement", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.Type, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="col-md-12 row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Etab.NumeroTva, "Numéro de TVA", new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Etab.NumeroTva, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.NumeroTva, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Etab.NumeroTelephone, "Numéro de Téléphone", new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Etab.NumeroTelephone, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.NumeroTelephone, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="col-md-12 row">
+        <div class="form-group col-md-8">
+            @Html.LabelFor(model => model.Etab.Rue, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Etab.Rue, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.Rue, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.Etab.NumeroBoite, "Numéro/Boîte", new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Etab.NumeroBoite, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.NumeroBoite, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="col-md-12 row">
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.Etab.CodePostal, "Code Postal", new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Etab.CodePostal, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.CodePostal, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-8">
+            @Html.LabelFor(model => model.Etab.Ville, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Etab.Ville, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.Ville, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="col-md-12 row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Etab.AdresseEmailPro, "Adresse mail professionnelle (obligatoire)", new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Etab.AdresseEmailPro, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.AdresseEmailPro, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Etab.AdresseEmailEtablissement, "Adresse mail de l'établissement (optionnelle)", new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Etab.AdresseEmailEtablissement, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.AdresseEmailEtablissement, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="col-md-12 row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Etab.AdresseSiteWeb, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Etab.AdresseSiteWeb, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.AdresseSiteWeb, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Etab.AdresseInstagram, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Etab.AdresseInstagram, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.AdresseInstagram, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="col-md-12 row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Etab.AdresseFacebook, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Etab.AdresseFacebook, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.AdresseFacebook, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Etab.AdresseLinkedin, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Etab.AdresseLinkedin, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.AdresseLinkedin, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="col-md-12 row">
+        <div class="form-group col-md-6">
+            <input type="hidden" name="MAX_FILE_SIZE" accept="Image/*" value="4194304" /><input type="file" />
+        </div>
+    </div>
+
+        <!--Photos-->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Etab.lPhotos, new { @class = "control-label" })
+        </div>
+
+        <!--Horaires-->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Etab.lHoraire, new { @class = "control-label" })
+        </div>
+
+        <!--Logo-->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Etab.Logo, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Etab.Logo, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.Logo, "", new { @class = "text-danger" })
+        </div>
+
+        <!--Zone de texte-->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Etab.ZoneTexteLibre, new { @class = "control-label", @Wrap = "hard", @rows = "20" })
+            @Html.TextBoxFor(model => model.Etab.ZoneTexteLibre, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.ZoneTexteLibre, "", new { @class = "text-danger" })
+        </div>
+
+
+        <button style="width:auto" type="submit" name="button" value="create" class="btn btn-primary">Créer le rôle</button>
+        <button style="width:auto" type="submit" name="button" value="back" class="btn btn-danger">Retour</button>
+
+        }
+

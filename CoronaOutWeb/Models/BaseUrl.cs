@@ -18,5 +18,6 @@ namespace CoronaOutWeb.Models
         public string IdentityRegister { get; set; }
 
         public string IdentityMonCompte { get; set; }
+        public string IdentityAdmin { get; set; }
     }
 }

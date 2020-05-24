@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using CoronaOutWeb.Models;
+using Microsoft.Extensions.Options;
 using ModelesApi.ExternalApi;
 using Newtonsoft.Json;
 using System;
@@ -9,22 +10,22 @@ namespace CoronaOutWeb.ExternalApiCall.VAT
 {
     public class VATService : IVATService
     {
-        private const string baseUrl = "apilayer.net/api/validate";
+        private readonly string baseUrl;
+        private readonly string baseKey;
         private readonly HttpClient _client;
 
-        public string apiKey { get; set; }
 
-        public VATService()
+        public VATService(IOptions<BaseUrl> url, IOptions<BaseKey> key)
         {
             _client = Program.client;
-            //this.apiKey = config.GetConnectionString("VATApi");
-            this.apiKey = "?access_key=e69175a478f42ba9c0dff7a8285c4d1b";
+            this.baseKey = key.Value.VATApi;
+            this.baseUrl = url.Value.VAT;
         }
 
         public async Task<VATResponseModele> GetVATResponse(String VAT)
         {
             string vatRequest = "vat_number=" + VAT;
-            var httpResponse = await _client.GetAsync(baseUrl + this.apiKey + vatRequest);
+            var httpResponse = await _client.GetAsync(this.baseUrl + this.baseKey + vatRequest);
 
             if (!httpResponse.IsSuccessStatusCode)
             {

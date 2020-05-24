@@ -5,9 +5,7 @@ using ModelesApi.POC;
 using Repo.Contexts;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace IdentityServer
 {

@@ -1,9 +1,11 @@
 ﻿using CoronaOutWeb.ExternalApiCall.VAT;
+using CoronaOutWeb.Models;
 using FluentValidation;
+using IdentityServer4.Test;
+using Microsoft.Extensions.Options;
 using ModelesApi.ExternalApi;
 using ModelesApi.POC;
 using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,7 +13,9 @@ namespace CoronaOutWeb.Validator
 {
     public class EtablissementValidator : AbstractValidator<Etablissement>
     {
-        public EtablissementValidator()
+        private readonly IVATService vatValidator;
+
+        public EtablissementValidator(IVATService vatValidator)
         {
             RuleFor(x => x.Type)
                 .NotNull().WithMessage("Ce champ est obligatoire")
@@ -22,8 +26,8 @@ namespace CoronaOutWeb.Validator
                 .MaximumLength(50).WithMessage("Maximum 50 caractères");
 
             RuleFor(x => x.NumeroTva)
-                .NotNull().WithMessage("Ce champ est obligatoire")
-                .MustAsync(NumTvaValide).WithMessage("Le numéro de TVA doit être valide");
+                .NotNull().WithMessage("Ce champ est obligatoire");
+                //.MustAsync(NumTvaValide).WithMessage("Le numéro de TVA doit être valide");
 
             RuleFor(x => x.AdresseEmailPro)
                 .NotNull().WithMessage("Ce champ est obligatoire")
@@ -75,6 +79,7 @@ namespace CoronaOutWeb.Validator
             RuleFor(x => x.AdresseLinkedin)
                 .Matches(@"^(www).([\w]+).[\w\.//]*$").WithMessage("L'adresse url doit être valide par ex : www.youplaboom.be/index");
 
+            this.vatValidator = vatValidator;
         }
 
         public bool TypeEstDansListe(string newValue)
@@ -84,14 +89,17 @@ namespace CoronaOutWeb.Validator
 
         public bool NumTelEstValide(string newValue)
         {
-            var phoneNumberUtil = PhoneNumbers.PhoneNumberUtil.GetInstance();
-            var phoneNumber = phoneNumberUtil.Parse(newValue, null);
-            return phoneNumberUtil.IsValidNumber(phoneNumber);
+            if (newValue != null)
+            {
+                var phoneNumberUtil = PhoneNumbers.PhoneNumberUtil.GetInstance();
+                var phoneNumber = phoneNumberUtil.Parse(newValue, null);
+                return phoneNumberUtil.IsValidNumber(phoneNumber);
+            }
+            return true;
         }
 
         public async Task<bool> NumTvaValide(string newValue, CancellationToken token)
         {
-            VATService vatValidator = new VATService();
             VATResponseModele response = await vatValidator.GetVATResponse(newValue);
             return response.Valid;
         }

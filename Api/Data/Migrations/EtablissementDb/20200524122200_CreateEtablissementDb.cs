@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Api.Data.Migrations.EtablissementDb
 {
-    public partial class CreateDbEtablissement : Migration
+    public partial class CreateEtablissementDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,8 +29,9 @@ namespace Api.Data.Migrations.EtablissementDb
                     AdresseInstagram = table.Column<string>(nullable: true),
                     AdresseFacebook = table.Column<string>(nullable: true),
                     AdresseLinkedin = table.Column<string>(nullable: true),
-                    PublieParUserId = table.Column<string>(nullable: false, defaultValue: "05/16/2020 11:10:34"),
-                    DatePublication = table.Column<DateTime>(nullable: false)
+                    PublieParUserId = table.Column<Guid>(nullable: false),
+                    DatePublication = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 24, 14, 22, 0, 129, DateTimeKind.Local).AddTicks(6853)),
+                    estValide = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

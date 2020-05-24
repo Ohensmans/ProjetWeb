@@ -52,7 +52,9 @@ namespace Api.Data.Migrations.EtablissementDb
                         .HasMaxLength(20);
 
                     b.Property<DateTime>("DatePublication")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2020, 5, 24, 14, 22, 0, 129, DateTimeKind.Local).AddTicks(6853));
 
                     b.Property<string>("Logo")
                         .HasColumnType("nvarchar(max)");
@@ -79,11 +81,8 @@ namespace Api.Data.Migrations.EtablissementDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PublieParUserId")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("05/16/2020 11:10:34");
+                    b.Property<Guid>("PublieParUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Rue")
                         .IsRequired()
@@ -102,6 +101,9 @@ namespace Api.Data.Migrations.EtablissementDb
                     b.Property<string>("ZoneTexteLibre")
                         .HasColumnType("nvarchar(2000)")
                         .HasMaxLength(2000);
+
+                    b.Property<bool>("estValide")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

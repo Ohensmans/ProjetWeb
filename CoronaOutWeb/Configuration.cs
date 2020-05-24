@@ -1,21 +1,21 @@
-﻿using CoronaOutWeb.ExternalApiCall.Users;
+﻿using CoronaOutWeb.ExternalApiCall.Etablissements;
 using CoronaOutWeb.ExternalApiCall.VAT;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+
 
 namespace CoronaOutWeb
 {
     public static class Configuration
     {
-        public static void UseServicesVAT(this IServiceCollection services, IConfiguration configuration)
+        public static void UseServicesVAT(this IServiceCollection services)
         {
-            services.AddHttpClient<IVATService, VATService>(x => x.BaseAddress = new Uri(configuration.GetConnectionString("VATUrl")));
+            services.AddHttpClient<IVATService, VATService>();
         }
 
-        public static void UseServicesUser(this IServiceCollection services, IConfiguration configuration)
+        public static void UseServicesEtablissements(this IServiceCollection services)
         {
-            services.AddHttpClient<IUserService, UserService>(x => x.BaseAddress = new Uri(configuration.GetConnectionString("UserUrl")));
+            services.AddHttpClient<IEtablissementService, EtablissementService>();
         }
+
     }
 }

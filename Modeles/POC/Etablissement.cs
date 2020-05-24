@@ -47,9 +47,11 @@ namespace ModelesApi.POC
 
         public ICollection<Horaire> lHoraire { get; set; }
 
-        public string PublieParUserId { get; set; }
+        public Guid PublieParUserId { get; set; }
 
         public DateTime DatePublication { get; set; }
+
+        public bool estValide { get; set; }
 
     }
 }

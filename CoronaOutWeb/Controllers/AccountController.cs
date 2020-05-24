@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using CoronaOutWeb.ExternalApiCall.Users;
-using CoronaOutWeb.Models;
-using CoronaOutWeb.ViewModel;
-using IdentityServer4.Extensions;
-using Microsoft.AspNetCore.Authentication;
+﻿using CoronaOutWeb.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Protocols;
-using ModelesApi.POC;
+
 
 namespace CoronaOutWeb.Controllers
 {

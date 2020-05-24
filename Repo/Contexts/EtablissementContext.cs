@@ -19,6 +19,7 @@ namespace Repo.Contexts
         {
             modelBuilder.Entity<Etablissement>()
                         .Property(e => e.Id)
+                        .ValueGeneratedOnAdd()
                         .IsRequired();
 
             modelBuilder.Entity<Etablissement>()
@@ -92,7 +93,7 @@ namespace Repo.Contexts
                 .IsRequired();
 
             modelBuilder.Entity<Etablissement>()
-                .Property(e => e.PublieParUserId)
+                .Property(e => e.DatePublication)
                 .HasDefaultValue(DateTime.Now)
                 .IsRequired();
 

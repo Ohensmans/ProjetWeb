@@ -165,11 +165,10 @@ C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\bin\Debug\netcoreapp
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\CoronaOutWeb.csproj.CoreCompileInputs.cache
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\CoronaOutWeb.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\CoronaOutWeb.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\Administration\CreateRole.cshtml.g.cs
-C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\Administration\ListeRoles.cshtml.g.cs
-C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\Administration\EditRole.cshtml.g.cs
-C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\Administration\EditUsersInRole.cshtml.g.cs
-C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\Account\AccessDenied.cshtml.g.cs
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\Etablissements\ListeEtablissements.cshtml.g.cs
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\Etablissements\Fiche.cshtml.g.cs
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\AdministrationEtablissement\ListeEtablissementOwned.cshtml.g.cs
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\AdministrationEtablissement\Create.cshtml.g.cs

@@ -1,11 +1,12 @@
 
+using CoronaOutWeb.ExternalApiCall.Etablissements;
 using CoronaOutWeb.ExternalApiCall.Users;
+using CoronaOutWeb.ExternalApiCall.VAT;
 using CoronaOutWeb.Models;
 using CoronaOutWeb.Validator;
-using CoronaOutWeb.ViewModel;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using IdentityServer4.Models;
+using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,10 +31,11 @@ namespace CoronaOutWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
 
             services.AddMvc(options => options.EnableEndpointRouting = false)
                     .AddFluentValidation();
+
+            services.AddControllersWithViews();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -59,34 +61,30 @@ namespace CoronaOutWeb
 
                         options.Scope.Add("Api");
                         options.Scope.Add("ApiExterne");
+                        options.Scope.Add("role");
+
+                        options.ClaimActions.Add(new JsonKeyClaimAction("role", "role", "role"));
                     });
 
-            
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireClaim("role", "Administrateur"));
+                options.AddPolicy("Gestio", policy => policy.RequireClaim("role", "Gestionnaire"));
+                options.AddPolicy("Modificateur", policy => policy.RequireClaim("role", "Gestionnaire", "Administrateur"));
+            });
             
 
-            services.UseServicesVAT(Configuration);
-            services.UseServicesUser(Configuration);
+            services.UseServicesVAT();
+            services.UseServicesEtablissements();
+            services.AddTransient<IVATService, VATService>();
+            services.AddTransient<IEtablissementService, EtablissementService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IValidator<Utilisateur>, UtilisateurValidator>();
             services.AddTransient<IValidator<Etablissement>, EtablissementValidator>();
-            services.AddTransient<IValidator<CreateRoleViewModel>, CreateRoleValidator>();
-            services.AddTransient<IValidator<EditRoleViewModel>, EditRoleValidator>();
 
-            IConfigurationSection sec = Configuration.GetSection("BaseUrl");
-            services.Configure<BaseUrl>(sec);
+            services.Configure<BaseUrl>(Configuration.GetSection("BaseUrl"));
+            services.Configure<BaseKey>(Configuration.GetSection("ApiKey"));
 
-            /*
-            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-
-            services.AddDbContext<EtablissementContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbEtablissement"), sql => sql.MigrationsAssembly(migrationsAssembly)));
-            services.AddDbContext<NewsContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbNews"),sql => sql.MigrationsAssembly(migrationsAssembly)));
-            services.AddDbContext<UserContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DbUser"),sql => sql.MigrationsAssembly(migrationsAssembly)));
-            
-            services.AddIdentity<Utilisateur, IdentityRole>()
-                .AddEntityFrameworkStores<UserContext>()
-                .AddDefaultTokenProviders();
-            */
-                
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

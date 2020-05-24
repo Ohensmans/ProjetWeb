@@ -1,32 +1,58 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CoronaOutWeb.ExternalApiCall.Etablissements;
+using CoronaOutWeb.Models;
+using CoronaOutWeb.ViewModel;
 using Microsoft.AspNetCore.Mvc;
-using Repo.Contexts;
-using System.Linq;
+using Microsoft.Extensions.Options;
+using ModelesApi.POC;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace CoronaOutWeb.Controllers
 {
-    [Authorize]
     public class EtablissementsController : Controller
     {
-        private readonly EtablissementContext _ctx;
+        private string baseUrl;
+        private readonly HttpClient client;
+        private readonly IEtablissementService etablissementService;
 
-        public EtablissementsController(EtablissementContext ctx)
+        public EtablissementsController(IOptions<BaseUrl> url, IEtablissementService etablissementService)
         {
-            _ctx = ctx;
+            this.baseUrl = url.Value.ApiEtablissement;
+            this.client = Program.client;
+            this.etablissementService = etablissementService;
         }
 
-        public IActionResult Detail(string id)
+        [HttpGet]
+        public async Task<IActionResult> ListeEtablissements()
         {
-            if (!id.Equals(""))
-            {
-                using (_ctx)
-                {
-                    return View (_ctx.Etablissements.FirstOrDefault(x => x.Nom == id));
-                }
-            }
 
-            return View("Error");
+
+            ListeEtablissementsViewModel vm = new ListeEtablissementsViewModel();
+
+            vm.Etablissements = await etablissementService.GetAllEtablissementsAsync();
+
+            return View(vm);
         }
+
+        public async Task<IActionResult> Fiche(string id)
+        {
+
+
+            FicheViewModel vm = new FicheViewModel();
+
+            vm.Etablissements = await etablissementService.GetAllEtablissementsAsync();
+
+            if (id != null)
+                vm.EtablissementId = Guid.Parse(id);
+            else
+                vm.EtablissementId = Guid.Empty;
+
+            return View(vm);
+        }
+
 
 
 

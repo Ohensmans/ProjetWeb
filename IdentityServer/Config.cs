@@ -56,7 +56,8 @@ namespace IdentityServer
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
                     "Api",
-                    "ApiExterne"
+                    "ApiExterne",
+                    "role"
 
                 },
                 AllowOfflineAccess = true

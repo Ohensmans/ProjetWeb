@@ -1,0 +1,101 @@
+﻿@model CoronaOutWeb.ViewModel.ListeEtablissementsViewModel
+@{
+    ViewData["Title"] = "Liste des établissement possédés";
+}
+
+@if (User.Claims.Any(x => x.Type.ToString() == "role" && (x.Value == "Administrateur")))
+{
+<h1>Liste des établissements</h1>
+}
+else
+{
+<h1>Liste des établissements possédés</h1>
+}
+
+<br />
+<br />
+@Html.ActionLink("Créer un nouvel établissement", "Create", "AdministrationEtablissement", null, new { @class = "btn btn-success" })
+<br />
+<br />
+
+@if (Model.Etablissements.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Type</th>
+                <th>Rue</th>
+                <th>Numéro</th>
+                <th>Ville</th>
+                <th>Pays</th>
+                <th>Modifier</th>
+                <th>Supprimer</th>
+                @if (User.Claims.Any(x => x.Type.ToString() == "role" && (x.Value == "Administrateur")))
+                {
+                    <th>Valider</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var etablissement in Model.Etablissements)
+            {
+
+                @if (etablissement.estValide || User.Claims.Any(x => x.Type.ToString() == "role" && (x.Value == "Administrateur")))
+                {
+            <tr>
+                <td>@Html.Label("", etablissement.Nom)</td>
+                <td>@Html.Label("", etablissement.Type)</td>
+                <td>@Html.Label("", etablissement.Rue)</td>
+                <td>@Html.Label("", etablissement.NumeroBoite)</td>
+                <td>@Html.Label("", etablissement.Ville)</td>
+                <td>@Html.Label("", etablissement.Pays)</td>
+                <td>@Html.ActionLink("Modifier", "Edit", "AdministrationEtablissement", new { etablissementId = etablissement.Id }, new { @class = "btn btn-primary" })</td>
+
+                <td>
+                    @using (Html.BeginForm("Delete", "AdministrationEtablissement", new { etablissementId = etablissement.Id }, FormMethod.Post))
+                    {
+                        <span id="confirmDeleteSpan_@etablissement.Id" style="display:none">
+                            <span>Etes-vous sûr de vouloir supprimer cet établissement ?</span>
+                            <button type="submit" class="btn btn-danger">Oui</button>
+                            <a href="#" class="btn btn-primary" onclick="confirmDelete('@etablissement.Id', false)">Non</a>
+                        </span>
+
+                        <span id="deleteSpan_@etablissement.Id">
+                            <a href="#" class="btn btn-danger" onclick="confirmDelete('@etablissement.Id', true)">Supprimer</a>
+                        </span>
+                    }
+                </td>
+
+                @if (User.Claims.Any(x => x.Type.ToString() == "role" && (x.Value == "Administrateur")))
+                {
+                    @using (Html.BeginForm("Validate", "AdministrationEtablissement", new { etabId = etablissement.Id }, FormMethod.Post))
+                    {
+                        @if (!etablissement.estValide)
+                        {
+                            <th><button type="submit" name="button" value="true" class="btn btn-success">Valider</button></th>
+                        }
+                        else
+                        {
+                             <th><button type="submit" name="button" value="false" class="btn btn-warning">Dévalider</button></th>
+                        }
+                    }
+                    }
+
+                </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+else
+{
+    <h3>Il n'y a pas encore d'établissments validés</h3>
+}
+
+
+@section Scripts{
+    <script src="~/js/site.js"></script>
+}
+

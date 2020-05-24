@@ -30,6 +30,7 @@ namespace IdentityServer.Controllers
             this.CoronaOutWebUrl = url.Value.CoronaOutWeb;
         }
 
+        [HttpGet]
         public IActionResult Index (string returnUrl)
         {
             if (returnUrl == null)
@@ -42,6 +43,15 @@ namespace IdentityServer.Controllers
             vm.ReturnUrl = returnUrl;
 
             return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Index(TableauBordViewModel vm)
+        {
+            if (vm.ReturnUrl == null)
+                vm.ReturnUrl = CoronaOutWebUrl;
+
+            return Redirect(vm.ReturnUrl);
         }
 
         [HttpGet]

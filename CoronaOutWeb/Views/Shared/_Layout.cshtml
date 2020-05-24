@@ -22,20 +22,36 @@
                         <li class="nav-item">
                             @Html.ActionLink("Accueil", "Index", "Home", null, new { @class = "nav-link text-dark" })
                         </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("Etablissements", "Index", "Etablissements", null, new { @class = "nav-link text-dark" })
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Etablissements
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @Html.ActionLink("Liste complète", "ListeEtablissements", "Etablissements", null, new { @class = "nav-link text-dark" })
+                                <div class="dropdown-divider"></div>
+                                @Html.ActionLink("Fiche Individuelle", "Fiche", "Etablissements", null, new { @class = "nav-link text-dark" })
+                            </div>
                         </li>
-                        @if (User.IsInRole("Administrateur") || User.IsInRole("Gestionnaire"))
+
+                        @if (User.Claims.Any(x => x.Type.ToString() == "role" && (x.Value == "Administrateur" || x.Value == "Gestionnaire")))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Administration
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    @if (User.IsInRole("Administrateur"))
+                                    @if (User.Claims.Any(x => x.Value == "Gestionnaire" && x.Type.ToString() == "role"))
                                     {
-                                        @Html.ActionLink("Administration des utilisateurs", "Index", "Administration", null, new { @class = "nav-link text-dark" })
+                                        @Html.ActionLink("Ajouter un établissement", "Create", "AdministrationEtablissement", null, new { @class = "nav-link text-dark" })
                                         <div class="dropdown-divider"></div>
+                                        @Html.ActionLink("Gérer ses établissements", "ListeEtablissementOwned", "AdministrationEtablissement", null, new { @class = "nav-link text-dark" })
+                                    }
+
+                                    @if (User.Claims.Any(x => x.Value == "Administrateur" && x.Type.ToString() == "role"))
+                                    {
+                                        @Html.ActionLink("Gérer les établissements", "ListeEtablissementOwned", "AdministrationEtablissement", null, new { @class = "nav-link text-dark" })
+                                        <div class="dropdown-divider"></div>
+                                        @Html.ActionLink("Utilisateurs", "Index", "AdministrationUser", null, new { @class = "nav-link text-dark" })
                                     }
                                 </div>
                             </li>
