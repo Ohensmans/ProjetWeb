@@ -5,7 +5,8 @@
 
 <h1>Créer un nouvel établissement</h1>
 
-@using (Html.BeginForm(FormMethod.Post))
+
+@using (Html.BeginForm(FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
@@ -108,15 +109,25 @@
     </div>
 
     <div class="col-md-12 row">
-        <div class="form-group col-md-6">
-            <input type="hidden" name="MAX_FILE_SIZE" accept="Image/*" value="4194304" /><input type="file" />
+        @Html.LabelFor(model => model.Etab.Logo, new { @class = "control-label" })
+
+        <div class="custom-file">
+            <input asp-for="Logo" type="file" id="logo-input" accept="image/*" onchange="handleFiles(this.files)" class="form-control custom-file-input" />
+            <label id="logo-label" class="custom-file-label">Sélectionner l'image</label>
+            <div id="logoPreview">
+                <p>Aucun fichier sélectionné !</p>
+            </div>
         </div>
     </div>
 
+
+
+    <div class="col-md-11 row">
         <!--Photos-->
         <div class="form-group">
             @Html.LabelFor(model => model.Etab.lPhotos, new { @class = "control-label" })
         </div>
+
 
         <!--Horaires-->
         <div class="form-group">
@@ -136,10 +147,17 @@
             @Html.TextBoxFor(model => model.Etab.ZoneTexteLibre, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Etab.ZoneTexteLibre, "", new { @class = "text-danger" })
         </div>
-
+    </div>
 
         <button style="width:auto" type="submit" name="button" value="create" class="btn btn-primary">Créer le rôle</button>
         <button style="width:auto" type="submit" name="button" value="back" class="btn btn-danger">Retour</button>
 
+        }
+
+
+
+        @section Scripts{
+            <script src="toastr.js"></script>
+            <script src="~/js/UploadFiles.js"></script>
         }
 

@@ -1,4 +1,6 @@
-﻿using ModelesApi.POC;
+﻿using Microsoft.AspNetCore.Http;
+using ModelesApi.POC;
+using System;
 using System.Collections.Generic;
 using System.Reflection.Metadata.Ecma335;
 
@@ -20,5 +22,10 @@ namespace CoronaOutWeb.ViewModel
         public List<string> lPays { get; set; }
 
         public List<string> lJoursSemaines { get; set; }
+
+        public IFormFile Logo { get; set; }
+
+        public IFormFileCollection Photos { get; set; }
+
     }
 }

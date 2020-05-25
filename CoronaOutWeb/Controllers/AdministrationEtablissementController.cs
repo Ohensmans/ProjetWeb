@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CoronaOutWeb.ExternalApiCall.Etablissements;
@@ -8,6 +9,7 @@ using CoronaOutWeb.ViewModel;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using ModelesApi.POC;
@@ -19,19 +21,39 @@ namespace CoronaOutWeb.Controllers
     {
         private readonly string baseUrl;
         private readonly IEtablissementService etablissementService;
+        private readonly IHostingEnvironment hostingEnvironment;
 
-        public AdministrationEtablissementController(IOptions<BaseUrl> url, IEtablissementService etablissementService)
+        public AdministrationEtablissementController(IOptions<BaseUrl> url, IEtablissementService etablissementService, IHostingEnvironment hostingEnvironment)
         {
             this.baseUrl = url.Value.ApiEtablissement;
             this.etablissementService = etablissementService;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
         [HttpGet]
-        public IActionResult Create(string ReturnUrl)
+        public IActionResult Create()
         {
-            MonEtablissementViewModel vm = new MonEtablissementViewModel();
+            MonEtablissementViewModel model = new MonEtablissementViewModel();
 
-            return View(vm);
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Create(MonEtablissementViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string logoNom = null;
+                if (model.Logo !=null)
+                {
+                    string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "img", model.Etab.Id.ToString());
+                    logoNom = Guid.NewGuid().ToString() + "_" + model.Logo.FileName;
+                    string logoPath = Path.Combine(uploadFolder, logoNom);
+                    model.Logo.CopyTo(new FileStream(logoPath, FileMode.Create));
+                }
+            }
+
+            return View();
         }
 
 

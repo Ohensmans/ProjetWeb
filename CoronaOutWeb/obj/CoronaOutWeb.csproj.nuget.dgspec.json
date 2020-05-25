@@ -92,9 +92,17 @@
               "target": "Package",
               "version": "[12.0.3, )"
             },
+            "jQuery": {
+              "target": "Package",
+              "version": "[3.5.1, )"
+            },
             "libphonenumber-csharp": {
               "target": "Package",
               "version": "[8.12.4, )"
+            },
+            "toastr": {
+              "target": "Package",
+              "version": "[2.1.1, )"
             }
           },
           "imports": [
