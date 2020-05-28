@@ -8,11 +8,14 @@ namespace CoronaOutWeb.ViewModel
 {
     public class MonEtablissementViewModel
     {
-        public MonEtablissementViewModel()
+        public MonEtablissementViewModel(int nombrePhotos, int tailleMaxImages)
         {
             lTypeEtablissement = new TypeEtablissement().types;
             lPays = new Pays().lPays;
             lJoursSemaines = new JoursSemaine().lJours;
+            NombrePhotos = nombrePhotos;
+            TailleMaxImages = tailleMaxImages;
+            this.Photos = new IFormFile[NombrePhotos];
         }
 
         public Etablissement Etab { get; set; }
@@ -25,7 +28,8 @@ namespace CoronaOutWeb.ViewModel
 
         public IFormFile Logo { get; set; }
 
-        public IFormFileCollection Photos { get; set; }
-
+        public IFormFile[] Photos { get; set; }
+        public int NombrePhotos { get; set; }
+        public int TailleMaxImages { get; }
     }
 }

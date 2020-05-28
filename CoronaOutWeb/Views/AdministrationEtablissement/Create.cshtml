@@ -5,6 +5,8 @@
 
 <h1>Créer un nouvel établissement</h1>
 
+@Html.HiddenFor(model => model.NombrePhotos, new { @id = "nbPhotos", @value = Model.NombrePhotos })
+@Html.HiddenFor(model => model.TailleMaxImages, new { @id = "tailleMaxImage", @value = Model.TailleMaxImages })
 
 @using (Html.BeginForm(FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
@@ -53,16 +55,22 @@
     </div>
 
     <div class="col-md-12 row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
             @Html.LabelFor(model => model.Etab.CodePostal, "Code Postal", new { @class = "control-label" })
             @Html.TextBoxFor(model => model.Etab.CodePostal, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Etab.CodePostal, "", new { @class = "text-danger" })
         </div>
 
-        <div class="form-group col-md-8">
+        <div class="form-group col-md-5">
             @Html.LabelFor(model => model.Etab.Ville, new { @class = "control-label" })
             @Html.TextBoxFor(model => model.Etab.Ville, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Etab.Ville, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-5">
+            @Html.LabelFor(model => model.Etab.Pays, new { @class = "control-label" })
+            @Html.DropDownListFor(model => model.Etab.Pays, new SelectList(Model.lPays), "Sélectionnez votre pays", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Etab.Pays, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -82,13 +90,13 @@
 
     <div class="col-md-12 row">
         <div class="form-group col-md-6">
-            @Html.LabelFor(model => model.Etab.AdresseSiteWeb, new { @class = "control-label" })
+            @Html.LabelFor(model => model.Etab.AdresseSiteWeb, "Site Web", new { @class = "control-label" })
             @Html.TextBoxFor(model => model.Etab.AdresseSiteWeb, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Etab.AdresseSiteWeb, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group col-md-6">
-            @Html.LabelFor(model => model.Etab.AdresseInstagram, new { @class = "control-label" })
+            @Html.LabelFor(model => model.Etab.AdresseInstagram, "Instagram", new { @class = "control-label" })
             @Html.TextBoxFor(model => model.Etab.AdresseInstagram, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Etab.AdresseInstagram, "", new { @class = "text-danger" })
         </div>
@@ -96,68 +104,78 @@
 
     <div class="col-md-12 row">
         <div class="form-group col-md-6">
-            @Html.LabelFor(model => model.Etab.AdresseFacebook, new { @class = "control-label" })
+            @Html.LabelFor(model => model.Etab.AdresseFacebook, "Facebook", new { @class = "control-label" })
             @Html.TextBoxFor(model => model.Etab.AdresseFacebook, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Etab.AdresseFacebook, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group col-md-6">
-            @Html.LabelFor(model => model.Etab.AdresseLinkedin, new { @class = "control-label" })
+            @Html.LabelFor(model => model.Etab.AdresseLinkedin, "Linkedin", new { @class = "control-label" })
             @Html.TextBoxFor(model => model.Etab.AdresseLinkedin, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Etab.AdresseLinkedin, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="col-md-12 row">
-        @Html.LabelFor(model => model.Etab.Logo, new { @class = "control-label" })
+        <div class="form-group col-md-6">
+            @Html.Label("", "Photos de l'établissment", new { @class = "control-label" })
 
-        <div class="custom-file">
-            <input asp-for="Logo" type="file" id="logo-input" accept="image/*" onchange="handleFiles(this.files)" class="form-control custom-file-input" />
-            <label id="logo-label" class="custom-file-label">Sélectionner l'image</label>
+            @for (int i = 0; i < Model.NombrePhotos; i++)
+            {
+                <br />
+                <div class="custom-file" id="photo-@i">
+                    <input asp-for="Photos[i]" type="file" id="photo-input-@i" accept="image/*" onchange="handlePhotos(this.files,@i)" class="form-control custom-file-input" />
+                    <label id="photo-label-@i" class="custom-file-label">Sélectionner l'image</label>
+                </div>
+            }
+        </div>
+
+        <div class="form-group col-md-6">
+            @Html.Label("", "Logo de l'établissment", new { @class = "control-label" })
+            <div class="custom-file">
+                <input asp-for="Logo" type="file" id="logo-input" accept="image/*" onchange="handleLogo(this.files)" class="form-control custom-file-input" />
+                <label id="logo-label" class="custom-file-label">Sélectionner l'image</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 row">
+        <div class="form-group col-md-6">
+            <div id="PhotosPreview">
+                <p>Aucune photo sélectionné !</p>
+            </div>
+        </div>
+
+        <div class="form-group col-md-6">
             <div id="logoPreview">
-                <p>Aucun fichier sélectionné !</p>
+                <p>Aucun logo sélectionné !</p>
             </div>
         </div>
     </div>
 
 
-
-    <div class="col-md-11 row">
-        <!--Photos-->
-        <div class="form-group">
-            @Html.LabelFor(model => model.Etab.lPhotos, new { @class = "control-label" })
-        </div>
-
-
-        <!--Horaires-->
-        <div class="form-group">
-            @Html.LabelFor(model => model.Etab.lHoraire, new { @class = "control-label" })
-        </div>
-
-        <!--Logo-->
-        <div class="form-group">
-            @Html.LabelFor(model => model.Etab.Logo, new { @class = "control-label" })
-            @Html.TextBoxFor(model => model.Etab.Logo, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Etab.Logo, "", new { @class = "text-danger" })
-        </div>
-
-        <!--Zone de texte-->
-        <div class="form-group">
-            @Html.LabelFor(model => model.Etab.ZoneTexteLibre, new { @class = "control-label", @Wrap = "hard", @rows = "20" })
-            @Html.TextBoxFor(model => model.Etab.ZoneTexteLibre, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Etab.ZoneTexteLibre, "", new { @class = "text-danger" })
-        </div>
+    <!--Horaires-->
+    <div class="form-group">
+        @Html.LabelFor(model => model.Etab.lHoraire, new { @class = "control-label" })
     </div>
 
-        <button style="width:auto" type="submit" name="button" value="create" class="btn btn-primary">Créer le rôle</button>
-        <button style="width:auto" type="submit" name="button" value="back" class="btn btn-danger">Retour</button>
 
-        }
+    <!--Zone de texte-->
+    <div class="form-group">
+        @Html.LabelFor(model => model.Etab.ZoneTexteLibre, new { @class = "control-label", @Wrap = "hard", @rows = "20" })
+        @Html.TextBoxFor(model => model.Etab.ZoneTexteLibre, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Etab.ZoneTexteLibre, "", new { @class = "text-danger" })
+    </div>
+
+    <button style="width:auto" type="submit" name="button" value="create" class="btn btn-primary">Créer le rôle</button>
+    <button style="width:auto" type="submit" name="button" value="back" class="btn btn-danger">Retour</button>
+
+}
 
 
 
-        @section Scripts{
-            <script src="toastr.js"></script>
-            <script src="~/js/UploadFiles.js"></script>
-        }
+@section Scripts{
+    <script src="~/js/toastr.js"></script>
+    <script src="~/js/UploadFiles.js"></script>
+}
 

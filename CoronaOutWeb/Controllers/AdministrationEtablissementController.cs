@@ -22,6 +22,8 @@ namespace CoronaOutWeb.Controllers
         private readonly string baseUrl;
         private readonly IEtablissementService etablissementService;
         private readonly IHostingEnvironment hostingEnvironment;
+        private int NOMBREMAXPHOTOS = 5;
+        private int TAILLEMAXIMAGE = 3000000;
 
         public AdministrationEtablissementController(IOptions<BaseUrl> url, IEtablissementService etablissementService, IHostingEnvironment hostingEnvironment)
         {
@@ -33,7 +35,7 @@ namespace CoronaOutWeb.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            MonEtablissementViewModel model = new MonEtablissementViewModel();
+            MonEtablissementViewModel model = new MonEtablissementViewModel(NOMBREMAXPHOTOS, TAILLEMAXIMAGE);
 
             return View(model);
         }
