@@ -13,8 +13,15 @@ $(document).ready(function ()
     $("#logo-input").on("change", function ()
     {
         if (fileName !== null) {
-            var fileName = $(this).val().split("\\").pop();
-            $(this).next("#logo-label").html(fileName);
+            //vérifie la taille du fichier
+            if (checkSize(this)) {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next("#logo-label").html(fileName);
+            }
+            else {
+                toastRMaxSize();
+            }
+
         }
         else {
             $(this).next("#logo-label").innerHTML = "Sélectionner l'image";
@@ -99,55 +106,23 @@ function toastRMaxSize() {
 
 function handleLogo(files) {
 
-    if (!files.length)
-    {
-        logoPreview.innerHTML = "<p>Aucun fichier sélectionné !</p>";
-    }
-    else
-    {
-        if (files[0].size <= tailleMaxImage) {
-            logoPreview.innerHTML = "";
-            var list = document.createElement("ul");
-            list.id = "ulReviewLogo";
-            logoPreview.appendChild(list);
-
-            var li = document.createElement("li");
-            li.id = "";
-            list.appendChild(li);
-
-            var img = document.createElement("img");
-            img.src = window.URL.createObjectURL(files[0]);
-            img.height = 60;
-            img.onload = function () {
-                window.URL.revokeObjectURL(this.src);
-            }
-            li.appendChild(img);
-
-            var buttonDelete = document.createElement("div");
-            buttonDelete.className = "btn btn-danger";
-            buttonDelete.innerHTML = "Supprimer";
-            buttonDelete.onclick = supprimerLogo;
-            buttonDelete.id = "deleteLogo";
-            li.appendChild(buttonDelete);
-
-        }
-    }
-}
-
-function handlePhotos(files, nummer) {
-
     if (files[0].size <= tailleMaxImage) {
+        logoPreview.innerHTML = "";
 
-        if (photoPreview.children[0].tagName == "P") {
-            photoPreview.innerHTML = "";
-        }
+        
         var list = document.createElement("ul");
-        list.id = "ulReviewPhoto-" + nummer;
-        photoPreview.appendChild(list);
+        list.id = "ulReviewLogo";
+        list.className = "list-group";
+        logoPreview.appendChild(list);
 
         var li = document.createElement("li");
         li.id = "";
+        li.className = "list-group-item d-flex";
         list.appendChild(li);
+        
+        var div = document.createElement("div");
+        div.id = "divReviewLogo";
+        logoPreview.appendChild(div);
 
         var img = document.createElement("img");
         img.src = window.URL.createObjectURL(files[0]);
@@ -155,10 +130,44 @@ function handlePhotos(files, nummer) {
         img.onload = function () {
             window.URL.revokeObjectURL(this.src);
         }
+        img.className = " align-self-start p-2";
         li.appendChild(img);
 
         var buttonDelete = document.createElement("div");
-        buttonDelete.className = "btn btn-danger";
+        buttonDelete.className = "btn btn-danger align-self-center ml-auto p2";
+        buttonDelete.innerHTML = "Supprimer";
+        buttonDelete.onclick = supprimerLogo;
+        buttonDelete.id = "deleteLogo";
+        li.appendChild(buttonDelete);
+    }
+}
+
+
+function handlePhotos(files, nummer) {
+
+    if (files[0].size <= tailleMaxImage) {
+
+        var list = document.createElement("ul");
+        list.id = "ulReviewPhoto-" + nummer;
+        list.className = "list-group";
+        photoPreview.appendChild(list);
+
+        var li = document.createElement("li");
+        li.id = "";
+        li.className = "list-group-item d-flex";
+        list.appendChild(li);
+
+        var img = document.createElement("img");
+        img.src = window.URL.createObjectURL(files[0]);
+        img.height = 60;
+        img.className = " align-self-start p-2";
+        img.onload = function () {
+            window.URL.revokeObjectURL(this.src);
+        }
+        li.appendChild(img);
+
+        var buttonDelete = document.createElement("div");
+        buttonDelete.className = "btn btn-danger align-self-center ml-auto p2";
         buttonDelete.innerHTML = "Supprimer";
         buttonDelete.onclick = supprimerPhoto;
         buttonDelete.id = "deletePhoto-" + nummer;
@@ -174,8 +183,8 @@ function supprimerLogo() {
     var controle = $("#logo-input");
     controle.replaceWith(controle.val('').clone(true));
 
-    logoPreview.innerHTML = "<p>Aucun fichier sélectionné !</p>";
     logoSelect.innerHTML = "Sélectionner l'image";
+    logoPreview.innerHTML = "";
 }
 
 function supprimerPhoto() {
@@ -195,16 +204,8 @@ function supprimerPhoto() {
     element.parentNode.removeChild(element);
 
     reinitializebutton(num);
-
-    checkEmptyPreview();
 }
 
-function checkEmptyPreview() {
-
-    if (!photoPreview.children.length) {
-        photoPreview.innerHTML = "<p>Aucune image sélectionnée !</p>";
-    }
-}
 
 function reinitializebutton(num) {
 

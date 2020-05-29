@@ -4,6 +4,7 @@ using CoronaOutWeb.ExternalApiCall.Users;
 using CoronaOutWeb.ExternalApiCall.VAT;
 using CoronaOutWeb.Models;
 using CoronaOutWeb.Validator;
+using CoronaOutWeb.ViewModel;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using ModelesApi.POC;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -59,9 +61,17 @@ namespace CoronaOutWeb
                         options.ClientSecret = "secret" ;
                         options.SaveTokens = true;
 
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            NameClaimType = "name",
+                            RoleClaimType = "role"
+                        };
+
                         options.Scope.Add("Api");
                         options.Scope.Add("ApiExterne");
                         options.Scope.Add("role");
+
+
 
                         options.ClaimActions.Add(new JsonKeyClaimAction("role", "role", "role"));
                     });
@@ -81,6 +91,7 @@ namespace CoronaOutWeb
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IValidator<Utilisateur>, UtilisateurValidator>();
             services.AddTransient<IValidator<Etablissement>, EtablissementValidator>();
+            services.AddTransient<IValidator<MonEtablissementViewModel>, MonEtablissementViewValidator>();
 
             services.Configure<BaseUrl>(Configuration.GetSection("BaseUrl"));
             services.Configure<BaseKey>(Configuration.GetSection("ApiKey"));

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using ModelesApi.POC;
-using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
 
 namespace CoronaOutWeb.ViewModel
 {
@@ -16,6 +14,19 @@ namespace CoronaOutWeb.ViewModel
             NombrePhotos = nombrePhotos;
             TailleMaxImages = tailleMaxImages;
             this.Photos = new IFormFile[NombrePhotos];
+            this.Etab = new Etablissement();
+            this.Etab.lHoraire = new List<Horaire>();
+        }
+
+        public MonEtablissementViewModel()
+        {
+            lTypeEtablissement = new TypeEtablissement().types;
+            lPays = new Pays().lPays;
+            lJoursSemaines = new JoursSemaine().lJours;
+            this.Photos = new IFormFile[NombrePhotos];
+            this.Etab = new Etablissement();
+            this.Etab.lHoraire = new List<Horaire>();
+
         }
 
         public Etablissement Etab { get; set; }
@@ -30,6 +41,6 @@ namespace CoronaOutWeb.ViewModel
 
         public IFormFile[] Photos { get; set; }
         public int NombrePhotos { get; set; }
-        public int TailleMaxImages { get; }
+        public int TailleMaxImages { get; set; }
     }
 }

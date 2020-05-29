@@ -41,7 +41,7 @@ namespace CoronaOutWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(MonEtablissementViewModel model)
+        public IActionResult Create([Bind("Etab.lHoraire")]MonEtablissementViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -55,7 +55,13 @@ namespace CoronaOutWeb.Controllers
                 }
             }
 
-            return View();
+            return View(model);
+        }
+
+        public async Task<ActionResult> AddHoraire([Bind("Etab.lHoraire")] MonEtablissementViewModel vm)
+        {
+            vm.Etab.lHoraire.Add(new Horaire());
+            return PartialView("AddHoraire", vm);
         }
 
 

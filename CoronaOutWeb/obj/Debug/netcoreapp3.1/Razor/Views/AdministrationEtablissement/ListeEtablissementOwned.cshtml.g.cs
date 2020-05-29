@@ -26,8 +26,15 @@ using CoronaOutWeb.Models;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 3 "C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\Views\_ViewImports.cshtml"
+using ModelesApi.POC;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"0cee0755c9311760981c59b8b6d8066965c32640", @"/Views/AdministrationEtablissement/ListeEtablissementOwned.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"67702167942b970e49a90229711004b23a2676e4", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"35edebf89ec85c9747c0b08c1524e1804b948fe9", @"/Views/_ViewImports.cshtml")]
     public class Views_AdministrationEtablissement_ListeEtablissementOwned : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<CoronaOutWeb.ViewModel.ListeEtablissementsViewModel>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("src", new global::Microsoft.AspNetCore.Html.HtmlString("~/js/site.js"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -378,7 +385,7 @@ else
             WriteLiteral("\r\n\r\n");
             DefineSection("Scripts", async() => {
                 WriteLiteral("\r\n    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0cee0755c9311760981c59b8b6d8066965c3264016917", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0cee0755c9311760981c59b8b6d8066965c3264017106", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();

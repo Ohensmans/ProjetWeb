@@ -7,6 +7,11 @@ namespace ModelesApi.POC
 {
     public class News
     {
+
+        public News()
+        {
+            this.Id = Guid.NewGuid();
+        }
         public Guid Id { get; set; }
 
         public string Message { get; set; }

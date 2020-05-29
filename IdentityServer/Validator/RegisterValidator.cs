@@ -7,11 +7,9 @@ namespace IdentityServer.Validator
 {
     public class RegisterValidator : AbstractValidator<RegisterViewModel>
     {
-        private readonly UserManager<Utilisateur> userManager;
 
         public RegisterValidator(UserManager<Utilisateur> userManager)
         {
-            this.userManager = userManager;
 
             RuleFor(x => x.Password)
                 .NotNull().WithMessage("Le mot de passe doit être rempli")
@@ -19,6 +17,7 @@ namespace IdentityServer.Validator
                 .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{8,}$").WithMessage("Le mot de passe doit contenir au moins : une miniscule, une majuscule, un chiffre et un caractère spécial");
 
             RuleFor(x => x.ConfirmPassword)
+                .NotNull().WithMessage("Le mot de passe de confirmation doit être rempli")
                 .Equal(x => x.Password).WithMessage("Les 2 champs mot de passes doivent être identiques");
 
             RuleFor(x => x.User)

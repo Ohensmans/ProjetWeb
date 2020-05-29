@@ -1,0 +1,14 @@
+﻿@model ModelesApi.POC.Horaire
+
+<td>
+    @Html.HiddenFor(model => model.Id)
+    @Html.DropDownListFor(model => model.Jour, new SelectList(new JoursSemaine().lJours), "Sélectionnez le jour", new { @class = "form-control" })
+</td>
+<td>
+    @Html.TextBoxFor(model => model.HeureOuverture, "{0:hh\\mm}",new { @class = "form-control", @id = "timePicker", @type = "time" })
+</td>
+<td>
+    @Html.TextBoxFor(model => model.HeureFermeture, "{0:hh\\mm}", new { @class = "form-control", @id = "timePicker", @type = "time" })
+</td>
+
+

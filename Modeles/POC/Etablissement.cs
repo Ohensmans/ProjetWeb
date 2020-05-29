@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 
 namespace ModelesApi.POC
 {
     public class Etablissement
     {
+        public Etablissement()
+        {
+            this.Id = Guid.NewGuid();
+        }
+        
         public Guid Id { get; set; }
 
         public string Type { get; set; }
