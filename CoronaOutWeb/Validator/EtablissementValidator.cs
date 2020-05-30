@@ -5,7 +5,9 @@ using IdentityServer4.Test;
 using Microsoft.Extensions.Options;
 using ModelesApi.ExternalApi;
 using ModelesApi.POC;
+using System;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,8 +33,7 @@ namespace CoronaOutWeb.Validator
 
             RuleFor(x => x.AdresseEmailPro)
                 .NotNull().WithMessage("Ce champ est obligatoire")
-                .Matches(@"^([\w]+)@([\w]+)\.([\w]+)$").WithMessage("L'adresse mail doit être valide")
-                .Matches(@"^[\w]@\.").WithMessage("L'adresse mail ne doit pas contenir de caractères spéciaux")
+                .Must(MailEstValide).WithMessage("L'adresse mail doit être valide")
                 .MaximumLength(255).WithMessage("Maximum 255 charactères");
 
             RuleFor(x => x.ZoneTexteLibre)
@@ -63,8 +64,7 @@ namespace CoronaOutWeb.Validator
                 .Must(NumTelEstValide).WithMessage("Le numéro de téléphone doit être valide");
 
             RuleFor(x => x.AdresseEmailEtablissement)
-                .Matches(@"^([\w]+)@([\w]+)\.([\w]+)$").WithMessage("L'adresse mail doit être valide")
-                .Matches(@"^[\w]@\.").WithMessage("L'adresse mail ne doit pas contenir de caractères spéciaux")
+                .Must(MailEstValide).WithMessage("L'adresse mail doit être valide")
                 .MaximumLength(255).WithMessage("Maximum 255 caractères");
 
             RuleFor(x => x.AdresseSiteWeb)
@@ -92,7 +92,7 @@ namespace CoronaOutWeb.Validator
             if (newValue != null)
             {
                 var phoneNumberUtil = PhoneNumbers.PhoneNumberUtil.GetInstance();
-                var phoneNumber = phoneNumberUtil.Parse(newValue, null);
+                var phoneNumber = phoneNumberUtil.Parse(newValue, "BE");
                 return phoneNumberUtil.IsValidNumber(phoneNumber);
             }
             return true;
@@ -107,6 +107,22 @@ namespace CoronaOutWeb.Validator
         public bool PaysEstDansListe(string newValue)
         {
             return new Pays().lPays.Any(x => x.Equals(newValue));
+        }
+
+        public bool MailEstValide(string newValue)
+        {
+            try
+            {
+                if (newValue != null)
+                {
+                    MailAddress email = new MailAddress(newValue);
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
 
     }

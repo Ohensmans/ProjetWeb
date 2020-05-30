@@ -11,7 +11,7 @@ namespace CoronaOutWeb.ExternalApiCall.Etablissements
 
         Task<Etablissement> GetEtablissementAsync(Guid id);
 
-        Task<Etablissement> CreateEtablissementAsync(Etablissement etablissement);
+        Task<Etablissement> CreateEtablissementAsync(Etablissement etablissement, string idToken);
 
         Task<Etablissement> UpdateEtablissementAsync(Etablissement etablissement, string idToken);
 

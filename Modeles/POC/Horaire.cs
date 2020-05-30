@@ -21,6 +21,5 @@ namespace ModelesApi.POC
 
         public Etablissement Etablissement { get; set; }
 
-        public bool IsDeleted { get; set; }
     }
 }

@@ -15,8 +15,11 @@ namespace CoronaOutWeb.Validator
                 .SetValidator(new EtablissementValidator(vatValidator));
 
             RuleFor(x => x.Photos)
-                .Must(coll => coll.Count() <= NOMBREPHOTOMAX);
+                .Must(coll => coll == null || coll.Count <= NOMBREPHOTOMAX);
         }
 
     }
+
+
+
 }

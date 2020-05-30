@@ -174,3 +174,4 @@ C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\CoronaOutWeb.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\AdministrationEtablissement\AddHoraire.cshtml.g.cs
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\Shared\EditorTemplates\Horaire.cshtml.g.cs
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\Shared\EditorTemplates\IFormFile.cshtml.g.cs

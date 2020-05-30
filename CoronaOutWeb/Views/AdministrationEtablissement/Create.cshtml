@@ -11,7 +11,7 @@
     @Html.HiddenFor(model => model.NombrePhotos, new { @id = "nbPhotos", @value = Model.NombrePhotos })
     @Html.HiddenFor(model => model.TailleMaxImages, new { @id = "tailleMaxImage", @value = Model.TailleMaxImages })
 
-    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(false, "", new { @class = "text-danger", @id = "validation-summary" })
 
 
     <div class="col-md-12 row">
@@ -141,7 +141,7 @@
             @for (int i = 0; i < Model.NombrePhotos; i++)
             {
                 <div class="custom-file" id="photo-@i">
-                    <input asp-for="Photos[i]" type="file" id="photo-input-@i" accept="image/*" onchange="handlePhotos(this.files,@i)" class="form-control custom-file-input" />
+                    <input asp-for="@Model.Photos[i]" type="file" id="photo-input-@i" accept="image/*" onchange="handlePhotos(this.files,@i)" class="form-control custom-file-input" />
                     <label id="photo-label-@i" class="custom-file-label">Sélectionner l'image</label>
                     <br />
                 </div>
@@ -178,19 +178,26 @@
     <div class="col-md-12">
         @Html.Label("", "Horaire de l'établissement", new { @class = "control-label" })
         <table id="tab-horaires" class="table table-striped col-md-12">
-            <tr>
+            <tr id="titre">
                 <th>Jour</th>
                 <th>Heure d'ouverture</th>
                 <th>Heure de fermeture</th>
                 <th>Supprimer</th>
             </tr>
+            <tbody id="horaire-container">
+                @foreach (Horaire horaire in Model.Etab.lHoraire)
+                {
+                    @await Html.PartialAsync("~/Views/Shared/EditorTemplates/Horaire.cshtml", horaire);
+                }
+            </tbody>
+
         </table>
         <br />
         <input class="btn btn-success" type="button" id="addHoraire" value="Ajouter un horaire" />
-        <br/>
+        <br />
     </div>
 
-    <br/>
+    <br />
 
     <div class="col-md-12">
         <!--Zone de texte-->
@@ -201,17 +208,18 @@
         </div>
     </div>
 
-        <button style="width:auto" type="submit" name="button" value="create" class="btn btn-primary">Créer l'établissement</button>
-        <button style="width:auto" type="submit" name="button" value="back" class="btn btn-danger">Retour</button>
+    <button style="width:auto" type="submit" name="button" value="create" class="btn btn-primary">Créer l'établissement</button>
+    <button style="width:auto" type="submit" name="button" value="back" class="btn btn-danger">Retour</button>
 
-        }
+}
 
 
 
-        @section Scripts{
-            <script src="~/js/toastr.js"></script>
-            <script src="~/js/RemplissageFormulaire.js"></script>
-            <script src="~/js/UploadFiles.js"></script>
-            <script src="~/js/AddHoraire.js"></script>
-        }
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/toastr.js"></script>
+    <script src="~/js/RemplissageFormulaire.js"></script>
+    <script src="~/js/UploadFiles.js"></script>
+    <script src="~/js/AddHoraire.js"></script>
+}
 

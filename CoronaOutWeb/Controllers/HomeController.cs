@@ -33,6 +33,8 @@ namespace CoronaOutWeb.Controllers
 
             var test = User.Claims.Any(x => x.Value == "Administrateur" && x.Type.ToString()=="role");
 
+            var test2 = User.Claims.FirstOrDefault(x => x.Type.ToString() == "sub").Value;
+
             return View();
         }
 

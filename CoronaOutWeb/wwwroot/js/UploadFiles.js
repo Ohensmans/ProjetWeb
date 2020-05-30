@@ -51,7 +51,9 @@ $(document).ready(function ()
             }
         }
 
-    })   
+    })
+
+    
 });
 
 window.onload = function ()
@@ -62,6 +64,8 @@ window.onload = function ()
         var logoId = "#photo-" + i;
         $(logoId).hide();
     }
+
+    checkValidation();
 }
 
 window.URL = window.URL || window.webkitURL;
@@ -76,6 +80,31 @@ function checkSize(element) {
     }    
     else
         return true;
+}
+
+function checkValidation() {
+    if ($("#validation-summary").find("li")[0].innerHTML !== "") {
+
+        toastr["warning"]("Si vous aviez chargé des images (photos, logo), elles doivent être rechargées")
+
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+    }
 }
 
 function toastRMaxSize() {
@@ -222,4 +251,6 @@ function reinitializebutton(num) {
         $(bouton).hide();
     }
 }
+
+
 

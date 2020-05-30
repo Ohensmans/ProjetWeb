@@ -24,9 +24,21 @@ namespace CoronaOutWeb.ExternalApiCall.Etablissements
             
         }
 
-        public Task<Etablissement> CreateEtablissementAsync(Etablissement etablissement)
+        public async Task<Etablissement> CreateEtablissementAsync(Etablissement etablissement, string idToken)
         {
-            throw new NotImplementedException();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", idToken);
+
+            var content = JsonConvert.SerializeObject(etablissement);
+            var httpResponse = await client.PostAsync(baseUrl, new StringContent(content, Encoding.Default, "application/json"));
+
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                throw new Exception("Impossible de créer l'établissement");
+            }
+
+            var createdTask = JsonConvert.DeserializeObject<Etablissement>(await httpResponse.Content.ReadAsStringAsync());
+            return createdTask;
+
         }
 
         public Task DeleteEtablissementAsync(Guid id)
