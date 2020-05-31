@@ -8,6 +8,8 @@ namespace CoronaOutWeb.Models
     public class BaseUrl
     {
         public string ApiEtablissement { get; set; }
+        public string ApiHoraire { get; set; }
+        public string ApiPhoto { get; set; }
 
         public string ApiNews { get; set; }
 

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "TxQUxdYBPJOmbJXHiLvpY9XiZTfMXBAal0eJ68lEl0unyBVtMfLBQ+dNsC/CVvt+HVRtPb2RvhdhYdTMSSurcw==",
+  "dgSpecHash": "x/IiVR0RSj82v/r2SbZNWL8ACHcOEWGedFMV2FR6ymZ6/xiCwyB0D2Rc0gfteXoCmfM46SLwB3Z+Yp9xQ8kOnA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Olivier\\Desktop\\Projets Git\\ProjetWeb\\Repo\\Repo.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Olivier\\.nuget\\packages\\macross.json.extensions\\1.5.0\\macross.json.extensions.1.5.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.2.0\\microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",
@@ -113,6 +114,7 @@
     "C:\\Users\\Olivier\\.nuget\\packages\\system.text.encoding.codepages\\4.5.0\\system.text.encoding.codepages.4.5.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\system.text.encoding.extensions\\4.3.0\\system.text.encoding.extensions.4.3.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\system.text.encodings.web\\4.5.0\\system.text.encodings.web.4.5.0.nupkg.sha512",
+    "C:\\Users\\Olivier\\.nuget\\packages\\system.text.json\\4.7.0\\system.text.json.4.7.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\system.text.regularexpressions\\4.3.0\\system.text.regularexpressions.4.3.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\system.threading\\4.3.0\\system.threading.4.3.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",

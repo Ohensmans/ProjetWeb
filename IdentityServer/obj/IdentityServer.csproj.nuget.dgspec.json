@@ -147,6 +147,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "Macross.Json.Extensions": {
+              "target": "Package",
+              "version": "[1.5.0, )"
+            },
             "Microsoft.AspNetCore.Identity": {
               "target": "Package",
               "version": "[2.2.0, )"

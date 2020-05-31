@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace CoronaOutWeb.Views.Shared.EditorTemplates
+namespace CoronaOutWeb.Views.AdministrationEtablissement
 {
-    public class IFormFileModel : PageModel
+    public class ListeHoraireModel : PageModel
     {
         public void OnGet()
         {

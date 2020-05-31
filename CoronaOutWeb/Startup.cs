@@ -73,7 +73,7 @@ namespace CoronaOutWeb
 
 
 
-                        options.ClaimActions.Add(new JsonKeyClaimAction("role", "role", "role"));
+                        //options.ClaimActions.Add(new JsonKeyClaimAction("role", "role", "role"));
                     });
 
             services.AddAuthorization(options =>
@@ -88,10 +88,13 @@ namespace CoronaOutWeb
             services.UseServicesEtablissements();
             services.AddTransient<IVATService, VATService>();
             services.AddTransient<IEtablissementService, EtablissementService>();
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IValidator<Utilisateur>, UtilisateurValidator>();
+            services.AddTransient<IPhotoService, PhotoService>();
+            services.AddTransient<IHoraireService, HoraireService>();
+            //services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IValidator<Horaire>, HoraireValidator>();
+            //services.AddTransient<IValidator<Utilisateur>, UtilisateurValidator>();
             services.AddTransient<IValidator<Etablissement>, EtablissementValidator>();
-            services.AddTransient<IValidator<MonEtablissementViewModel>, MonEtablissementViewValidator>();
+            services.AddTransient<IValidator<CreateEtablissementViewModel>, MonEtablissementViewValidator>();
 
             services.Configure<BaseUrl>(Configuration.GetSection("BaseUrl"));
             services.Configure<BaseKey>(Configuration.GetSection("ApiKey"));

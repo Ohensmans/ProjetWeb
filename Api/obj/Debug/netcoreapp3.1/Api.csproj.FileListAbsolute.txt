@@ -184,6 +184,7 @@ C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\bin\Debug\netcoreapp3.1\Micro
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\bin\Debug\netcoreapp3.1\Macross.Json.Extensions.dll
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\obj\Debug\netcoreapp3.1\Api.csproj.CoreCompileInputs.cache
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cache

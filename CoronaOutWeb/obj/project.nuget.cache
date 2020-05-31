@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "WzvdCp4iTZ8spbP9+ws9Cddpnv7AfgXh2QlAPncCZJIxda5X0dT8m3DGamfRXFe5LLQeQ8Qp+Dd7pp3iJqBWHA==",
+  "dgSpecHash": "F8UXDJ1t8XSObFbTDL+JWlICNwFXL15FLoiaBPZyjWzoLU1k+WNxibeyF+XK4KCIFOsFbvoI1ToObhGm+7qt3g==",
   "success": true,
   "projectFilePath": "C:\\Users\\Olivier\\Desktop\\Projets Git\\ProjetWeb\\CoronaOutWeb\\CoronaOutWeb.csproj",
   "expectedPackageFiles": [
@@ -12,6 +12,7 @@
     "C:\\Users\\Olivier\\.nuget\\packages\\identityserver4.storage\\3.1.3\\identityserver4.storage.3.1.3.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\jquery\\3.5.1\\jquery.3.5.1.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\libphonenumber-csharp\\8.12.4\\libphonenumber-csharp.8.12.4.nupkg.sha512",
+    "C:\\Users\\Olivier\\.nuget\\packages\\macross.json.extensions\\1.5.0\\macross.json.extensions.1.5.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.2.0\\microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",
@@ -190,6 +191,7 @@
     "C:\\Users\\Olivier\\.nuget\\packages\\system.text.encoding.codepages\\4.5.1\\system.text.encoding.codepages.4.5.1.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\system.text.encoding.extensions\\4.3.0\\system.text.encoding.extensions.4.3.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\system.text.encodings.web\\4.6.0\\system.text.encodings.web.4.6.0.nupkg.sha512",
+    "C:\\Users\\Olivier\\.nuget\\packages\\system.text.json\\4.7.0\\system.text.json.4.7.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\system.text.regularexpressions\\4.3.0\\system.text.regularexpressions.4.3.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\system.threading\\4.3.0\\system.threading.4.3.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",

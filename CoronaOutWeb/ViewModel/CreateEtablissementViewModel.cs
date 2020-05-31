@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace CoronaOutWeb.ViewModel
 {
-    public class MonEtablissementViewModel
+    public class CreateEtablissementViewModel
     {
-        public MonEtablissementViewModel(int nombrePhotos, int tailleMaxImages)
+        public CreateEtablissementViewModel(int nombrePhotos, int tailleMaxImages)
         {
             lTypeEtablissement = new TypeEtablissement().types;
             lPays = new Pays().lPays;
@@ -14,16 +14,28 @@ namespace CoronaOutWeb.ViewModel
             NombrePhotos = nombrePhotos;
             TailleMaxImages = tailleMaxImages;
             this.Etab = new Etablissement();
-            this.Etab.lHoraire = new List<Horaire>();
+            this.lHoraire = new List<Horaire>();
+
+            this.Photos = new PhotoGeneriqueViewModel[NombrePhotos];
+            for (int i = 0; i< NombrePhotos; i++)
+            {
+                Photos[i] = new PhotoGeneriqueViewModel();
+            }
         }
 
-        public MonEtablissementViewModel()
+        public CreateEtablissementViewModel()
         {
             lTypeEtablissement = new TypeEtablissement().types;
             lPays = new Pays().lPays;
             lJoursSemaines = new JoursSemaine().lJours;
             this.Etab = new Etablissement();
-            this.Etab.lHoraire = new List<Horaire>();
+            this.lHoraire = new List<Horaire>();
+
+            this.Photos = new PhotoGeneriqueViewModel[NombrePhotos];
+            for (int i = 0; i < NombrePhotos; i++)
+            {
+                Photos[i] = new PhotoGeneriqueViewModel();
+            }
 
         }
 
@@ -37,7 +49,9 @@ namespace CoronaOutWeb.ViewModel
 
         public IFormFile Logo { get; set; }
 
-        public List<IFormFile> Photos { get; set; }
+        public PhotoGeneriqueViewModel[] Photos { get; set; }
+
+        public List<Horaire> lHoraire { get; set; }
         public int NombrePhotos { get; set; }
         public int TailleMaxImages { get; set; }
     }

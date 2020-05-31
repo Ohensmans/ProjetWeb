@@ -50,14 +50,14 @@ $(document).ready(function ()
                 toastRMaxSize();
             }
         }
-
     })
 
     
 });
 
-window.onload = function ()
-{
+
+
+window.onload = function () {
     //affiche uniquement le premier bouton upload pour les photos
     console.log($(this));
     for (var i = 1; i < nombreMaxPhoto; i++) {

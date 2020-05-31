@@ -54,7 +54,7 @@ namespace Api.Data.Migrations.EtablissementDb
                     b.Property<DateTime>("DatePublication")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 5, 30, 18, 23, 24, 785, DateTimeKind.Local).AddTicks(9651));
+                        .HasDefaultValue(new DateTime(2020, 5, 31, 11, 52, 55, 873, DateTimeKind.Local).AddTicks(8850));
 
                     b.Property<string>("Logo")
                         .HasColumnType("nvarchar(max)");
@@ -116,7 +116,7 @@ namespace Api.Data.Migrations.EtablissementDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("EtablissementId")
+                    b.Property<Guid>("EtablissementId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<TimeSpan>("HeureFermeture")
@@ -141,7 +141,7 @@ namespace Api.Data.Migrations.EtablissementDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("EtablissementId")
+                    b.Property<Guid>("EtablissementId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("NomFichier")
@@ -159,7 +159,8 @@ namespace Api.Data.Migrations.EtablissementDb
                     b.HasOne("ModelesApi.POC.Etablissement", "Etablissement")
                         .WithMany("lHoraire")
                         .HasForeignKey("EtablissementId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ModelesApi.POC.PhotoEtablissement", b =>
@@ -167,7 +168,8 @@ namespace Api.Data.Migrations.EtablissementDb
                     b.HasOne("ModelesApi.POC.Etablissement", "Etablissement")
                         .WithMany("lPhotos")
                         .HasForeignKey("EtablissementId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

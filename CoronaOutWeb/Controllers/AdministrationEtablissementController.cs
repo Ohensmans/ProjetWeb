@@ -20,30 +20,32 @@ namespace CoronaOutWeb.Controllers
     [Authorize(Policy = "Modificateur")]
     public class AdministrationEtablissementController : Controller
     {
-        private readonly string baseUrl;
         private readonly IEtablissementService etablissementService;
         private readonly IWebHostEnvironment hostingEnvironment;
+        private readonly IPhotoService photoService;
+        private readonly IHoraireService horaireService;
         private int NOMBREMAXPHOTOS = 5;
         private int TAILLEMAXIMAGE = 3000000;
 
-        public AdministrationEtablissementController(IOptions<BaseUrl> url, IEtablissementService etablissementService, IWebHostEnvironment hostingEnvironment)
+        public AdministrationEtablissementController(IEtablissementService etablissementService, IWebHostEnvironment hostingEnvironment, IPhotoService photoService, IHoraireService horaireService)
         {
-            this.baseUrl = url.Value.ApiEtablissement;
             this.etablissementService = etablissementService;
             this.hostingEnvironment = hostingEnvironment;
+            this.photoService = photoService;
+            this.horaireService = horaireService;
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            MonEtablissementViewModel model = new MonEtablissementViewModel(NOMBREMAXPHOTOS, TAILLEMAXIMAGE);
+            CreateEtablissementViewModel model = new CreateEtablissementViewModel(NOMBREMAXPHOTOS, TAILLEMAXIMAGE);
 
             return View(model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Create(MonEtablissementViewModel model)
+        public async Task<IActionResult> Create(CreateEtablissementViewModel model)
         {
             try
             {
@@ -58,6 +60,7 @@ namespace CoronaOutWeb.Controllers
                         Etablissement newEtabl = new Etablissement();
                         newEtabl = model.Etab;
                         Guid userGuid;
+                        
                         if (Guid.TryParse(userId, out userGuid))
                         {
                             newEtabl.PublieParUserId = userGuid;
@@ -68,13 +71,8 @@ namespace CoronaOutWeb.Controllers
                             RedirectToAction("Index", "Home");
                         }
 
+                        
                         newEtabl.DatePublication = DateTime.Now;
-
-
-                        foreach (Horaire horaire in newEtabl.lHoraire)
-                        {
-                            horaire.Etablissement = newEtabl;
-                        }
 
                         string logoNom = "";
                         if (model.Logo != null)
@@ -94,48 +92,31 @@ namespace CoronaOutWeb.Controllers
                             //charge le nom du fichier dans le nouvel établissement
                             newEtabl.Logo = logoNom;
                         }
+                        
 
-                        if (model.Photos != null)
-                        {
-                            foreach (IFormFile photo in model.Photos)
-                            {
-                                if (photo != null)
-                                {
-                                    //charge la photo sur le serveur
-                                    string PhotoNom = "";
-                                    string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "img", "Etablissement", newEtabl.Id.ToString(), "Photos");
 
-                                    if (!Directory.Exists(uploadFolder))
-                                    {
-                                        DirectoryInfo di = Directory.CreateDirectory(uploadFolder);
-                                    }
-
-                                    Guid photoGuid = Guid.NewGuid();
-                                    PhotoNom = photoGuid.ToString() + "_" + photo.FileName;
-                                    string logoPath = Path.Combine(uploadFolder, PhotoNom);
-                                    photo.CopyTo(new FileStream(logoPath, FileMode.Create));
-
-                                    //crée l'objet photo
-                                    PhotoEtablissement photoNew = new PhotoEtablissement();
-                                    photoNew.Id = photoGuid;
-                                    photoNew.NomFichier = PhotoNom;
-                                    photoNew.Etablissement = newEtabl;
-
-                                    //rajoute la photo à l'établissement
-                                    newEtabl.lPhotos.Add(photoNew);
-                                }
-                            }
-                        }
-
+                        //crée l'établissement
                         var idToken = await HttpContext.GetTokenAsync("access_token");
                         try
                         {
                             var result = await etablissementService.CreateEtablissementAsync(newEtabl, idToken);
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
-                            return View(new ErrorViewModel { RequestId = ex.Message });
+                            return View("Error");
                         }
+
+                        //crée les photos
+                        if (model.Photos != null)
+                        {
+                            foreach (PhotoGeneriqueViewModel photo in model.Photos)
+                            {
+                                createPhotos(newEtabl, photo);
+                            }                           
+                        }
+
+                        //crée les horaires
+                        createHoraires(newEtabl, model.lHoraire);
 
 
                         return RedirectToAction("ListeEtablissementOwned");
@@ -144,48 +125,99 @@ namespace CoronaOutWeb.Controllers
                         RedirectToAction("Index", "Home");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return View(new ErrorViewModel { RequestId = ex.Message });
+                return View("Error");
             }
 
             return View(model);
         }
 
-        [HttpPost]
-        public ActionResult AddHoraire(MonEtablissementViewModel vm)
+        private async void createPhotos(Etablissement newEtabl, PhotoGeneriqueViewModel photo)
         {
-            vm.Etab.lHoraire.Add(new Horaire());
-            return PartialView("AddHoraire", vm);
+            var idToken = await HttpContext.GetTokenAsync("access_token");
+
+            if (photo.Photo != null)
+            {
+                //charge la photo sur le serveur
+                string PhotoNom = "";
+                string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "img", "Etablissement", newEtabl.Id.ToString(), "Photos");
+
+                if (!Directory.Exists(uploadFolder))
+                {
+                    DirectoryInfo di = Directory.CreateDirectory(uploadFolder);
+                }
+
+                Guid photoGuid = photo.id;
+                PhotoNom = photoGuid.ToString() + "_" + photo.Photo.FileName;
+                string logoPath = Path.Combine(uploadFolder, PhotoNom);
+                photo.Photo.CopyTo(new FileStream(logoPath, FileMode.Create));
+
+                //crée l'objet photo
+                PhotoEtablissement photoNew = new PhotoEtablissement();
+                photoNew.Id = photoGuid;
+                photoNew.NomFichier = PhotoNom;
+                photoNew.EtablissementId = newEtabl.Id;
+
+                try
+                {
+                    var result = await photoService.CreatePhotoAsync(photoNew, idToken);
+                }
+                catch (Exception)
+                {
+                    RedirectToAction("Error");
+                }
+            }
+            
+        }
+
+        private async void createHoraires(Etablissement newEtabl, List<Horaire> lHoraire)
+        {
+            var idToken = await HttpContext.GetTokenAsync("access_token");
+
+            foreach (Horaire horaire in lHoraire)
+            {
+                if (!(horaire.Jour == null || (horaire.HeureOuverture == new TimeSpan() && horaire.HeureFermeture == new TimeSpan())))
+                {
+
+                 horaire.EtablissementId = newEtabl.Id;
+
+                    try
+                    {
+                        var result = await horaireService.CreateHoraireAsync(horaire, idToken);
+                    }
+                    catch (Exception)
+                    {
+                        RedirectToAction("Error");
+                    }
+                }
+            }
+
+        }
+
+
+        [HttpPost]
+        public ActionResult AddHoraire(CreateEtablissementViewModel vm)
+        {
+            vm.lHoraire.Add(new Horaire());
+            return PartialView("ListeHoraire", vm);
         }
 
         [HttpPost]
-        public ActionResult DeleteHoraire(MonEtablissementViewModel vm, int id)
+        public ActionResult DeleteHoraire(CreateEtablissementViewModel vm, int id)
         {
             try
             {
-                vm.Etab.lHoraire.RemoveAt(id);
+                vm.lHoraire.RemoveAt(id);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return View(new ErrorViewModel { RequestId = ex.Message });
+                return View("Error");
             }
 
-            return PartialView("AddHoraire", vm);
+            return PartialView("ListeHoraire", vm);
         }
 
-
-        public ActionResult Test()
-        {
-            Horaire test = new Horaire
-            {
-                HeureFermeture = new TimeSpan(12, 0, 0),
-                HeureOuverture = new TimeSpan(12, 30, 0),
-                Jour = "Lundi",
-                Id = Guid.NewGuid()
-            };
-            return View("~/Views/Shared/EditorTemplates/Horaire.cshtml", test);
-        }
 
 
         [HttpGet]
@@ -208,9 +240,9 @@ namespace CoronaOutWeb.Controllers
                     vm.Etablissements = lEtab;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return View(new ErrorViewModel { RequestId = ex.Message });
+                return View("Error");
             }
        
             return View(vm);
@@ -230,9 +262,9 @@ namespace CoronaOutWeb.Controllers
 
                 var result = await etablissementService.UpdateEtablissementAsync(etab, idToken);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return View(new ErrorViewModel { RequestId = ex.Message });
+                return View("Error");
             }
 
             return RedirectToAction("ListeEtablissementOwned");

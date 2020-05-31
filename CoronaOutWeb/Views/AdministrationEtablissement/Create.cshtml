@@ -1,4 +1,4 @@
-﻿@model CoronaOutWeb.ViewModel.MonEtablissementViewModel
+﻿@model CoronaOutWeb.ViewModel.CreateEtablissementViewModel
 @{
     ViewData["Title"] = "Créer un nouvel établissement";
 }
@@ -141,17 +141,20 @@
             @for (int i = 0; i < Model.NombrePhotos; i++)
             {
                 <div class="custom-file" id="photo-@i">
-                    <input asp-for="@Model.Photos[i]" type="file" id="photo-input-@i" accept="image/*" onchange="handlePhotos(this.files,@i)" class="form-control custom-file-input" />
+                    <input asp-for="@Model.Photos[i].Photo" type="file" id="photo-input-@i" accept="image/*" onchange="handlePhotos(this.files,@i)" class="form-control custom-file-input" />
                     <label id="photo-label-@i" class="custom-file-label">Sélectionner l'image</label>
                     <br />
                 </div>
             }
         </div>
 
+        <br />
+
+
         <div class="form-group col-md-6">
             <!--Logos-->
             @Html.Label("", "Logo de l'établissment", new { @class = "control-label" })
-            <div class="custom-file">
+            <div class="custom-file" id="logo-container">
                 <input asp-for="Logo" type="file" id="logo-input" accept="image/*" onchange="handleLogo(this.files)" class="form-control custom-file-input" />
                 <label id="logo-label" class="custom-file-label">Sélectionner l'image</label>
             </div>
@@ -185,7 +188,7 @@
                 <th>Supprimer</th>
             </tr>
             <tbody id="horaire-container">
-                @foreach (Horaire horaire in Model.Etab.lHoraire)
+                @foreach (Horaire horaire in Model.lHoraire)
                 {
                     @await Html.PartialAsync("~/Views/Shared/EditorTemplates/Horaire.cshtml", horaire);
                 }
@@ -209,7 +212,7 @@
     </div>
 
     <button style="width:auto" type="submit" name="button" value="create" class="btn btn-primary">Créer l'établissement</button>
-    <button style="width:auto" type="submit" name="button" value="back" class="btn btn-danger">Retour</button>
+    @Html.ActionLink("Retour", "ListeEtablissementOwned", "AdministrationEtablissement", "", new { @class = "btn btn-danger" })
 
 }
 

@@ -10,6 +10,8 @@ namespace ModelesApi.POC
 
         public string NomFichier { get; set; }
 
+        public Guid EtablissementId { get; set; }
+
         public Etablissement Etablissement { get; set; }
     }
 }

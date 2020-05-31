@@ -270,7 +270,7 @@
           "System.Text.Encoding.Reference": "4.1.2.0",
           "System.Text.Encoding.Extensions.Reference": "4.1.2.0",
           "System.Text.Encodings.Web.Reference": "4.0.5.0",
-          "System.Text.Json": "4.0.1.0",
+          "System.Text.Json.Reference": "4.0.1.0",
           "System.Text.RegularExpressions.Reference": "4.2.2.0",
           "System.Threading.Channels": "4.0.2.0",
           "System.Threading.Reference": "4.1.2.0",
@@ -469,6 +469,20 @@
         },
         "compile": {
           "lib/netstandard2.0/PhoneNumbers.dll": {}
+        }
+      },
+      "Macross.Json.Extensions/1.5.0": {
+        "dependencies": {
+          "System.Text.Json": "4.7.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Macross.Json.Extensions.dll": {
+            "assemblyVersion": "1.5.0.20143",
+            "fileVersion": "1.5.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.1/Macross.Json.Extensions.dll": {}
         }
       },
       "Microsoft.AspNetCore.Authentication/2.2.0": {
@@ -2701,6 +2715,11 @@
         }
       },
       "System.Text.Encodings.Web/4.6.0": {},
+      "System.Text.Json/4.7.0": {
+        "compile": {
+          "lib/netcoreapp3.0/System.Text.Json.dll": {}
+        }
+      },
       "System.Text.RegularExpressions/4.3.0": {
         "dependencies": {
           "System.Runtime": "4.3.0"
@@ -2799,6 +2818,7 @@
       },
       "ModelesApi/1.0.0": {
         "dependencies": {
+          "Macross.Json.Extensions": "1.5.0",
           "Microsoft.AspNetCore.Identity": "2.2.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "3.1.4"
         },
@@ -4238,7 +4258,7 @@
         },
         "compileOnly": true
       },
-      "System.Text.Json/4.0.1.0": {
+      "System.Text.Json.Reference/4.0.1.0": {
         "compile": {
           "System.Text.Json.dll": {}
         },
@@ -4496,6 +4516,13 @@
       "sha512": "sha512-S4zgsAYow0T7HvKq34YGdjV9zbI95DR0y4+hY4mALDdltWyzUeBgEEf3Aj3cEMEnIgtN2lVthY2pbpNPpiYWZA==",
       "path": "libphonenumber-csharp/8.12.4",
       "hashPath": "libphonenumber-csharp.8.12.4.nupkg.sha512"
+    },
+    "Macross.Json.Extensions/1.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-00EVZg73Zn1Ai55QXxmxD1qEqLCxx1QKGSyTfotkYgNiMnXtiJwZgqSCOxZp35kCsk9D+m1NEbRWN0vSW6THLQ==",
+      "path": "macross.json.extensions/1.5.0",
+      "hashPath": "macross.json.extensions.1.5.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication/2.2.0": {
       "type": "package",
@@ -5827,6 +5854,13 @@
       "path": "system.text.encodings.web/4.6.0",
       "hashPath": "system.text.encodings.web.4.6.0.nupkg.sha512"
     },
+    "System.Text.Json/4.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IPq/x/d5nAcnD3vIyM3AbPOaTgcqrh0AqPSx7U53UFu3M6k1TH1u/eXc9/h4jm/3mpP1WRUpevlPY4PACd7AWw==",
+      "path": "system.text.json/4.7.0",
+      "hashPath": "system.text.json.4.7.0.nupkg.sha512"
+    },
     "System.Text.RegularExpressions/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -7080,7 +7114,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "System.Text.Json/4.0.1.0": {
+    "System.Text.Json.Reference/4.0.1.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""

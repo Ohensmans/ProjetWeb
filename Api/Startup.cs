@@ -53,7 +53,7 @@ namespace Api
                 app.UseDeveloperExceptionPage();
             }
 
-            InitializeDatabase(app);
+            //InitializeDatabase(app);
             app.UseSwagger();
 
             app.UseHttpsRedirection();

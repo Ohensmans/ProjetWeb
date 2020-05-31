@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "4N13R5t7J+adVKT6z3wo8I+sIXxbB6i+kfJcb4ix3NPonHKIC3lEt3QUORK58v/ptWrwDXIONDxfCtVI/pXQhg==",
+  "dgSpecHash": "RAcVHT+zYOha1iiRVJmSxl8DsShdv9RG/ubjPslSCYhV9E2JQHLhTNg6WJa2D1zlDjYfbwh8OnaP2zSPtIKRbA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Olivier\\Desktop\\Projets Git\\ProjetWeb\\Modeles\\ModelesApi.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Olivier\\.nuget\\packages\\macross.json.extensions\\1.5.0\\macross.json.extensions.1.5.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.2.0\\microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",
@@ -57,7 +58,8 @@
     "C:\\Users\\Olivier\\.nuget\\packages\\system.security.cryptography.xml\\4.5.0\\system.security.cryptography.xml.4.5.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\system.security.permissions\\4.5.0\\system.security.permissions.4.5.0.nupkg.sha512",
     "C:\\Users\\Olivier\\.nuget\\packages\\system.security.principal.windows\\4.5.0\\system.security.principal.windows.4.5.0.nupkg.sha512",
-    "C:\\Users\\Olivier\\.nuget\\packages\\system.text.encodings.web\\4.5.0\\system.text.encodings.web.4.5.0.nupkg.sha512"
+    "C:\\Users\\Olivier\\.nuget\\packages\\system.text.encodings.web\\4.5.0\\system.text.encodings.web.4.5.0.nupkg.sha512",
+    "C:\\Users\\Olivier\\.nuget\\packages\\system.text.json\\4.7.0\\system.text.json.4.7.0.nupkg.sha512"
   ],
   "logs": []
 }

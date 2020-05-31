@@ -5,17 +5,14 @@ using System.Linq;
 
 namespace CoronaOutWeb.Validator
 {
-    public class MonEtablissementViewValidator : AbstractValidator<MonEtablissementViewModel>
+    public class MonEtablissementViewValidator : AbstractValidator<CreateEtablissementViewModel>
     {
-        private int NOMBREPHOTOMAX = 5;
 
         public MonEtablissementViewValidator(IVATService vatValidator)
         {
             RuleFor(x => x.Etab)
                 .SetValidator(new EtablissementValidator(vatValidator));
 
-            RuleFor(x => x.Photos)
-                .Must(coll => coll == null || coll.Count <= NOMBREPHOTOMAX);
         }
 
     }
