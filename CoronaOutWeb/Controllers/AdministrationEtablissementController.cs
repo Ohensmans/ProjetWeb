@@ -36,49 +36,98 @@ namespace CoronaOutWeb.Controllers
 
 
         [HttpGet]
+        public async Task<IActionResult> EditHoraires(Guid etablissementId)
+        {
+            EditHoraireViewModel model = new EditHoraireViewModel();
+            List<Horaire> lHoraire = await horaireService.GetAllHorairesAsync();
+            lHoraire = lHoraire.Where(x => x.EtablissementId == etablissementId).ToList();
+
+            if( lHoraire!=null)
+            {
+                List<string> lJours = new JoursSemaine().lJours;
+                lHoraire = lHoraire.OrderBy(h => lJours.IndexOf(h.Jour)).ThenBy(h => h.HeureOuverture).ToList();
+
+                model.lHoraire = lHoraire;
+            }
+            else
+            {
+                model.lHoraire = new List<Horaire>();
+            }
+            model.EtablissementId = etablissementId;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditHoraires(EditHoraireViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    var idToken = await HttpContext.GetTokenAsync("access_token");
+
+                    List<Horaire> lHoraireTotal = await horaireService.GetAllHorairesAsync();
+                    List<Horaire> lHoraireEtab = lHoraireTotal.Where(x => x.EtablissementId == model.EtablissementId).ToList();
+
+                    foreach(Horaire horaire in model.lHoraire)
+                    {
+                        horaire.EtablissementId = model.EtablissementId;
+                    }
+
+
+                    // fait l'update des horaires qui sont toujours dans le model
+                    foreach (Horaire horaire in model.lHoraire)
+                    {
+                        if (lHoraireEtab.Contains(horaire))
+                        {
+                            var result = await horaireService.UpdateHoraireAsync(horaire, idToken);
+                        }
+                    }
+
+                    //supprime les horaires qui ne sont plus dans le model
+                    foreach (Horaire horaire in lHoraireEtab)
+                    {
+                        if (!model.lHoraire.Contains(horaire))
+                        {
+                            await horaireService.DeleteHoraireAsync(horaire.Id, idToken);
+                        }
+                    }
+
+                    //ajoute les horaires qui ne sont pas dans la DB
+                    foreach (Horaire horaire in model.lHoraire)
+                    {
+                        if (!lHoraireEtab.Contains(horaire))
+                        {
+                            var result = await horaireService.CreateHoraireAsync(horaire, idToken);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    return View("Error");
+                }
+            }
+            return RedirectToAction("ListeEtablissementOwned");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteEtablissement(Guid etablissementId)
+        {
+            var idToken = await HttpContext.GetTokenAsync("access_token");
+            await etablissementService.DeleteEtablissementAsync(etablissementId, idToken);
+
+            return RedirectToAction("ListeEtablissementOwned");
+
+        }
+
+
+        [HttpGet]
         public async Task<IActionResult> EditEtablissement(Guid etablissementId)
         {
             Etablissement etab = await etablissementService.GetEtablissementAsync(etablissementId);
-
-
             EditEtablissementViewModel model = new EditEtablissementViewModel();
-
             model.Etab = etab;
-
-            /*
-                      
-
-            
-            List<Horaire> lHoraire = await horaireService.GetAllHorairesAsync();
-
-            lHoraire = lHoraire.Where(x => x.EtablissementId == etablissementId).ToList();
-            
-
-            model.lHoraire = lHoraire;
-
-            List<PhotoGeneriqueViewModel> lPhotosGeneriques = new List<PhotoGeneriqueViewModel>();
-            foreach(PhotoEtablissement photo in lPhotos)
-            {
-                PhotoGeneriqueViewModel photoGenerique = new PhotoGeneriqueViewModel();
-                photoGenerique.id = photo.Id;
-
-                
-                
-                using (var stream = System.IO.File.OpenRead(path))
-                {
-                    photoGenerique.Photo = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name));
-                }
-
-                lPhotosGeneriques.Add(photoGenerique);
-            }
-
-            for (int i = 0; i<lPhotosGeneriques.Count;i++)
-            {
-                model.Photos[i] = lPhotosGeneriques[i];
-            }
-            */
-
-
             return View(model);
         }
 
@@ -89,7 +138,7 @@ namespace CoronaOutWeb.Controllers
             {
                 try
                 {
-                    var idToken = await HttpContext.GetTokenAsync("access_token");
+                    
                     var result = await etablissementService.UpdateEtablissementAsync(model.Etab, idToken);
                 }
                 catch (Exception)
@@ -388,19 +437,18 @@ namespace CoronaOutWeb.Controllers
             return PartialView("ListeHoraire", vm);
         }
 
-        [HttpPost]
+        [HttpDelete]
         public ActionResult DeleteHoraire(CreateEtablissementViewModel vm, int id)
         {
             try
             {
                 vm.lHoraire.RemoveAt(id);
+                return PartialView("ListeHoraire", vm);
             }
             catch (Exception)
             {
                 return View("Error");
-            }
-
-            return PartialView("ListeHoraire", vm);
+            }      
         }
 
 

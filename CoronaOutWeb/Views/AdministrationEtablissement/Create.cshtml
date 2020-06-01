@@ -10,6 +10,7 @@
 {
     @Html.HiddenFor(model => model.NombrePhotos, new { @id = "nbPhotos", @value = Model.NombrePhotos })
     @Html.HiddenFor(model => model.TailleMaxImages, new { @id = "tailleMaxImage", @value = Model.TailleMaxImages })
+    @Html.HiddenFor(model => model.Etab.Id, new { @id = "etabId" })
 
     @Html.ValidationSummary(false, "", new { @class = "text-danger", @id = "validation-summary" })
 
@@ -140,7 +141,7 @@
             <br />
             @for (int i = 0; i < Model.NombrePhotos; i++)
             {
-                @Html.HiddenFor(model => model.Photos[i].id, new { @id = "PhotoId"})
+                @Html.HiddenFor(model => model.Photos[i].id, new { @id = "PhotoId" })
                 <div class="custom-file" id="photo-@i">
                     <input asp-for="@Model.Photos[i].Photo" type="file" id="photo-input-@i" accept="image/*" onchange="handlePhotos(this.files,@i)" class="form-control custom-file-input" />
                     <label id="photo-label-@i" class="custom-file-label">Sélectionner l'image</label>
@@ -179,27 +180,28 @@
 
 
     <!--Horaires-->
-    <div class="col-md-12">
-        @Html.Label("", "Horaire de l'établissement", new { @class = "control-label" })
-        <table id="tab-horaires" class="table table-striped col-md-12">
-            <tr id="titre">
-                <th>Jour</th>
-                <th>Heure d'ouverture</th>
-                <th>Heure de fermeture</th>
-                <th>Supprimer</th>
-            </tr>
-            <tbody id="horaire-container">
-                @foreach (Horaire horaire in Model.lHoraire)
-                {
-                    @await Html.PartialAsync("~/Views/Shared/EditorTemplates/Horaire.cshtml", horaire);
-                }
-            </tbody>
+<div class="col-md-12">
+    @Html.Label("", "Horaire de l'établissement", new { @class = "control-label" })
+    <table id="tab-horaires" class="table table-striped col-md-12">
+        <tr id="titre">
+            <th>Jour</th>
+            <th>Heure d'ouverture</th>
+            <th>Heure de fermeture</th>
 
-        </table>
-        <br />
-        <input class="btn btn-success" type="button" id="addHoraire" value="Ajouter un horaire" />
-        <br />
-    </div>
+        </tr>
+        <tbody id="horaire-container">
+            @foreach (Horaire horaire in Model.lHoraire)
+            {
+                @await Html.PartialAsync("~/Views/Shared/EditorTemplates/Horaire.cshtml", horaire);
+            }
+        </tbody>
+
+    </table>
+    <br />
+    <input class="btn btn-success" type="button" id="addHoraire" value="Ajouter un horaire" />
+    <input class="btn btn-danger" type="button" id="deleteHoraire-0" value="Supprimer le dernier horaire" />
+    <br />
+</div>
 
     <br />
 

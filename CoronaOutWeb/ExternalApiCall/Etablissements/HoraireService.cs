@@ -43,9 +43,15 @@ namespace CoronaOutWeb.ExternalApiCall.Etablissements
             return createdTask;
         }
 
-        public Task DeleteHoraireAsync(Guid id, string idToken)
+        public async Task DeleteHoraireAsync(Guid id, string idToken)
         {
-            throw new NotImplementedException();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", idToken);
+
+            var httpResponse = await client.DeleteAsync($"{baseUrl}{id}");
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                throw new Exception("Impossible de supprimer l'horaire");
+            }
         }
 
         public async Task<List<Horaire>> GetAllHorairesAsync()
@@ -76,9 +82,21 @@ namespace CoronaOutWeb.ExternalApiCall.Etablissements
             return horaire;
         }
 
-        public Task<Horaire> UpdateHoraireAsync(Horaire horaire, string idToken)
+        public async Task<Horaire> UpdateHoraireAsync(Horaire horaire, string idToken)
         {
-            throw new NotImplementedException();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", idToken);
+
+            var content = JsonConvert.SerializeObject(horaire);
+
+            var httpResponse = await client.PutAsync($"{baseUrl}{horaire.Id}", new StringContent(content, Encoding.Default, "application/json"));
+
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                throw new Exception("Impossible de modifier l'horaire");
+            }
+
+            var createdTask = JsonConvert.DeserializeObject<Horaire>(await httpResponse.Content.ReadAsStringAsync());
+            return createdTask;
         }
     }
 }

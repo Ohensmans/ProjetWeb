@@ -7,16 +7,19 @@
             
         <td>
             @Html.DropDownListFor(model => model.Jour, new SelectList(new JoursSemaine().lJours), "Sélectionnez le jour", new { @class = "form-control" })
+            @Html.HiddenFor(model => model.Jour)
             @Html.ValidationMessageFor(model => model.Jour, "", new { @class = "text-danger" })
         </td>
 
         <td>
             @Html.EditorFor(model => model.HeureOuverture, "{0:hh\\:mm}", new { htmlAttributes = new { @class = "form-control", id = "timePicker" } })
+            @Html.HiddenFor(model => model.HeureOuverture)
             @Html.ValidationMessageFor(model => model.HeureOuverture, "", new { @class = "text-danger" })
         </td>
 
         <td>
             @Html.EditorFor(model => model.HeureFermeture, "{0:hh\\:mm}", new { htmlAttributes = new { @class = "form-control", id = "timePicker" } })
+            @Html.HiddenFor(model => model.HeureFermeture)
             @Html.ValidationMessageFor(model => model.HeureFermeture, "", new { @class = "text-danger" })
         </td>
 

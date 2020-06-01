@@ -1,0 +1,49 @@
+﻿@model CoronaOutWeb.ViewModel.EditHoraireViewModel
+@{
+    ViewData["Title"] = "Modifier les horaires";
+}
+
+<h1>Modifier les horaires</h1>
+<br />
+<br />
+
+@using (Html.BeginForm(FormMethod.Post, new { @enctype = "multipart/form-data", @id = "form" }))
+{
+    @Html.HiddenFor(model => model.EtablissementId, new { @id = "etabId" })
+    <!--Horaires-->
+<div class="col-md-12">
+    @Html.Label("", "Horaire de l'établissement", new { @class = "control-label" })
+    <table id="tab-horaires" class="table table-striped col-md-12">
+        <tr id="titre">
+            <th>Jour</th>
+            <th>Heure d'ouverture</th>
+            <th>Heure de fermeture</th>
+        </tr>
+        <tbody id="horaire-container">
+            @for (int i = 0; i < Model.lHoraire.Count; i++)
+            {
+                @Html.EditorFor(model => model.lHoraire[i]);
+            }
+        </tbody>
+
+    </table>
+    <br />
+    <input class="btn btn-success" type="button" id="addHoraire" value="Ajouter un horaire" />
+    <input class="btn btn-danger" type="button" id="deleteHoraire-0" value="Supprimer le dernier horaire" />
+    <br />
+</div>
+
+<br />
+<br />
+    <div class="col-md-12">
+        <button style="width:auto" type="submit" name="button" value="create" class="btn btn-primary">Mettre à jour les horaires</button>
+        @Html.ActionLink("Retour", "ListeEtablissementOwned", "AdministrationEtablissement", "", new { @class = "btn btn-danger" })
+    </div>
+}
+
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/AddHoraire.js"></script>
+}
+

@@ -6,41 +6,45 @@
         url: "/AdministrationEtablissement/AddHoraire",
         success: function (partialView) {
 
-
+            console.log("charge");
             $("#horaire-container").html(partialView);
 
-            addButtonDelete()
         }
     });
 });
 
 
 
-function supprimerHoraire() {
 
-    var idHoraire = $(this).attr('id').split("-")[1];
 
-    console.log(idHoraire);
-    vmForm = $("#form").serialize();
-    vmForm += '&id=' + idHoraire;
-    console.log(vmForm);
+$("#deleteHoraire-0").on('click', function () {
 
-    $.ajax({
-        async: true,
-        data: vmForm,
-        type: "POST",
-        url: "/AdministrationEtablissement/DeleteHoraire",
-        success: function (partialView) { 
-            console.log("yep");
-            $("#horaire-container").html(partialView);
+    if ($("tr").length > 1) {
 
-            addButtonDelete()
-        }
-    })
+        var idHoraire = $(this).attr('id').split("-")[1];
 
-    //$(this).closest("tr").remove();
-}
+        vmForm = $("#form").serialize();
+        vmForm += '&id=' + idHoraire;
 
+        $.ajax({
+            async: true,
+            data: vmForm,
+            type: "DELETE",
+            url: "/AdministrationEtablissement/DeleteHoraire",
+            success: function (partialViewDelete) {
+                console.log("delete");
+                console.log(partialViewDelete);
+                $("#horaire-container").html(partialViewDelete);
+
+
+            }
+        })
+    }
+    
+
+})
+
+/*
 function addButtonDelete() {
 
     var id = 0;
@@ -59,6 +63,11 @@ function addButtonDelete() {
         }
     })
 }
+
+$(document).ready(function () {
+    addButtonDelete()
+});*/
+
 
 
 

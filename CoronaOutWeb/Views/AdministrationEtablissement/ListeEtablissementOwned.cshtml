@@ -53,7 +53,7 @@ else
                 <td>@Html.ActionLink("Modifier", "EditEtablissement", "AdministrationEtablissement", new { etablissementId = etablissement.Id }, new { @class = "btn btn-primary" })</td>
 
                 <td>
-                    @using (Html.BeginForm("Delete", "AdministrationEtablissement", new { etablissementId = etablissement.Id }, FormMethod.Post))
+                    @using (Html.BeginForm("DeleteEtablissement", "AdministrationEtablissement", new { etablissementId = etablissement.Id }, FormMethod.Post))
                     {
                         <span id="confirmDeleteSpan_@etablissement.Id" style="display:none">
                             <span>Etes-vous sûr de vouloir supprimer cet établissement ?</span>
