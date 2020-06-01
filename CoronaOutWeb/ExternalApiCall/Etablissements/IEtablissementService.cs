@@ -15,7 +15,7 @@ namespace CoronaOutWeb.ExternalApiCall.Etablissements
 
         Task<Etablissement> UpdateEtablissementAsync(Etablissement etablissement, string idToken);
 
-        Task DeleteEtablissementAsync(Guid id);
+        Task DeleteEtablissementAsync(Guid id, string idToken);
 
     }
 }

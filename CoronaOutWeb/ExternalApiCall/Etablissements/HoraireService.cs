@@ -6,6 +6,7 @@ using ModelesApi.POC;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -42,19 +43,37 @@ namespace CoronaOutWeb.ExternalApiCall.Etablissements
             return createdTask;
         }
 
-        public Task DeleteHoraireAsync(Guid id)
+        public Task DeleteHoraireAsync(Guid id, string idToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Horaire>> GetAllHorairesAsync()
+        public async Task<List<Horaire>> GetAllHorairesAsync()
         {
-            throw new NotImplementedException();
+            var httpResponse = await client.GetAsync(baseUrl);
+
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                throw new Exception("Impossible de récupérer les horaires");
+            }
+            var content = await httpResponse.Content.ReadAsStringAsync();
+
+
+            return JsonConvert.DeserializeObject<List<Horaire>>(content);
         }
 
-        public Task<Horaire> GetHoraireAsync(Guid id)
+        public async Task<Horaire> GetHoraireAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var httpResponse = await client.GetAsync($"{baseUrl}{id}");
+
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                throw new Exception("Impossible de récupérer l'horaire");
+            }
+            var content = await httpResponse.Content.ReadAsStringAsync();
+            var horaire = JsonConvert.DeserializeObject<Horaire>(content);
+
+            return horaire;
         }
 
         public Task<Horaire> UpdateHoraireAsync(Horaire horaire, string idToken)

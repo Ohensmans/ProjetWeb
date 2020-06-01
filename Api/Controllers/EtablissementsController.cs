@@ -89,6 +89,7 @@ namespace Api.Controllers
         }
 
         // DELETE: api/Etablissements/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Etablissement>> DeleteEtablissement(Guid id)
         {

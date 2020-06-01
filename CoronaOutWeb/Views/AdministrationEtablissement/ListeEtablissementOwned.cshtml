@@ -50,7 +50,7 @@ else
                 <td>@Html.Label("", etablissement.NumeroBoite)</td>
                 <td>@Html.Label("", etablissement.Ville)</td>
                 <td>@Html.Label("", etablissement.Pays)</td>
-                <td>@Html.ActionLink("Modifier", "Edit", "AdministrationEtablissement", new { etablissementId = etablissement.Id }, new { @class = "btn btn-primary" })</td>
+                <td>@Html.ActionLink("Modifier", "EditEtablissement", "AdministrationEtablissement", new { etablissementId = etablissement.Id }, new { @class = "btn btn-primary" })</td>
 
                 <td>
                     @using (Html.BeginForm("Delete", "AdministrationEtablissement", new { etablissementId = etablissement.Id }, FormMethod.Post))

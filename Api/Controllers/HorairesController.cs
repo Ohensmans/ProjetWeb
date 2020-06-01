@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModelesApi.POC;
@@ -44,6 +45,7 @@ namespace Api.Controllers
         // PUT: api/Horaires/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHoraire(Guid id, Horaire horaire)
         {
@@ -77,6 +79,7 @@ namespace Api.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Horaire>> PostHoraire(Horaire horaire)
         {
             _context.Horaires.Add(horaire);
@@ -86,6 +89,7 @@ namespace Api.Controllers
         }
 
         // DELETE: api/Horaires/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Horaire>> DeleteHoraire(Guid id)
         {

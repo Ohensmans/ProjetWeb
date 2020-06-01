@@ -1,17 +1,20 @@
-﻿var logoSelect = document.getElementById("logo-label"),
-    logoPreview = document.getElementById("logoPreview");
-
-var photoPreview = document.getElementById("PhotosPreview");
-
+﻿
 const nombreMaxPhoto = $("#nbPhotos").val();
 
 const tailleMaxImage = $("#tailleMaxImage").val();
 
+var nombrePreviewImage = $("#PhotosPreview").find("ul").length;
 
-$(document).ready(function ()
-{
-    $("#logo-input").on("change", function ()
-    {
+var logoSelect = document.getElementById("logo-label"),
+    logoPreview = document.getElementById("logoPreview");
+
+var photoPreview = document.getElementById("PhotosPreview");
+
+
+
+
+$(document).ready(function () {
+    $("#logo-input").on("change", function () {
         if (fileName !== null) {
             //vérifie la taille du fichier
             if (checkSize(this)) {
@@ -29,8 +32,7 @@ $(document).ready(function ()
     })
 
     $("[id*='photo-input-']").on("change", function () {
-        if (fileName !== null)
-        {
+        if (fileName !== null) {
             //vérifie la taille du fichier
             if (checkSize(this)) {
                 var num = $(this).attr('id').split("-")[2];
@@ -40,11 +42,9 @@ $(document).ready(function ()
                 var fileName = $(this).val().split("\\").pop();
                 $(this).next(labelTextBox).html(fileName);
 
+
                 //affiche le premier bouton caché
-                var nextButton = $("div[style*='display: none;']").filter("[id^='photo-']").first();
-                if (nextButton !== null) {
-                    nextButton.show();
-                }
+                AffichePremierPhotoUpload()
             }
             else {
                 toastRMaxSize();
@@ -52,66 +52,68 @@ $(document).ready(function ()
         }
     })
 
-    
-});
+})
 
+function AffichePremierPhotoUpload() {
+
+    //affiche le premier bouton caché
+    var nextButton = $("div[style*='display: none;']").filter("[id^='photo-']")
+    if (nextButton.length) {
+     
+        var i = 0;
+        var testKeepRunning = true;
+        while (i < nextButton.length && testKeepRunning)
+        {
+            var number = nextButton[i].id.split("-")[1];
+            var photoPreviewUl = "#ulPreviewPhoto-" + number;
+
+            if ($(photoPreviewUl).length ==0) {
+                var photoShow = "#photo-" + number;
+                $(photoShow).show();
+                testKeepRunning = false;
+            }
+            i++;
+        }
+
+    }
+}
 
 
 window.onload = function () {
-    //vérifie si le bouton précédement a un fichier sinon se cache
- 
-    for (var i = 1; i < nombreMaxPhoto; i++) {
-        var logoId = "#photo-input-" + (i - 1);
-        console.log($(logoId));
-        if ($(logoId).fileName !== null) {
-
-            var photo = "#photo-" + i;
-            $(photo).hide();
-        }
+  
+    //cache tous les boutons
+    for (var i = 0; i < nombreMaxPhoto; i++) {
+        var photoId = "#photo-" + (i);
+        $(photoId).hide();
         
     }
 
-    checkValidation();
-}
+    var Previewlogo = "#ulPreviewLogo"
+    if ($(Previewlogo).length !== 0) {
+        var logocontainer = "#logo-container";
+        $(logocontainer).hide();
+    }
 
-window.URL = window.URL || window.webkitURL;
+    //affiche le premier bouton caché
+    AffichePremierPhotoUpload()
+
+
+}
 
 function checkSize(element) {
     if (element.files[0].size > tailleMaxImage) {
 
+        var num = element.id.split("-")[2];
         //supprime le fichier
-        element.value = "";
+        supprimerPhoto(num)
 
         return false;
-    }    
+    }
     else
         return true;
 }
 
-function checkValidation() {
-    if ($("#validation-summary").find("li")[0].innerHTML !== "") {
 
-        toastr["warning"]("Si vous aviez chargé des images (photos, logo), elles doivent être rechargées")
-
-        toastr.options = {
-            "closeButton": false,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": false,
-            "positionClass": "toast-top-right",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-    }
-}
 
 function toastRMaxSize() {
 
@@ -144,9 +146,9 @@ function handleLogo(files) {
     if (files[0].size <= tailleMaxImage) {
         logoPreview.innerHTML = "";
 
-        
+
         var list = document.createElement("ul");
-        list.id = "ulReviewLogo";
+        list.id = "ulPreviewLogo";
         list.className = "list-group";
         logoPreview.appendChild(list);
 
@@ -154,14 +156,14 @@ function handleLogo(files) {
         li.id = "";
         li.className = "list-group-item d-flex";
         list.appendChild(li);
-        
+
         var div = document.createElement("div");
         div.id = "divReviewLogo";
         logoPreview.appendChild(div);
 
         var img = document.createElement("img");
         img.src = window.URL.createObjectURL(files[0]);
-        img.height = 60;
+        img.height = 120;
         img.onload = function () {
             window.URL.revokeObjectURL(this.src);
         }
@@ -183,7 +185,7 @@ function handlePhotos(files, nummer) {
     if (files[0].size <= tailleMaxImage) {
 
         var list = document.createElement("ul");
-        list.id = "ulReviewPhoto-" + nummer;
+        list.id = "ulPreviewPhoto-" + nummer;
         list.className = "list-group";
         photoPreview.appendChild(list);
 
@@ -194,7 +196,7 @@ function handlePhotos(files, nummer) {
 
         var img = document.createElement("img");
         img.src = window.URL.createObjectURL(files[0]);
-        img.height = 60;
+        img.height = 120;
         img.className = " align-self-start p-2";
         img.onload = function () {
             window.URL.revokeObjectURL(this.src);
@@ -207,12 +209,17 @@ function handlePhotos(files, nummer) {
         buttonDelete.onclick = supprimerPhoto;
         buttonDelete.id = "deletePhoto-" + nummer;
         li.appendChild(buttonDelete);
-    }   
+
+
+    }
 }
 
-
-
 function supprimerLogo() {
+
+
+    var logocontainer = "#logo-container";
+    $(logocontainer).show();
+
 
     //supprime le File
     var controle = $("#logo-input");
@@ -220,25 +227,46 @@ function supprimerLogo() {
 
     logoSelect.innerHTML = "Sélectionner l'image";
     logoPreview.innerHTML = "";
+
+
 }
 
-function supprimerPhoto() {
-    
+function supprimerPhoto(num) { 
+
+
+    if (num.target) { 
     var num = $(this).attr('id').split("-")[1];
+    }
+
     var idName = "#photo-input-" + num;
 
     //supprime le File
     var controle = $(idName);
-    controle.replaceWith(controle.val('').clone(true));
+    if ($(controle)!==null) {
+        controle.replaceWith(controle.val('').clone(true));
+    }
+
+    //supprime le path si il existe
+    var pathImageExistantes = "#IsToBeDeleted" + num;
+    console.log($(pathImageExistantes).val());
+    if ($(pathImageExistantes).length) {
+        $(pathImageExistantes).val(true);
+    }
+
 
     //supprime la preview
-    var previewName = "ulReviewPhoto-" + num;
+    var previewName = "ulPreviewPhoto-" + num;
 
     //supprime la preview
     const element = document.getElementById(previewName);
-    element.parentNode.removeChild(element);
+
+    if (element !==null) {
+        element.parentNode.removeChild(element);
+    }
+    
 
     reinitializebutton(num);
+
 }
 
 
@@ -247,16 +275,9 @@ function reinitializebutton(num) {
     //reinitialise le texte dans le champ
     var selectorName = "photo-label-" + num;
     var labelTextBox = document.getElementById(selectorName);
-    labelTextBox.innerHTML = "Sélectionner l'image"; 
+    labelTextBox.innerHTML = "Sélectionner l'image";
 
-    //cache le button si il en reste plus d'un
-    var lBoutonDesactives = $("div[style*='display: none;']").filter("[id^='photo-']");
 
-    if (lBoutonDesactives.length !== (nombreMaxPhoto-1)) {
-        var bouton = "#photo-" + num;
-        $(bouton).hide();
-    }
+
+
 }
-
-
-

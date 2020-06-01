@@ -1,15 +1,15 @@
-﻿@model CoronaOutWeb.ViewModel.CreateEtablissementViewModel
+﻿@model CoronaOutWeb.ViewModel.EditEtablissementViewModel
 @{
-    ViewData["Title"] = "Créer un nouvel établissement";
+    ViewData["Title"] = "Modifier un établissement";
 }
 
-<h1>Créer un nouvel établissement</h1>
+<h1>Modifier un établissement</h1>
 
 
 @using (Html.BeginForm(FormMethod.Post, new { @enctype = "multipart/form-data", @id = "form" }))
 {
-    @Html.HiddenFor(model => model.NombrePhotos, new { @id = "nbPhotos", @value = Model.NombrePhotos })
-    @Html.HiddenFor(model => model.TailleMaxImages, new { @id = "tailleMaxImage", @value = Model.TailleMaxImages })
+    @Html.HiddenFor(model => model.Etab.Logo, new { @id = "logo" })
+    @Html.HiddenFor(model => model.Etab.Id, new { @id = "id" })
 
     @Html.ValidationSummary(false, "", new { @class = "text-danger", @id = "validation-summary" })
 
@@ -133,74 +133,6 @@
         </div>
     </div>
 
-    <div class="col-md-12 row">
-        <!--Photos-->
-        <div class="form-group col-md-6">
-            @Html.Label("", "Photos de l'établissement", new { @class = "control-label" })
-            <br />
-            @for (int i = 0; i < Model.NombrePhotos; i++)
-            {
-                @Html.HiddenFor(model => model.Photos[i].id, new { @id = "PhotoId"})
-                <div class="custom-file" id="photo-@i">
-                    <input asp-for="@Model.Photos[i].Photo" type="file" id="photo-input-@i" accept="image/*" onchange="handlePhotos(this.files,@i)" class="form-control custom-file-input" />
-                    <label id="photo-label-@i" class="custom-file-label">Sélectionner l'image</label>
-                    <br />
-                </div>
-            }
-        </div>
-
-        <br />
-
-
-        <div class="form-group col-md-6">
-            <!--Logos-->
-            @Html.Label("", "Logo de l'établissement", new { @class = "control-label" })
-            <div class="custom-file" id="logo-container">
-                <input asp-for="Logo" type="file" id="logo-input" accept="image/*" onchange="handleLogo(this.files)" class="form-control custom-file-input" />
-                <label id="logo-label" class="custom-file-label">Sélectionner l'image</label>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="col-md-12 row">
-        <!--Photos Preview-->
-        <div class="form-group col-md-6">
-            <div id="PhotosPreview">
-            </div>
-        </div>
-
-        <!--Logos Preview-->
-        <div class="form-group col-md-6">
-            <div id="logoPreview">
-            </div>
-        </div>
-    </div>
-
-
-    <!--Horaires-->
-    <div class="col-md-12">
-        @Html.Label("", "Horaire de l'établissement", new { @class = "control-label" })
-        <table id="tab-horaires" class="table table-striped col-md-12">
-            <tr id="titre">
-                <th>Jour</th>
-                <th>Heure d'ouverture</th>
-                <th>Heure de fermeture</th>
-                <th>Supprimer</th>
-            </tr>
-            <tbody id="horaire-container">
-                @foreach (Horaire horaire in Model.lHoraire)
-                {
-                    @await Html.PartialAsync("~/Views/Shared/EditorTemplates/Horaire.cshtml", horaire);
-                }
-            </tbody>
-
-        </table>
-        <br />
-        <input class="btn btn-success" type="button" id="addHoraire" value="Ajouter un horaire" />
-        <br />
-    </div>
-
     <br />
 
     <div class="col-md-12">
@@ -213,7 +145,9 @@
     </div>
 
     <div class="col-md-12">
-        <button style="width:auto" type="submit" name="button" value="create" class="btn btn-primary">Créer l'établissement</button>
+        <button style="width:auto" type="submit" name="button" value="create" class="btn btn-primary">Mettre à jour l'établissement</button>
+        @Html.ActionLink("Mettre à jour les horaires", "EditHoraires", "AdministrationEtablissement", new { etablissementId = Model.Etab.Id }, new { @class = "btn btn-info" })
+        @Html.ActionLink("Mettre à jour les images", "EditImages", "AdministrationEtablissement", new { etablissementId = Model.Etab.Id }, new { @class = "btn btn-info" })
         @Html.ActionLink("Retour", "ListeEtablissementOwned", "AdministrationEtablissement", "", new { @class = "btn btn-danger" })
     </div>
 
@@ -225,7 +159,5 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/js/toastr.js"></script>
     <script src="~/js/RemplissageFormulaire.js"></script>
-    <script src="~/js/UploadFiles.js"></script>
-    <script src="~/js/AddHoraire.js"></script>
 }
 

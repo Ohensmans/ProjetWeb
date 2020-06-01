@@ -46,6 +46,7 @@ namespace Api.Controllers
         // PUT: api/PhotoEtablissements/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPhotoEtablissement(Guid id, PhotoEtablissement photoEtablissement)
         {
@@ -89,6 +90,7 @@ namespace Api.Controllers
         }
 
         // DELETE: api/PhotoEtablissements/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult<PhotoEtablissement>> DeletePhotoEtablissement(Guid id)
         {

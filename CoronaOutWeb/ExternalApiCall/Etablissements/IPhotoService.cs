@@ -16,6 +16,6 @@ namespace CoronaOutWeb.ExternalApiCall.Etablissements
 
         Task<PhotoEtablissement> UpdatePhotoAsync(PhotoEtablissement photo, string idToken);
 
-        Task DeletePhotoAsync(Guid id);
+        Task DeletePhotoAsync(Guid id, string idToken);
     }
 }

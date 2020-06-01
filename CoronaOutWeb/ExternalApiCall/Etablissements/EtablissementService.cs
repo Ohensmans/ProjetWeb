@@ -41,9 +41,15 @@ namespace CoronaOutWeb.ExternalApiCall.Etablissements
 
         }
 
-        public Task DeleteEtablissementAsync(Guid id)
+        public async Task DeleteEtablissementAsync(Guid id, string idToken)
         {
-            throw new NotImplementedException();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", idToken);
+
+            var httpResponse = await client.DeleteAsync($"{baseUrl}{id}");
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                throw new Exception("Impossible de supprimer l'établissement");
+            }
         }
 
         public async Task<List<Etablissement>> GetAllEtablissementsAsync()

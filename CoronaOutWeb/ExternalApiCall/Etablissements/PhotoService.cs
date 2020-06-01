@@ -39,19 +39,43 @@ namespace CoronaOutWeb.ExternalApiCall.Etablissements
             return createdTask;
         }
 
-        public Task DeletePhotoAsync(Guid id)
+        public async Task DeletePhotoAsync(Guid id, string idToken)
         {
-            throw new NotImplementedException();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", idToken);
+
+            var httpResponse = await client.DeleteAsync($"{baseUrl}{id}");
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                throw new Exception("Impossible de supprimer la photo");
+            }
         }
 
-        public Task<List<PhotoEtablissement>> GetAllPhotosAsync()
+        public async Task<List<PhotoEtablissement>> GetAllPhotosAsync()
         {
-            throw new NotImplementedException();
+            var httpResponse = await client.GetAsync(baseUrl);
+
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                throw new Exception("Impossible de récupérer les établissements");
+            }
+            var content = await httpResponse.Content.ReadAsStringAsync();
+
+
+            return JsonConvert.DeserializeObject<List<PhotoEtablissement>>(content);
         }
 
-        public Task<PhotoEtablissement> GetPhotoAsync(Guid id)
+        public async Task<PhotoEtablissement> GetPhotoAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var httpResponse = await client.GetAsync($"{baseUrl}{id}");
+
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                throw new Exception("Impossible de récupérer la photo");
+            }
+            var content = await httpResponse.Content.ReadAsStringAsync();
+            var photo = JsonConvert.DeserializeObject<PhotoEtablissement>(content);
+
+            return photo;
         }
 
         public Task<PhotoEtablissement> UpdatePhotoAsync(PhotoEtablissement photo, string idToken)

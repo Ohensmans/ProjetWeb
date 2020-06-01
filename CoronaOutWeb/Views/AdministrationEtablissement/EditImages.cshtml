@@ -1,0 +1,100 @@
+﻿@model CoronaOutWeb.ViewModel.EditImagesViewModel
+@{
+    ViewData["Title"] = "Modifier les images";
+}
+
+<h1>Modifier les images</h1>
+
+@using (Html.BeginForm(FormMethod.Post, new { @enctype = "multipart/form-data", @id = "form" }))
+{
+    @Html.HiddenFor(model => model.EtablissementId, new { @id = "id" })
+    @Html.HiddenFor(model => model.NombrePhotos, new { @id = "nbPhotos", @value = Model.NombrePhotos })
+    @Html.HiddenFor(model => model.TailleMaxImages, new { @id = "tailleMaxImage", @value = Model.TailleMaxImages })
+
+    @for (int i = 0; i < Model.lPathImages.Count; i++)
+    {
+        @Html.HiddenFor(model => model.lPathImages[i].id)
+        @Html.HiddenFor(model => model.lPathImages[i].Path, new { @id = "Path" + i })
+        @Html.HiddenFor(model => model.lPathImages[i].IsToBeDeleted, new { @id = "IsToBeDeleted" + i })
+    }
+
+    <br />
+    <br />
+
+    <div class="col-md-12 row">
+        <!--Photos Preview-->
+        <div class="form-group col-md-6">
+            @Html.Label("", "Photos de l'établissement", new { @class = "control-label" })
+            <div id="PhotosPreview">
+                @for (int i = 0; i < Model.lPathImages.Count; i++)
+                {
+                    <ul class="list-group" id="ulPreviewPhoto-@i">
+                        @Html.HiddenFor(model => model.lPathImages[i], new { @id = "PhotoId" })
+                        <li class="list-group-item d-flex">
+                            <img src="@Model.lPathImages[i].Path" height="120" alt="la photo ne charge pas" class="align-self-start p-2" />
+                            @Html.Label("", "Supprimer", new { @class = "btn btn-danger align-self-center ml-auto p2", id = "deletePhoto-" + i, onclick = "supprimerPhoto(" + i + ")" })
+                        </li>
+                    </ul>
+                }
+            </div>
+        </div>
+
+        <!--Logos Preview-->
+        <div class="form-group col-md-6">
+            @Html.Label("", "Logo de l'établissement", new { @class = "control-label" })
+            <div id="logoPreview">
+                @if (Model.PathLogo != null)
+                {
+                    <ul class="list-group" id="ulPreviewLogo">
+                        @Html.HiddenFor(model => model.PathLogo, new { @id = "PhotoId" })
+                        <li class="list-group-item d-flex">
+                            <img src="@Model.PathLogo" height="120" alt="la photo ne charge pas" class="align-self-start p-2" />
+                            @Html.Label("", "Supprimer", new { @class = "btn btn-danger align-self-center ml-auto p2", id = "deleteLogo", onclick = "supprimerLogo()" })
+                        </li>
+
+                    </ul>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 row">
+        <!--Photos-->
+        <div class="form-group col-md-6">
+
+            <br />
+            @for (int i = 0; i < Model.NombrePhotos; i++)
+            {
+
+                <div class="custom-file" id="photo-@i">
+                    @Html.HiddenFor(model => model.Photos[i].id, new { @id = "PhotoId" })
+                    <input asp-for="@Model.Photos[i].Photo" type="file" id="photo-input-@i" accept="image/*" onchange="handlePhotos(this.files,@i)" class="form-control custom-file-input" />
+                    <label id="photo-label-@i" class="custom-file-label">Sélectionner l'image</label>
+                    <br />
+                </div>
+            }
+        </div>
+
+        <br />
+
+
+        <div class="form-group col-md-6">
+            <!--Logos-->
+            <br />
+            <div class="custom-file" id="logo-container">
+                <input asp-for="Logo" type="file" id="logo-input" accept="image/*" onchange="handleLogo(this.files)" class="form-control custom-file-input" />
+                <label id="logo-label" class="custom-file-label">Sélectionner l'image</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <button style="width:auto" type="submit" name="button" value="create" class="btn btn-primary">Mettre à jour les images</button>
+        @Html.ActionLink("Retour", "ListeEtablissementOwned", "AdministrationEtablissement", "", new { @class = "btn btn-danger" })
+    </div>
+}
+
+@section Scripts{
+    <script src="~/js/ModifImages.js"></script>
+    <script src="~/js/toastr.js"></script>
+}

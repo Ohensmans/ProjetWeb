@@ -16,7 +16,7 @@ namespace CoronaOutWeb.ExternalApiCall.Etablissements
 
         Task<Horaire> UpdateHoraireAsync(Horaire horaire, string idToken);
 
-        Task DeleteHoraireAsync(Guid id);
+        Task DeleteHoraireAsync(Guid id, string idToken);
 
 
     }

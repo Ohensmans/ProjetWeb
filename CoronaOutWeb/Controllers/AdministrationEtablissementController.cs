@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using CoronaOutWeb.ExternalApiCall.Etablissements;
-using CoronaOutWeb.Models;
 using CoronaOutWeb.ViewModel;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authentication;
@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using ModelesApi.POC;
 
 namespace CoronaOutWeb.Controllers
@@ -34,6 +33,166 @@ namespace CoronaOutWeb.Controllers
             this.photoService = photoService;
             this.horaireService = horaireService;
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> EditEtablissement(Guid etablissementId)
+        {
+            Etablissement etab = await etablissementService.GetEtablissementAsync(etablissementId);
+
+
+            EditEtablissementViewModel model = new EditEtablissementViewModel();
+
+            model.Etab = etab;
+
+            /*
+                      
+
+            
+            List<Horaire> lHoraire = await horaireService.GetAllHorairesAsync();
+
+            lHoraire = lHoraire.Where(x => x.EtablissementId == etablissementId).ToList();
+            
+
+            model.lHoraire = lHoraire;
+
+            List<PhotoGeneriqueViewModel> lPhotosGeneriques = new List<PhotoGeneriqueViewModel>();
+            foreach(PhotoEtablissement photo in lPhotos)
+            {
+                PhotoGeneriqueViewModel photoGenerique = new PhotoGeneriqueViewModel();
+                photoGenerique.id = photo.Id;
+
+                
+                
+                using (var stream = System.IO.File.OpenRead(path))
+                {
+                    photoGenerique.Photo = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name));
+                }
+
+                lPhotosGeneriques.Add(photoGenerique);
+            }
+
+            for (int i = 0; i<lPhotosGeneriques.Count;i++)
+            {
+                model.Photos[i] = lPhotosGeneriques[i];
+            }
+            */
+
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditEtablissement(EditEtablissementViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var idToken = await HttpContext.GetTokenAsync("access_token");
+                    var result = await etablissementService.UpdateEtablissementAsync(model.Etab, idToken);
+                }
+                catch (Exception)
+                {
+                    return View("Error");
+                }
+
+            }
+            else
+                return View();
+
+            return RedirectToAction("ListeEtablissementOwned");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditImages(Guid etablissementId)
+        {
+            EditImagesViewModel model = new EditImagesViewModel(NOMBREMAXPHOTOS, TAILLEMAXIMAGE, etablissementId);
+
+            //récupère le path vers le logo si il existe
+            Etablissement etabl= await etablissementService.GetEtablissementAsync(etablissementId);
+            if (etabl.Logo !=null)
+            {
+                model.PathLogo = Path.Combine("\\", "img", "Etablissement", etabl.Id.ToString(), "Logo", etabl.Logo);
+            }
+
+            //récupère les path vers les images
+            List<PhotoEtablissement> lPhotos = await photoService.GetAllPhotosAsync();
+            lPhotos = lPhotos.Where(x => x.EtablissementId == etablissementId).ToList();
+            List<PhotoGeneriqueViewModel> lPathImages = new List<PhotoGeneriqueViewModel>();
+            if (lPhotos !=null)
+            {
+                foreach (PhotoEtablissement photo in lPhotos)
+                {
+                    PhotoGeneriqueViewModel photoGenerique = new PhotoGeneriqueViewModel();
+                    photoGenerique.Path = Path.Combine("\\", "img", "Etablissement", etabl.Id.ToString(), "Photos", photo.NomFichier);
+                    photoGenerique.id = photo.Id;
+                    lPathImages.Add(photoGenerique);
+                }
+            }
+            model.lPathImages = lPathImages;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditImages(EditImagesViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var idToken = await HttpContext.GetTokenAsync("access_token");
+                    
+                    //met à jour l'établissement avec le nouveau logo le cas échéant
+                    if (model.PathLogo == null && model.Logo != null)
+                    {
+                        Etablissement etab = await etablissementService.GetEtablissementAsync(model.EtablissementId);
+
+                        if (etab.Logo !=null)
+                        {
+                            string PathLogo = Path.Combine(hostingEnvironment.WebRootPath, "img", "Etablissement", etab.Id.ToString(), "Logo", etab.Logo);
+                            deleteImage(PathLogo);
+                        }
+
+                        etab.Logo = createLogo(etab.Id, model.Logo);
+                        var result = await etablissementService.UpdateEtablissementAsync(etab, idToken);
+                    }
+
+                    //supprime les photos le cas échéant
+                    List<PhotoGeneriqueViewModel> lPhotosASupprimer = model.lPathImages.Where(x => x.IsToBeDeleted).ToList();
+                    if (lPhotosASupprimer!=null)
+                    {
+                        foreach (PhotoGeneriqueViewModel photo in lPhotosASupprimer)
+                        {
+                            string PathLogo = Path.Join(hostingEnvironment.WebRootPath, photo.Path);
+                            deleteImage(PathLogo);
+                            var result = photoService.DeletePhotoAsync(photo.id, idToken);
+                        }                       
+                    }
+
+                    //rajoute les photos le cas échéant
+                    List<PhotoGeneriqueViewModel> lPhotosARajouter = model.Photos.Where(x => x.Photo != null).ToList();
+                    if (lPhotosARajouter!=null)
+                    {
+                        foreach (PhotoGeneriqueViewModel photo in lPhotosARajouter)
+                        {
+                            createPhoto(model.EtablissementId, photo);
+                        }
+                    }
+
+
+                }
+                catch (Exception)
+                {
+                    return View("Error");
+                }
+
+
+            }
+            return RedirectToAction("ListeEtablissementOwned");
+        }
+
 
         [HttpGet]
         public IActionResult Create()
@@ -74,23 +233,11 @@ namespace CoronaOutWeb.Controllers
                         
                         newEtabl.DatePublication = DateTime.Now;
 
-                        string logoNom = "";
+                        
                         if (model.Logo != null)
                         {
-                            //charge le logo sur le serveur
-                            string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "img", "Etablissement", newEtabl.Id.ToString(), "Logo");
-
-                            if (!Directory.Exists(uploadFolder))
-                            {
-                                DirectoryInfo di = Directory.CreateDirectory(uploadFolder);
-                            }
-
-                            logoNom = Guid.NewGuid().ToString() + "_" + model.Logo.FileName;
-                            string logoPath = Path.Combine(uploadFolder, logoNom);
-                            model.Logo.CopyTo(new FileStream(logoPath, FileMode.Create));
-
-                            //charge le nom du fichier dans le nouvel établissement
-                            newEtabl.Logo = logoNom;
+                            //stocke le logo sur le serveur et renvoie son nom
+                            newEtabl.Logo = createLogo(newEtabl.Id, model.Logo);
                         }
                         
 
@@ -111,7 +258,7 @@ namespace CoronaOutWeb.Controllers
                         {
                             foreach (PhotoGeneriqueViewModel photo in model.Photos)
                             {
-                                createPhotos(newEtabl, photo);
+                                createPhoto(newEtabl.Id, photo);
                             }                           
                         }
 
@@ -133,7 +280,7 @@ namespace CoronaOutWeb.Controllers
             return View(model);
         }
 
-        private async void createPhotos(Etablissement newEtabl, PhotoGeneriqueViewModel photo)
+        private async void createPhoto(Guid EtabId, PhotoGeneriqueViewModel photo)
         {
             var idToken = await HttpContext.GetTokenAsync("access_token");
 
@@ -141,7 +288,7 @@ namespace CoronaOutWeb.Controllers
             {
                 //charge la photo sur le serveur
                 string PhotoNom = "";
-                string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "img", "Etablissement", newEtabl.Id.ToString(), "Photos");
+                string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "img", "Etablissement", EtabId.ToString(), "Photos");
 
                 if (!Directory.Exists(uploadFolder))
                 {
@@ -157,7 +304,7 @@ namespace CoronaOutWeb.Controllers
                 PhotoEtablissement photoNew = new PhotoEtablissement();
                 photoNew.Id = photoGuid;
                 photoNew.NomFichier = PhotoNom;
-                photoNew.EtablissementId = newEtabl.Id;
+                photoNew.EtablissementId = EtabId;
 
                 try
                 {
@@ -169,6 +316,44 @@ namespace CoronaOutWeb.Controllers
                 }
             }
             
+        }
+
+        private void deleteImage (string Path)
+        {
+            try
+            {
+                if (System.IO.File.Exists(Path))
+                {
+                    System.IO.File.Delete(Path);
+                }
+                else
+                {
+                    throw new Exception("Le fichier n'existe pas");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private string createLogo(Guid EtablId, IFormFile Logo)
+        {
+            string logoNom = "";
+            //charge le logo sur le serveur
+            string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "img", "Etablissement", EtablId.ToString(), "Logo");
+
+            if (!Directory.Exists(uploadFolder))
+            {
+                DirectoryInfo di = Directory.CreateDirectory(uploadFolder);
+            }
+
+            logoNom = Guid.NewGuid().ToString() + "_" + Logo.FileName;
+            string logoPath = Path.Combine(uploadFolder, logoNom);
+            Logo.CopyTo(new FileStream(logoPath, FileMode.Create));
+
+            //retourne le nom du fichier dans le nouvel établissement
+            return logoNom;
         }
 
         private async void createHoraires(Etablissement newEtabl, List<Horaire> lHoraire)
