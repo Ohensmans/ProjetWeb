@@ -1,5 +1,6 @@
 
 using CoronaOutWeb.ExternalApiCall.Etablissements;
+using CoronaOutWeb.ExternalApiCall.Map;
 using CoronaOutWeb.ExternalApiCall.Users;
 using CoronaOutWeb.ExternalApiCall.VAT;
 using CoronaOutWeb.Models;
@@ -90,14 +91,14 @@ namespace CoronaOutWeb
             services.AddTransient<IEtablissementService, EtablissementService>();
             services.AddTransient<IPhotoService, PhotoService>();
             services.AddTransient<IHoraireService, HoraireService>();
-            //services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IMapService, MapService>();
             services.AddTransient<IValidator<Horaire>, HoraireValidator>();
-            //services.AddTransient<IValidator<Utilisateur>, UtilisateurValidator>();
             services.AddTransient<IValidator<Etablissement>, EtablissementValidator>();
             services.AddTransient<IValidator<CreateEtablissementViewModel>, MonEtablissementViewValidator>();
 
             services.Configure<BaseUrl>(Configuration.GetSection("BaseUrl"));
             services.Configure<BaseKey>(Configuration.GetSection("ApiKey"));
+            services.Configure<BaseParams>(Configuration.GetSection("ParamsApi"));
 
         }
 

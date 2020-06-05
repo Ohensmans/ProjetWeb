@@ -21,5 +21,7 @@ namespace CoronaOutWeb.Models
 
         public string IdentityMonCompte { get; set; }
         public string IdentityAdmin { get; set; }
+
+        public string MapQuest { get; set; }
     }
 }

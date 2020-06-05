@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CoronaOutWeb.ExternalApiCall.Etablissements;
 using CoronaOutWeb.ViewModel;
@@ -138,7 +139,7 @@ namespace CoronaOutWeb.Controllers
             {
                 try
                 {
-                    
+                    var idToken = await HttpContext.GetTokenAsync("access_token");
                     var result = await etablissementService.UpdateEtablissementAsync(model.Etab, idToken);
                 }
                 catch (Exception)
@@ -281,7 +282,7 @@ namespace CoronaOutWeb.Controllers
 
                         
                         newEtabl.DatePublication = DateTime.Now;
-
+                        newEtabl.NomUrl = await getNomUrl(newEtabl.Nom);
                         
                         if (model.Logo != null)
                         {
@@ -327,6 +328,27 @@ namespace CoronaOutWeb.Controllers
             }
 
             return View(model);
+        }
+
+        private async Task<string> getNomUrl(string nom)
+        {
+            List<Etablissement> lEtab = await etablissementService.GetAllEtablissementsAsync();
+            string NomUrl = Regex.Replace(nom, @" ", "");
+            NomUrl = Regex.Replace(nom, @"é|è", "e");
+            NomUrl = Regex.Replace(nom, @"\$|\§", "s");
+            NomUrl = Regex.Replace(nom, @"ç", "c");
+
+            if (lEtab.Any(x => x.NomUrl == NomUrl))
+            {
+                int i = 1;
+                while (lEtab.Any(x => x.NomUrl == (NomUrl + i)))
+                {
+                    i++;
+                }
+                NomUrl += i;
+            }
+
+            return NomUrl;
         }
 
         private async void createPhoto(Guid EtabId, PhotoGeneriqueViewModel photo)

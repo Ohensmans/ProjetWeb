@@ -57,5 +57,7 @@ namespace ModelesApi.POC
 
         public bool estValide { get; set; }
 
+        public string NomUrl { get; set; }
+
     }
 }

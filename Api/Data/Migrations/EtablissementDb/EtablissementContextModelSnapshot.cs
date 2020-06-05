@@ -54,7 +54,7 @@ namespace Api.Data.Migrations.EtablissementDb
                     b.Property<DateTime>("DatePublication")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 5, 31, 11, 52, 55, 873, DateTimeKind.Local).AddTicks(8850));
+                        .HasDefaultValue(new DateTime(2020, 6, 5, 12, 23, 5, 921, DateTimeKind.Local).AddTicks(437));
 
                     b.Property<string>("Logo")
                         .HasColumnType("nvarchar(max)");
@@ -63,6 +63,9 @@ namespace Api.Data.Migrations.EtablissementDb
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
+
+                    b.Property<string>("NomUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NumeroBoite")
                         .IsRequired()
