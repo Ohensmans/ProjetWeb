@@ -43,6 +43,7 @@ namespace CoronaOutWeb.Controllers
             return View(vm);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Fiche(string id)
         {
             FicheViewModel model = new FicheViewModel();

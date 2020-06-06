@@ -18,12 +18,16 @@
     font-style : italic;
 }
 
-#img-thumb{
-    max-height : 25px;
+#img-thumb {
+    max-height: 25px;
 }
 
 #centerAll {
     text-align: center;
+    margin-left:auto;
+    margin-right:auto;
+    width:auto;
+    
 }
 
 

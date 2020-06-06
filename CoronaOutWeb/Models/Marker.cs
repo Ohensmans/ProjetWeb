@@ -15,6 +15,6 @@ namespace CoronaOutWeb.Models
 
         public string NomUrl { get; set; }
 
-        public bool estOuvert { get; set; }
+        public int nbMinAvantFermeture { get; set; }
     }
 }

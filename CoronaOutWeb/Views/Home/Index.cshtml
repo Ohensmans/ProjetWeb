@@ -19,16 +19,32 @@
 <br />
 @if (Model.isLogged)
 {
-    <h4>Les établissements ouverts sont en vert et ceux qui sont fermés en rouge</h4>
+    <h4>Uniquement les établissements ouverts sont représentés</h4>
 }
 else
 {
-<h4>Connectez-vous pour voir les établissements ouverts en ce moment</h4>
+    <h4>Connectez-vous pour voir les établissements ouverts en ce moment</h4>
 }
 <br />
 <br />
 
 <div id="mapid"></div>
+
+@if (Model.isLogged)
+{
+    <div class="col-md-12">
+        <img src="/img/Markers/markerVert.png" id="img-thumb" />
+        &emsp;
+        <div class="custom-control-label">L'établissement est ouvert</div>
+    </div>
+
+    <div class="col-md-12">
+        <img src="/img/Markers/markerOrange.png" id="img-thumb" />
+        &emsp;
+        <div class="custom-control-label">L'établissement ferme dans les 15 prochaines minutes</div>
+    </div>
+}
+
 
 @section Scripts{
     <script src="~/js/Map.js"></script>

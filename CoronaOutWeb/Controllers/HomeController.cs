@@ -14,6 +14,8 @@ using CoronaOutWeb.ExternalApiCall.Etablissements;
 using System.Collections.Generic;
 using ModelesApi.POC;
 using Newtonsoft.Json;
+using System;
+using System.Globalization;
 
 namespace CoronaOutWeb.Controllers
 {
@@ -23,7 +25,7 @@ namespace CoronaOutWeb.Controllers
         private readonly IEtablissementService etablissementService;
         private readonly IHoraireService horaireService;
         private readonly IMapService mapService;
-        private readonly string Mapbox; 
+        private readonly string Mapbox;
 
         public HomeController(ILogger<HomeController> logger, IOptions<BaseKey> key, IEtablissementService etablissementService, IHoraireService horaireService, IMapService mapService)
         {
@@ -98,11 +100,50 @@ namespace CoronaOutWeb.Controllers
                     Marker marker = await mapService.GetCoordinates(adresse);
                     marker.Nom = etab.Nom;
                     marker.NomUrl = etab.NomUrl;
+                    marker.nbMinAvantFermeture = await estOuvert(etab.Id);
+
                     string coordinates = JsonConvert.SerializeObject(marker);
                     lCoordinates.Add(coordinates);
                 }
             }
             return lCoordinates;
+        }
+
+        public async Task<int> estOuvert(Guid etablissementId)
+        {
+            int nbMinAvantFermeture = 0;
+
+            List<Horaire> lHoraire = await horaireService.GetAllHorairesAsync();
+            if (lHoraire.Any(x => x.EtablissementId == etablissementId))
+            {
+                lHoraire = lHoraire.Where(x => x.EtablissementId == etablissementId).ToList();
+
+                CultureInfo culture = CultureInfo.CurrentCulture;
+                string jour = culture.DateTimeFormat.GetDayName(DateTime.Now.Date.DayOfWeek).ToString().ToLower();
+                TimeSpan heure = DateTime.Now.TimeOfDay;
+
+                Horaire horaireJour = lHoraire.FirstOrDefault(h => h.Jour.ToLower().Equals(jour) && h.HeureOuverture<=heure && h.HeureFermeture>=heure);
+
+                if (horaireJour!=null)
+                {
+                    nbMinAvantFermeture = (int)(horaireJour.HeureFermeture.TotalMinutes - heure.TotalMinutes)/1;
+
+                    if (horaireJour.HeureFermeture==new TimeSpan(23,59,00)|| horaireJour.HeureFermeture == new TimeSpan(00, 00, 00))
+                    {
+                        string demain = culture.DateTimeFormat.GetDayName(DateTime.Now.Date.AddDays(1).DayOfWeek).ToString().ToLower();
+                        Horaire horaireDemain = lHoraire.FirstOrDefault(h => h.Jour.ToLower().Equals(demain) && h.HeureOuverture == new TimeSpan(00, 00, 00));
+                        if (horaireDemain!=null)
+                        {
+                            nbMinAvantFermeture = (int)(horaireDemain.HeureFermeture.Add(new TimeSpan(1, 0, 0, 0)).TotalMinutes - heure.TotalMinutes)/1;
+                        }
+
+                    }
+
+                }
+
+            }
+
+            return nbMinAvantFermeture;
         }
 
     }

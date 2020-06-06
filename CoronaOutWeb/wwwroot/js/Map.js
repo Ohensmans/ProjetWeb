@@ -9,6 +9,14 @@ $(document).ready(function () {
         popupAnchor: [-3, -40] // point from which the popup should open relative to the iconAnchor
     });
 
+    var orangeIcon = L.icon({
+        iconUrl: 'img/markers/markerOrange.png',
+
+        iconSize: [25, 35], // size of the icon
+        iconAnchor: [12, 35], // point of the icon which will correspond to marker's location
+        popupAnchor: [-3, -40] // point from which the popup should open relative to the iconAnchor
+    });
+
 
 
     var userAuthorized = $("#isLogged").val();
@@ -35,21 +43,36 @@ $(document).ready(function () {
             var long = obj.Longitude;
             var nom = obj.Nom;
             var nomUrl = obj.NomUrl;
-            var estOuvert = obj.estOuvert;
+            var nbMinAvantFermeture = obj.nbMinAvantFermeture;
+            console.log(nbMinAvantFermeture);
 
             var checkOuverture = "";
             var marker;
 
-            if (userAuthorized=="True") {
-                if (estOuvert) {
-                   checkOuverture = "L'établissement est ouvert"
-                   marker = L.marker([lat, long], { icon: greenIcon }).addTo(mymap);
+            if (userAuthorized == "True") {
+                console.log(nbMinAvantFermeture);
+                if (nbMinAvantFermeture !== 0) {
+                    console.log(nbMinAvantFermeture);
+                    checkOuverture = "L'établissement ferme dans " + nbMinAvantFermeture + " minutes";
+                    if (nbMinAvantFermeture <= 15) {
+                        console.log(nbMinAvantFermeture);
+                        marker = L.marker([lat, long], { icon: orangeIcon }).addTo(mymap);
+                    }
+                    else if (nbMinAvantFermeture > 120) {
+                        checkOuverture = "L'établissement est ouvert";
+                        marker = L.marker([lat, long], { icon: greenIcon }).addTo(mymap);
+                    }
+                    else {
+                        marker = L.marker([lat, long], { icon: greenIcon }).addTo(mymap);
+                    }
+                    marker.bindPopup("<b>" + nom + "</b><br> <a href=Etablissements\\Fiche\\" + nomUrl + ">Détails</a><br>" + checkOuverture);
                 }
             }
             else {
-                marker = L.marker([lat, long]).addTo(mymap);               
+                marker = L.marker([lat, long]).addTo(mymap);
+                marker.bindPopup("<b>" + nom + "</b><br> <a href=Etablissements\\Fiche\\" + nomUrl + ">Détails</a>");    
             }
-            marker.bindPopup("<b>" + nom + "</b><br> <a href=Etablissement\\Fiche\\" + nomUrl + ">Détails</a><br>" + checkOuverture);           
+                   
         })
     })
 
