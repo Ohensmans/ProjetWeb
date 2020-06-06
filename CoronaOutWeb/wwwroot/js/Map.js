@@ -1,4 +1,18 @@
-﻿$(document).ready(function () {
+﻿
+$(document).ready(function () {
+
+    var greenIcon = L.icon({
+        iconUrl: 'img/markers/markerVert.png',
+
+        iconSize: [25, 35], // size of the icon
+        iconAnchor: [12, 35], // point of the icon which will correspond to marker's location
+        popupAnchor: [-3, -40] // point from which the popup should open relative to the iconAnchor
+    });
+
+
+
+    var userAuthorized = $("#isLogged").val();
+    console.log(userAuthorized);
 
     var mapbox = $("#MapBox").val();
 
@@ -23,34 +37,29 @@
             var nomUrl = obj.NomUrl;
             var estOuvert = obj.estOuvert;
 
-            var checkOuverture = "L'établissement est fermé";
-            if (estOuvert) {
-                checkOuverture = "L'établissement est ouvert"
-            }
+            var checkOuverture = "";
+            var marker;
 
-            var marker = L.marker([lat, long]).addTo(mymap);
-            marker.bindPopup("<b>"+nom+"</b><br> <a href=Etablissement\\"+nomUrl+">Détails</a>");
-            
+            if (userAuthorized=="True") {
+                if (estOuvert) {
+                   checkOuverture = "L'établissement est ouvert"
+                   marker = L.marker([lat, long], { icon: greenIcon }).addTo(mymap);
+                }
+            }
+            else {
+                marker = L.marker([lat, long]).addTo(mymap);               
+            }
+            marker.bindPopup("<b>" + nom + "</b><br> <a href=Etablissement\\Fiche\\" + nomUrl + ">Détails</a><br>" + checkOuverture);           
         })
     })
 
+    load();
+
 })
 
-
-
-/*var marker = L.marker([50.8456, 4.3524]).addTo(mymap);
-
-marker.bindPopup("<b>Hello world!</b><br>I am a popup.");
-
-var popup = L.popup();
-
-function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent("You clicked the map at " + e.latlng.toString())
-        .openOn(mymap);
+function load() {
+    setTimeout("window.open(self.location, '_self');", 900000);
 }
 
-mymap.on('click', onMapClick);
-*/
+
 

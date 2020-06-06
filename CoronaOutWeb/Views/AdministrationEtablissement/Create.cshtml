@@ -23,7 +23,7 @@
             @Html.ValidationMessageFor(model => model.Etab.Nom, "", new { @class = "text-danger" })
         </div>
 
-        <!--Prenom-->
+        <!--Type-->
         <div class="form-group col-md-6">
             @Html.LabelFor(model => model.Etab.Type, "Type d'établissement", new { @class = "control-label" })
             @Html.DropDownListFor(model => model.Etab.Type, new SelectList(Model.lTypeEtablissement), "Sélectionnez le type d'établissement", new { @class = "form-control" })

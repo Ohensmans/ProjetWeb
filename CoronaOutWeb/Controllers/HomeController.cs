@@ -34,14 +34,19 @@ namespace CoronaOutWeb.Controllers
             this.Mapbox = key.Value.MapBox;
         }
 
-        [AllowAnonymous]
+
+        [HttpGet]
         public IActionResult Index()
         {
             HomeViewModel model = new HomeViewModel();
             model.MapBox = this.Mapbox;
+            model.isLogged = User.Identity.IsAuthenticated;
 
             return View(model);
         }
+
+
+
 
         [Authorize]
         public async Task<IActionResult> Privacy()
@@ -89,17 +94,14 @@ namespace CoronaOutWeb.Controllers
             {
                 if (etab.estValide)
                 {
-                    Marker marker = new Marker();
-
                     string adresse = etab.NumeroBoite + "+" + etab.Rue + ",+" + etab.CodePostal + ",+" + etab.Ville + ",+" + etab.Pays;
-                    marker = await mapService.GetCoordinates(adresse);
+                    Marker marker = await mapService.GetCoordinates(adresse);
                     marker.Nom = etab.Nom;
                     marker.NomUrl = etab.NomUrl;
                     string coordinates = JsonConvert.SerializeObject(marker);
                     lCoordinates.Add(coordinates);
                 }
             }
-
             return lCoordinates;
         }
 

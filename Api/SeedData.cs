@@ -45,7 +45,8 @@ namespace Api
                     Pays ="Belgique",
                     Rue ="Rue Rabelais",
                     NumeroBoite="23",
-                    PublieParUserId = Guid.Parse("4d0a2640-3ad9-4c3e-90bd-6cea9825acc2")
+                    PublieParUserId = Guid.Parse("4d0a2640-3ad9-4c3e-90bd-6cea9825acc2"),
+                    NomUrl = "Galoute"
                 });
 
                 etbCtx.Etablissements.Add(new Etablissement
@@ -59,7 +60,8 @@ namespace Api
                     Pays = "Belgique",
                     Rue = "Rue des Wallons",
                     NumeroBoite = "13",
-                    PublieParUserId = Guid.Parse("4d0a2640-3ad9-4c3e-90bd-6cea9825acc2")
+                    PublieParUserId = Guid.Parse("4d0a2640-3ad9-4c3e-90bd-6cea9825acc2"),
+                    NomUrl = "LesHalles"
                 });
 
                 etbCtx.SaveChanges();

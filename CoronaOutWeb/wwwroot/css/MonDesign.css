@@ -6,6 +6,44 @@
     --danger: #9A031E;
 }
 
+#mapid {
+    height: 500px;
+}
+
+#NomEtab{
+    font-weight : bold;
+}
+
+#EtabInfoComp{
+    font-style : italic;
+}
+
+#img-thumb{
+    max-height : 25px;
+}
+
+#centerAll {
+    text-align: center;
+}
+
+
+/* Make the image fully responsive */
+.carousel-inner img {
+    max-height: 500px;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.carousel-inner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #000;
+}
+
+
 .btn-primary {
     color: #fff;
     background-color: #5F0F40;

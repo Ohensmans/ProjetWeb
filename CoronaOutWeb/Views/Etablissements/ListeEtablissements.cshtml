@@ -32,7 +32,7 @@
                 <td>@Html.Label("", etablissement.NumeroBoite)</td>
                 <td>@Html.Label("", etablissement.Ville)</td>
                 <td>@Html.Label("", etablissement.Pays)</td>
-                <td>@Html.ActionLink("Détails", "Fiche", "Etablissements", new { id = etablissement.Id }, new { @class = "btn btn-success" })</td>
+                <td>@Html.ActionLink("Détails", "Fiche", "Etablissements", new { id = etablissement.NomUrl }, new { @class = "btn btn-success" })</td>
             </tr>
                 }
             }

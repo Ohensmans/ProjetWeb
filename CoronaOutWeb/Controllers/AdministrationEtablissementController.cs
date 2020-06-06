@@ -333,15 +333,15 @@ namespace CoronaOutWeb.Controllers
         private async Task<string> getNomUrl(string nom)
         {
             List<Etablissement> lEtab = await etablissementService.GetAllEtablissementsAsync();
-            string NomUrl = Regex.Replace(nom, @" ", "");
+            string NomUrl = Regex.Replace(nom, @"\s", "");
             NomUrl = Regex.Replace(nom, @"é|è", "e");
             NomUrl = Regex.Replace(nom, @"\$|\§", "s");
             NomUrl = Regex.Replace(nom, @"ç", "c");
 
-            if (lEtab.Any(x => x.NomUrl == NomUrl))
+            if (lEtab.Any(x => x.NomUrl.ToUpper() == NomUrl.ToUpper()))
             {
                 int i = 1;
-                while (lEtab.Any(x => x.NomUrl == (NomUrl + i)))
+                while (lEtab.Any(x => x.NomUrl.ToUpper() == (NomUrl + i).ToUpper()))
                 {
                     i++;
                 }

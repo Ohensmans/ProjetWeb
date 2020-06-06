@@ -25,15 +25,12 @@
                         <li class="nav-item">
                             @Html.ActionLink("Accueil", "Index", "Home", null, new { @class = "nav-link text-dark" })
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Etablissements
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @Html.ActionLink("Liste complète", "ListeEtablissements", "Etablissements", null, new { @class = "nav-link text-dark" })
-                                <div class="dropdown-divider"></div>
-                                @Html.ActionLink("Fiche Individuelle", "Fiche", "Etablissements", null, new { @class = "nav-link text-dark" })
-                            </div>
+                        <li class="nav-item">
+                            @Html.ActionLink("Etablissements", "ListeEtablissements", "Etablissements", null, new { @class = "nav-link text-dark" })
+                        </li>
+
+                        <li class="nav-item">
+                            @Html.ActionLink("News", "ListeEtablissements", "Etablissements", null, new { @class = "nav-link text-dark" })
                         </li>
 
                         @if (User.Claims.Any(x => x.Type.ToString() == "role" && (x.Value == "Administrateur" || x.Value == "Gestionnaire")))
@@ -103,6 +100,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
