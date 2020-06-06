@@ -68,7 +68,46 @@ namespace IdentityServer.Controllers
                 return View("Error", vme);
             }
 
-            var model = new List<RolesUserViewModel>();
+            var model = await getListUserRoles(user);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ManageUserRoles(List<RolesUserViewModel> model, string userId, string returnUrl)
+        {
+
+            var user = await userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                ErrorViewModel vme = new ErrorViewModel("L'utilisateur avec l'id :" + userId + " n'a pas pu être trouvé");
+                return View("Error", vme);
+            }
+
+            var roles = await userManager.GetRolesAsync(user);
+            var result = await userManager.RemoveFromRolesAsync(user, roles);
+
+            if(!result.Succeeded)
+            {
+                ModelState.AddModelError("", "Ne peut pas retirer l'utilisaeur des rôles existants");
+                return View(model);
+            }
+
+            result = await userManager.AddToRolesAsync(user, model.Where(x => x.isSelected).Select(y => y.RoleName));
+
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", "Ne peut pas ajouter l'utilisaeur à ces rôles");
+                return View(model);
+            }
+
+            return RedirectToAction("EditUser", new { userId, returnUrl });
+        }
+
+        public async Task<List<RolesUserViewModel>> getListUserRoles(Utilisateur user)
+        {
+           List<RolesUserViewModel> lRoles = new List<RolesUserViewModel>();
 
             foreach (var role in roleManager.Roles)
             {
@@ -79,10 +118,9 @@ namespace IdentityServer.Controllers
                 };
                 rolesUserViewModel.isSelected = await userManager.IsInRoleAsync(user, role.Name);
 
-                model.Add(rolesUserViewModel);
+                lRoles.Add(rolesUserViewModel);
             }
-
-            return View(model);
+            return lRoles;
         }
 
         [HttpGet]

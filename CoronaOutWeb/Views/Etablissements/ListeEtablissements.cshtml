@@ -8,15 +8,15 @@
 <br />
 @if (Model.Etablissements.Any())
 {
-    <table class="table table-striped">
+    <table class="table table-striped" id="myTable">
         <thead>
             <tr>
-                <th>Nom</th>
-                <th>Type</th>
-                <th>Rue</th>
-                <th>Numéro</th>
-                <th>Ville</th>
-                <th>Pays</th>
+                <th class="NomColonne" id="0">Nom</th>
+                <th class="NomColonne" id="1">Type</th>
+                <th class="NomColonne" id="2">Rue</th>
+                <th class="NomColonne" id="3">Numéro</th>
+                <th class="NomColonne" id="4">Ville</th>
+                <th class="NomColonne" id="5">Pays</th>
                 <th>Details</th>
             </tr>
         </thead>
@@ -25,15 +25,15 @@
             {
                 @if (etablissement.estValide)
                 {
-            <tr>
-                <td>@Html.Label("", etablissement.Nom)</td>
-                <td>@Html.Label("", etablissement.Type)</td>
-                <td>@Html.Label("", etablissement.Rue)</td>
-                <td>@Html.Label("", etablissement.NumeroBoite)</td>
-                <td>@Html.Label("", etablissement.Ville)</td>
-                <td>@Html.Label("", etablissement.Pays)</td>
-                <td>@Html.ActionLink("Détails", "Fiche", "Etablissements", new { id = etablissement.NomUrl }, new { @class = "btn btn-success" })</td>
-            </tr>
+                    <tr>
+                        <td>@Html.Label("", etablissement.Nom)</td>
+                        <td>@Html.Label("", etablissement.Type)</td>
+                        <td>@Html.Label("", etablissement.Rue)</td>
+                        <td>@Html.Label("", etablissement.NumeroBoite)</td>
+                        <td>@Html.Label("", etablissement.Ville)</td>
+                        <td>@Html.Label("", etablissement.Pays)</td>
+                        <td>@Html.ActionLink("Détails", "Fiche", "Etablissements", new { id = etablissement.NomUrl }, new { @class = "btn btn-success" })</td>
+                    </tr>
                 }
             }
         </tbody>
@@ -43,5 +43,9 @@
 else
 {
     <h3>Il n'y a pas encore d'établissments validés</h3>
+}
+
+@section Scripts{
+    <script src="~/js/SortTable.js"></script>
 }
 

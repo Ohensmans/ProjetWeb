@@ -49,6 +49,36 @@ namespace IdentityServer.Controllers
             return View(rvm);
         }
 
+
+        public async Task<bool> PutInRole(Utilisateur user)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            var result = await _userManager.RemoveFromRolesAsync(user, roles);
+            if (result.Succeeded)
+            {
+
+                string role;
+
+                if (user.estProfessionel)
+                {
+                    role = "Gestionnaire";
+                }
+                else
+                {
+                    role = "Utilisateur";
+                }
+
+                result = await _userManager.AddToRoleAsync(user, role);
+
+                if (result.Succeeded)
+                {
+                    return true;
+                }
+            }
+            return false;
+
+        }
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model, string button)
         {
@@ -61,13 +91,17 @@ namespace IdentityServer.Controllers
                     var result = await _userManager.CreateAsync(model.User, model.Password);
 
                     if (result.Succeeded)
-                    { 
-                        if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrateur"))
+                    {
+                        if (await PutInRole(model.User))
                         {
-                            return RedirectToAction("ListeUser", "Administration", new { returnUrl = model.ReturnUrl });
+
+                            if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrateur"))
+                            {
+                                return RedirectToAction("ListeUser", "Administration", new { returnUrl = model.ReturnUrl });
+                            }
+                            var signInResult = await _signInManager.PasswordSignInAsync(model.User, model.Password, false, false);
+                            return Redirect(model.ReturnUrl);
                         }
-                        var signInResult = await _signInManager.PasswordSignInAsync(model.User, model.Password, false, false);
-                        return Redirect(model.ReturnUrl);
                     }
                 }
                 return View(model);
@@ -191,28 +225,34 @@ namespace IdentityServer.Controllers
 
                     var result = await _userManager.UpdateAsync(vm.User);
 
-                    if (vm.Password != null && vm.ConfirmPassword != null && vm.NewPassword != null)
+                    if (result.Succeeded)
                     {
-                        if (vm.Password != null)
+                        if (await PutInRole(vm.User))
                         {
-                            var resultlogin = await _signInManager.CheckPasswordSignInAsync(vm.User, vm.Password, true);
-                            if (!resultlogin.Succeeded)
+                            if (vm.Password != null && vm.ConfirmPassword != null && vm.NewPassword != null)
                             {
-                                ModelState.AddModelError(string.Empty, "Mot de passe invalide");
-                                return View(vm);
-                            }
-                            var modifPass = await _userManager.ChangePasswordAsync(vm.User, vm.Password, vm.NewPassword);
-                            if (modifPass.Succeeded)
-                            {
-                                if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrateur"))
+                                if (vm.Password != null)
                                 {
-                                    return RedirectToAction("ListeUser", "Administration", new { returnUrl = vm.ReturnUrl });
-                                }
+                                    var resultlogin = await _signInManager.CheckPasswordSignInAsync(vm.User, vm.Password, true);
+                                    if (!resultlogin.Succeeded)
+                                    {
+                                        ModelState.AddModelError(string.Empty, "Mot de passe invalide");
+                                        return View(vm);
+                                    }
+                                    var modifPass = await _userManager.ChangePasswordAsync(vm.User, vm.Password, vm.NewPassword);
+                                    if (modifPass.Succeeded)
+                                    {
+                                        if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrateur"))
+                                        {
+                                            return RedirectToAction("ListeUser", "Administration", new { returnUrl = vm.ReturnUrl });
+                                        }
 
-                                if (vm.ReturnUrl != null)
-                                    return Redirect(vm.ReturnUrl);
-                                else
-                                    return Redirect("~/");
+                                        if (vm.ReturnUrl != null)
+                                            return Redirect(vm.ReturnUrl);
+                                        else
+                                            return Redirect("~/");
+                                    }
+                                }
                             }
                         }
                     }

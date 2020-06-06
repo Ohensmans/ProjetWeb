@@ -44,29 +44,7 @@ $("#deleteHoraire-0").on('click', function () {
 
 })
 
-/*
-function addButtonDelete() {
 
-    var id = 0;
-
-    $("tr").each(function () {
-        if (this.id !== "titre") {
-            var cell = document.createElement("td");
-            var buttonDeleteHoraire = document.createElement("label");
-            buttonDeleteHoraire.className = "btn btn-danger align-text-bottom";
-            buttonDeleteHoraire.innerHTML = "Supprimer";
-            buttonDeleteHoraire.onclick = supprimerHoraire;
-            buttonDeleteHoraire.id = "deleteHoraire-"+id;
-            cell.append(buttonDeleteHoraire);
-            $(this).append(cell);
-            id++;
-        }
-    })
-}
-
-$(document).ready(function () {
-    addButtonDelete()
-});*/
 
 
 

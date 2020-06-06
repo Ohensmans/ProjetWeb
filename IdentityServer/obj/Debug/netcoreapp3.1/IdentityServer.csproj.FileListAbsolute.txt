@@ -194,3 +194,4 @@ C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\IdentityServer\obj\Debug\netcorea
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\IdentityServer\obj\Debug\netcoreapp3.1\Razor\Views\Administration\EditUser.cshtml.g.cs
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\IdentityServer\obj\Debug\netcoreapp3.1\Razor\Views\Administration\Index.cshtml.g.cs
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\IdentityServer\bin\Debug\netcoreapp3.1\Macross.Json.Extensions.dll
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\IdentityServer\obj\Debug\netcoreapp3.1\Razor\Views\Administration\ManageUserRoles.cshtml.g.cs

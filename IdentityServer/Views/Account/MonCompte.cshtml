@@ -9,12 +9,18 @@
 {
     <br/>
     <br/>
+    <div class="card">
 
         @Html.HiddenFor(model => model.ReturnUrl)
 
-            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-            <br />
+        <div class="card-header">
+            <h4>Informations générales</h4>
+        </div>
 
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        <br />
+
+        <div class="card-body">
             <div class="form-row">
                 @Html.LabelFor(model => model.User.Nom, new { @class = "control-label col-md-6" })
                 @Html.Label("", Model.User.Nom, new { @class = "col-md-6" })
@@ -22,7 +28,7 @@
 
             <div class="form-row">
                 @Html.LabelFor(model => model.User.Prenom, new { @class = "control-label col-md-6" })
-                @Html.Label("",Model.User.Prenom, new { @class = "col-md-6" })
+                @Html.Label("", Model.User.Prenom, new { @class = "col-md-6" })
 
             </div>
 
@@ -33,7 +39,7 @@
 
             <div class="form-row">
                 @Html.LabelFor(model => model.User.PhoneNumber, "Numéro de téléphone", new { @class = "control-label col-md-6" })
-                @Html.Label("",Model.User.PhoneNumber, new { @class = "col-md-6" })
+                @Html.Label("", Model.User.PhoneNumber, new { @class = "col-md-6" })
             </div>
 
             <div class="form-row">
@@ -45,12 +51,15 @@
                 @Html.EditorFor(model => model.User.estProfessionel, new { @class = "control-label col-md-1", @readonly = "readonly" })
                 @Html.Label("", "Gestionnaire d'établissements", new { @class = "col-md-11" })
             </div>
+        </div>
+   
 
-
+        <div class="card-footer">
             <div class="form-row">
                 <button type="submit" class="btn btn-primary" name="button" value="modifier">Modifier</button>
 
                 <button type="submit" class="btn btn-danger" name="button" value="cancel">Retour</button>
             </div>
-
-        }
+        </div>
+    </div>
+}
