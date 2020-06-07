@@ -1,5 +1,14 @@
 ﻿
-const nombreMaxPhoto = $("#nbPhotos").val();
+var nombreMaxPhoto;
+
+function NombrePhoto() {
+    if ($("#nbPhotos").length) {
+        nombreMaxPhoto = $("#nbPhotos").val();
+    }
+    else {
+        nombreMaxPhoto = 1;
+    }
+}
 
 const tailleMaxImage = $("#tailleMaxImage").val();
 
@@ -8,7 +17,7 @@ var nombrePreviewImage = $("#PhotosPreview").find("ul").length;
 var logoSelect = document.getElementById("logo-label"),
     logoPreview = document.getElementById("logoPreview");
 
-var photoPreview = document.getElementById("PhotosPreview");
+
 
 
 
@@ -52,6 +61,8 @@ $(document).ready(function () {
         }
     })
 
+    NombrePhoto()
+
 })
 
 function AffichePremierPhotoUpload() {
@@ -84,8 +95,9 @@ window.onload = function () {
     //cache tous les boutons
     for (var i = 0; i < nombreMaxPhoto; i++) {
         var photoId = "#photo-" + (i);
-        $(photoId).hide();
-        
+        if ($(photoId).length) {
+            $(photoId).hide();
+        }
     }
 
     var Previewlogo = "#ulPreviewLogo"
@@ -184,6 +196,8 @@ function handlePhotos(files, nummer) {
 
     if (files[0].size <= tailleMaxImage) {
 
+        var photoPreview = document.getElementById("PhotosPreview");
+
         var list = document.createElement("ul");
         list.id = "ulPreviewPhoto-" + nummer;
         list.className = "list-group";
@@ -276,8 +290,5 @@ function reinitializebutton(num) {
     var selectorName = "photo-label-" + num;
     var labelTextBox = document.getElementById(selectorName);
     labelTextBox.innerHTML = "Sélectionner l'image";
-
-
-
 
 }

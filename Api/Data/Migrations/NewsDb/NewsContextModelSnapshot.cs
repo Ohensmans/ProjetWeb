@@ -28,7 +28,10 @@ namespace Api.Data.Migrations.NewsDb
                     b.Property<DateTime>("DatePublication")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 5, 16, 11, 11, 46, 520, DateTimeKind.Local).AddTicks(6796));
+                        .HasDefaultValue(new DateTime(2020, 6, 7, 11, 30, 28, 847, DateTimeKind.Local).AddTicks(1692));
+
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
@@ -37,7 +40,10 @@ namespace Api.Data.Migrations.NewsDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("estValide")
+                    b.Property<string>("Titre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("estAffichePremier")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");

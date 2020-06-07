@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CoronaOutWeb.ExternalApiCall.Etablissements;
+using CoronaOutWeb.Models;
 using CoronaOutWeb.ViewModel;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authentication;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using ModelesApi.POC;
 
 namespace CoronaOutWeb.Controllers
@@ -24,15 +26,17 @@ namespace CoronaOutWeb.Controllers
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IPhotoService photoService;
         private readonly IHoraireService horaireService;
-        private int NOMBREMAXPHOTOS = 5;
-        private int TAILLEMAXIMAGE = 3000000;
+        private int NOMBREMAXPHOTOS;
+        private int TAILLEMAXIMAGE;
 
-        public AdministrationEtablissementController(IEtablissementService etablissementService, IWebHostEnvironment hostingEnvironment, IPhotoService photoService, IHoraireService horaireService)
+        public AdministrationEtablissementController(IEtablissementService etablissementService, IWebHostEnvironment hostingEnvironment, IPhotoService photoService, IHoraireService horaireService, IOptions<BaseParams> baseParams)
         {
             this.etablissementService = etablissementService;
             this.hostingEnvironment = hostingEnvironment;
             this.photoService = photoService;
             this.horaireService = horaireService;
+            this.NOMBREMAXPHOTOS = baseParams.Value.NbMaxPhotos;
+            this.TAILLEMAXIMAGE = baseParams.Value.TailleMaxImage;
         }
 
 

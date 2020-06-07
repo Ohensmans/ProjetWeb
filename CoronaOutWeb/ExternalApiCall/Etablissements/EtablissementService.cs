@@ -1,5 +1,4 @@
 ﻿using CoronaOutWeb.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using ModelesApi.POC;
 using Newtonsoft.Json;

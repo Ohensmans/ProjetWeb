@@ -1,14 +1,13 @@
 
 using CoronaOutWeb.ExternalApiCall.Etablissements;
 using CoronaOutWeb.ExternalApiCall.Map;
-using CoronaOutWeb.ExternalApiCall.Users;
+using CoronaOutWeb.ExternalApiCall.News;
 using CoronaOutWeb.ExternalApiCall.VAT;
 using CoronaOutWeb.Models;
 using CoronaOutWeb.Validator;
 using CoronaOutWeb.ViewModel;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -92,9 +91,12 @@ namespace CoronaOutWeb
             services.AddTransient<IPhotoService, PhotoService>();
             services.AddTransient<IHoraireService, HoraireService>();
             services.AddTransient<IMapService, MapService>();
+            services.AddTransient<INewsService, NewsService>();
             services.AddTransient<IValidator<Horaire>, HoraireValidator>();
             services.AddTransient<IValidator<Etablissement>, EtablissementValidator>();
+            services.AddTransient<IValidator<News>, NewsValidator>();
             services.AddTransient<IValidator<CreateEtablissementViewModel>, MonEtablissementViewValidator>();
+            services.AddTransient<IValidator<CreateNewsViewModel>, CreateNewsViewModelValidator>();
 
             services.Configure<BaseUrl>(Configuration.GetSection("BaseUrl"));
             services.Configure<BaseKey>(Configuration.GetSection("ApiKey"));

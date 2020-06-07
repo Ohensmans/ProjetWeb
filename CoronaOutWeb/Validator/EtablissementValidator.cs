@@ -1,8 +1,5 @@
 ﻿using CoronaOutWeb.ExternalApiCall.VAT;
-using CoronaOutWeb.Models;
 using FluentValidation;
-using IdentityServer4.Test;
-using Microsoft.Extensions.Options;
 using ModelesApi.ExternalApi;
 using ModelesApi.POC;
 using System;

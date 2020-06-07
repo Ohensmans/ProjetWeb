@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,7 @@ namespace Api.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        
         public async Task<IActionResult> PutNews(Guid id, News news)
         {
             if (id != news.Id)
@@ -67,7 +69,7 @@ namespace Api.Controllers
                 }
                 else
                 {
-                    throw;
+                    return BadRequest();
                 }
             }
 
@@ -78,6 +80,7 @@ namespace Api.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<News>> PostNews(News news)
         {
             _context.News.Add(news);
@@ -88,6 +91,7 @@ namespace Api.Controllers
 
         // DELETE: api/News/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<News>> DeleteNews(Guid id)
         {
             var news = await _context.News.FindAsync(id);

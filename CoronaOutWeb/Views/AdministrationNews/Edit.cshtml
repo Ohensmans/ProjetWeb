@@ -1,0 +1,74 @@
+﻿@model CoronaOutWeb.ViewModel.CreateNewsViewModel
+@{
+    ViewData["Title"] = "Modifier la news";
+}
+
+<h1>Modifier la news</h1>
+
+@using (Html.BeginForm(FormMethod.Post, new { @enctype = "multipart/form-data", @id = "form" }))
+{
+    @Html.HiddenFor(model => model.TailleMaxImages, new { @id = "tailleMaxImage", @value = Model.TailleMaxImages })
+    @Html.HiddenFor(model => model.news.Id, new { @id = "etabId" })
+    @Html.HiddenFor(model => model.news.ImageName)
+
+    @Html.ValidationSummary(false, "", new { @class = "text-danger", @id = "validation-summary" })
+
+    <!--Titre-->
+    <div class="col-md-12">
+        <div class="form-group">
+            @Html.LabelFor(model => model.news.Titre, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.news.Titre, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.news.Titre, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <!--Zone de texte-->
+    <div class="col-md-12">
+        <div class="form-group">
+            @Html.LabelFor(model => model.news.Message, "Corps de la news", new { @class = "control-label", @Wrap = "hard", @rows = "20" })
+            @Html.TextAreaFor(model => model.news.Message, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.news.Message, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <!--Image-->
+    <div class="col-md-12">
+        @Html.Label("", "Image", new { @class = "control-label" })
+        <div class="custom-file" id="logo-container">
+            <input asp-for="image" type="file" id="logo-input" accept="image/*" onchange="handleLogo(this.files)" class="form-control custom-file-input" />
+            <label id="logo-label" class="custom-file-label">Sélectionner l'image</label>
+        </div>
+    </div>
+
+    <!--Image Preview-->
+    <div class="col-md-12">
+        <div id="logoPreview">
+            @if (Model.news.ImageName != "")
+            {
+                <ul class="list-group" id="ulPreviewLogo">
+                    @Html.HiddenFor(model => model.PathLogo, new { @id = "PhotoId" })
+                    <li class="list-group-item d-flex">
+                        <img src="@Model.PathLogo" height="120" alt="la photo ne charge pas" class="align-self-start p-2" />
+                        @Html.Label("", "Supprimer", new { @class = "btn btn-danger align-self-center ml-auto p2", id = "deleteLogo", onclick = "supprimerLogo()" })
+                    </li>
+
+                </ul>
+            }
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+    <div class="col-md-12">
+        <button style="width:auto" type="submit" name="button" value="create" class="btn btn-primary">Modifier la news</button>
+        @Html.ActionLink("Retour", "ListeNews", "AdministrationNews", "", new { @class = "btn btn-danger" })
+    </div>
+
+}
+
+@section Scripts{
+    <script src="~/js/toastr.js"></script>
+    <script src="~/js/ModifImages.js"></script>
+}
+

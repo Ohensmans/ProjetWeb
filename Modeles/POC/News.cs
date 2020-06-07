@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+
 
 namespace ModelesApi.POC
 {
@@ -14,13 +12,17 @@ namespace ModelesApi.POC
         }
         public Guid Id { get; set; }
 
+        public string Titre { get; set; }
+
         public string Message { get; set; }
 
-        public bool estValide { get; set; }
+        public bool estAffichePremier { get; set; }
 
         public string PublieParUserId { get; set; }
 
         public DateTime DatePublication { get; set; }
+
+        public string ImageName { get; set; } 
 
     }
 }

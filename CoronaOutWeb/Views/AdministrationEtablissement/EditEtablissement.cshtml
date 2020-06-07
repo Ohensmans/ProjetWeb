@@ -10,6 +10,7 @@
 {
     @Html.HiddenFor(model => model.Etab.Logo, new { @id = "logo" })
     @Html.HiddenFor(model => model.Etab.Id, new { @id = "id" })
+    @Html.HiddenFor(model => model.Etab.NomUrl)
 
     @Html.ValidationSummary(false, "", new { @class = "text-danger", @id = "validation-summary" })
 

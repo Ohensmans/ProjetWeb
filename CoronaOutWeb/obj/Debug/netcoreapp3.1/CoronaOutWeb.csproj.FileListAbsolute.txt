@@ -177,3 +177,6 @@ C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\AdministrationEtablissement\EditEtablissement.cshtml.g.cs
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\AdministrationEtablissement\EditImages.cshtml.g.cs
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\AdministrationEtablissement\EditHoraires.cshtml.g.cs
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\AdministrationNews\ListeNews.cshtml.g.cs
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\AdministrationNews\Create.cshtml.g.cs
+C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\CoronaOutWeb\obj\Debug\netcoreapp3.1\Razor\Views\AdministrationNews\Edit.cshtml.g.cs

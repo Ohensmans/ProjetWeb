@@ -1,9 +1,18 @@
 ﻿var logoSelect = document.getElementById("logo-label"),
     logoPreview = document.getElementById("logoPreview");
 
-var photoPreview = document.getElementById("PhotosPreview");
+var nombreMaxPhoto;
 
-const nombreMaxPhoto = $("#nbPhotos").val();
+function NombrePhoto() {
+    if ($("#nbPhotos").length) {
+        nombreMaxPhoto = $("#nbPhotos").val();
+    }
+    else {
+        nombreMaxPhoto = 1;
+    }
+}
+
+
 
 const tailleMaxImage = $("#tailleMaxImage").val();
 
@@ -51,6 +60,8 @@ $(document).ready(function ()
             }
         }
     })
+
+    NombrePhoto();
 
     
 });
@@ -181,6 +192,8 @@ function handleLogo(files) {
 function handlePhotos(files, nummer) {
 
     if (files[0].size <= tailleMaxImage) {
+
+        var photoPreview = document.getElementById("PhotosPreview");
 
         var list = document.createElement("ul");
         list.id = "ulReviewPhoto-" + nummer;
