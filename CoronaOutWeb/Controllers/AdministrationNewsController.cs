@@ -208,19 +208,28 @@ namespace CoronaOutWeb.Controllers
 
         private string createImage(Guid newsId, IFormFile image)
         {
-            string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "img", "News", newsId.ToString(), "Image");
 
-            if (!Directory.Exists(uploadFolder))
+            try
             {
-                DirectoryInfo di = Directory.CreateDirectory(uploadFolder);
+                string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "img", "News", newsId.ToString(), "Image");
+
+                if (!Directory.Exists(uploadFolder))
+                {
+                    DirectoryInfo di = Directory.CreateDirectory(uploadFolder);
+                }
+
+                Guid imageGuid = Guid.NewGuid();
+                string imageNom = imageGuid.ToString() + "_" + image.FileName;
+                string logoPath = Path.Combine(uploadFolder, imageNom);
+                image.CopyTo(new FileStream(logoPath, FileMode.Create));
+
+                return imageNom;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
 
-            Guid imageGuid = Guid.NewGuid();
-            string imageNom = imageGuid.ToString() + "_" + image.FileName;
-            string logoPath = Path.Combine(uploadFolder, imageNom);
-            image.CopyTo(new FileStream(logoPath, FileMode.Create));
-
-            return imageNom;
         }
 
 

@@ -89,7 +89,7 @@ namespace CoronaOutWeb.Controllers
                     {
                         model.PathLogo = Path.Combine("\\", "img", "Etablissement", model.Etab.Id.ToString(), "Logo", model.Etab.Logo);
                     }
-
+                    ViewBag.isLogged = User.Identity.IsAuthenticated;
 
                     return View(model);
                 }

@@ -1,0 +1,73 @@
+﻿@model News
+
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/MonDesign.css" />
+
+    <meta property="og:url" content="http://localhost:5000/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="https://localhost:5000/img/site/ny.jpg" />
+
+</head>
+
+
+@{
+    ViewData["Title"] = "News";
+    string photoPath = ViewBag.photoPath;
+    bool isLogged = ViewBag.isLogged;
+}
+
+@Html.Hidden("Title", "CoronaOut!!!")
+@Html.Hidden("Decription", Model.Titre)
+@if (Model.ImageName != null)
+{
+    @Html.Hidden("Image", photoPath)
+}
+
+@Html.HiddenFor(model => model.Titre, new { @id = "Title" })
+
+@if (Model.ImageName != null)
+{
+    <div class="container-fluid">
+        <img src=@photoPath id="photoNews">
+    </div>
+}
+
+<div class="col-sm-12" id="centerAll">
+    <div class="form-row">
+        <h1 id="centerAll">@Model.Titre</h1>
+    </div>
+
+    <div class="form-row">
+        @Html.Label("", Model.Message, new { @class = "col-md-12" })
+    </div>
+
+    <br />
+    <br />
+    <div class="form-row">
+        @Html.Label("", "Publié le : " + Model.DatePublication.ToString("dd/MM/yyyy"), new { @class = "col-md-12" })
+    </div>
+    <div class="col-md-12" id="centerAll">
+        @Html.ActionLink("Voir les autres news", "Index", "News", "", new { @class = "btn btn-primary" })
+    </div>
+</div>
+
+@if (isLogged)
+{
+    <div id="fb-root"></div>
+    <div class="fb-share-button"
+         data-href=""
+         data-layout="button_count">
+    </div>
+
+    <div id="twitter-wjs"></div>
+    <div id="tweet"></div>
+}
+
+@section Scripts{
+    <script src="https://platform.twitter.com/widgets.js"></script>
+    <script src="~/js/ReseauxSociaux.js"></script>
+}

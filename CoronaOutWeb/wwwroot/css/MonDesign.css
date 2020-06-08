@@ -31,7 +31,15 @@
 }
 
 
-/* Make the image fully responsive */
+#photoNews {
+    max-height: 200px;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+
 .carousel-inner img {
     max-height: 500px;
     width: auto;

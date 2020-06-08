@@ -1,0 +1,47 @@
+﻿@model CoronaOutWeb.ViewModel.ListeNewsViewModel
+@{
+    ViewData["Title"] = "Liste des news";
+}
+
+<h1>Liste des news</h1>
+
+<br />
+<br />
+
+@if (Model.lNews != null && Model.lNews.Any())
+{
+    <table class="table table-striped" id="myTable">
+        <thead>
+            <tr>
+                <th class="NomColonne" id="0">Titre </th>
+                <th class="NomColonne" id="1">Date de publication</th>
+                <th>Lire</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (News news in Model.lNews)
+            {
+
+            <tr>
+                <td>@Html.Label("", news.Titre)</td>
+                <td>@Html.Label("", news.DatePublication.ToString("dd/MM/yyyy"))</td>
+                @using (Html.BeginForm("Get", "News", new { newsId = news.Id }, FormMethod.Post))
+                {
+                    <td><button type="submit" name="button" value="true" class="btn btn-success">Lire</button></td>
+                    }
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}
+
+else
+{
+    <h3>Il n'y a pas encore de news enregistrées</h3>
+}
+
+
+@section Scripts{
+    <script src="~/js/SortTable.js"></script>
+}

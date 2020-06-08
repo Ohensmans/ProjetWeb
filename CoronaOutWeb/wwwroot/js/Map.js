@@ -20,7 +20,6 @@ $(document).ready(function () {
 
 
     var userAuthorized = $("#isLogged").val();
-    console.log(userAuthorized);
 
     var mapbox = $("#MapBox").val();
 
@@ -38,24 +37,19 @@ $(document).ready(function () {
     $.get("/Home/GetCoordinates", function (result) {
         $.each(result, function (i, loc) {
             var obj = JSON.parse(loc);
-            console.log(obj);
             var lat = obj.Latitude;
             var long = obj.Longitude;
             var nom = obj.Nom;
             var nomUrl = obj.NomUrl;
             var nbMinAvantFermeture = obj.nbMinAvantFermeture;
-            console.log(nbMinAvantFermeture);
 
             var checkOuverture = "";
             var marker;
 
             if (userAuthorized == "True") {
-                console.log(nbMinAvantFermeture);
                 if (nbMinAvantFermeture !== 0) {
-                    console.log(nbMinAvantFermeture);
                     checkOuverture = "L'établissement ferme dans " + nbMinAvantFermeture + " minutes";
                     if (nbMinAvantFermeture <= 15) {
-                        console.log(nbMinAvantFermeture);
                         marker = L.marker([lat, long], { icon: orangeIcon }).addTo(mymap);
                     }
                     else if (nbMinAvantFermeture > 120) {

@@ -10,9 +10,18 @@
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
             integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
             crossorigin=""></script>
+
+    <meta property="og:url" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+
 </head>
 
-
+@Html.Hidden("Title", "CoronaOut!!!")
+@Html.Hidden("Decription", "Let's get all the open bars !!")
+@Html.Hidden("Image", "http://localhost:5000/img/site/ny.jpg")
 @Html.HiddenFor(model => model.MapBox)
 @Html.HiddenFor(model => model.isLogged)
 <h1>Etablissements dans notre registre</h1>
@@ -43,10 +52,23 @@ else
         &emsp;
         <div class="custom-control-label">L'établissement ferme dans les 15 prochaines minutes</div>
     </div>
+
+
+    <div id="fb-root"></div>
+    <div class="fb-share-button"
+         data-href=""
+         data-layout="button_count">
+    </div>
+
+    <div id="twitter-wjs"></div>
+    <div id="tweet"></div>
 }
 
 
 @section Scripts{
+    <script src="https://platform.twitter.com/widgets.js"></script>
+    <script src="~/js/ReseauxSociaux.js"></script>
     <script src="~/js/Map.js"></script>
+    <script src="~/js/PopUp.js"></script>
 }
 
