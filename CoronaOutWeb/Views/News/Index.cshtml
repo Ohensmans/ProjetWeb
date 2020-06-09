@@ -22,18 +22,26 @@
             @foreach (News news in Model.lNews)
             {
 
-            <tr>
-                <td>@Html.Label("", news.Titre)</td>
-                <td>@Html.Label("", news.DatePublication.ToString("dd/MM/yyyy"))</td>
-                @using (Html.BeginForm("Get", "News", new { newsId = news.Id }, FormMethod.Post))
-                {
-                    <td><button type="submit" name="button" value="true" class="btn btn-success">Lire</button></td>
+                <tr>
+                    <td>@Html.Label("", news.Titre)</td>
+                    <td>@Html.Label("", news.DatePublication.ToString("dd/MM/yyyy"))</td>
+                    @using (Html.BeginForm("Get", "News", new { newsId = news.Id }, FormMethod.Post))
+                    {
+                        <td><button type="submit" name="button" value="true" class="btn btn-success">Lire</button></td>
                     }
                 </tr>
 
             }
         </tbody>
     </table>
+
+    <div id="centerAll" class="pagination">
+        <a id="paginationButtonPrevious" href="#">&laquo;</a>
+        <a id="" class="paginationButtonNum active" href="#"></a>
+        <a id="" class="paginationButtonNum" href="#"></a>
+        <a id="" class="paginationButtonNum" href="#"></a>
+        <a id="paginationButtonNext" href="#">&raquo;</a>
+    </div>
 }
 
 else
@@ -44,4 +52,5 @@ else
 
 @section Scripts{
     <script src="~/js/SortTable.js"></script>
+    <script src="~/js/Pagination.js"></script>
 }

@@ -6,6 +6,76 @@
     --danger: #9A031E;
 }
 
+
+.pagination {
+    display: inline-block;
+}
+
+    .pagination a {
+        color: black;
+        float: none;
+        padding: 8px 16px;
+        text-decoration: none;
+    }
+
+        .pagination a.active {
+            background-color: #5F0F40;
+            color: white;
+        }
+
+        .pagination a:hover:not(.active) {
+            background-color: #ddd;
+        }
+
+#mapid {
+    height: 500px;
+}
+
+#NomEtab{
+    font-weight : bold;
+}
+
+#EtabInfoComp{
+    font-style : italic;
+}
+
+#img-thumb {
+    max-height: 25px;
+}
+
+#centerAll {
+    text-align: center;
+    margin-left:auto;
+    margin-right:auto;
+    width:100%;   
+}
+
+
+#photoNews {
+    max-height: 200px;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+
+.carousel-inner img {
+    max-height: 500px;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.carousel-inner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #000;
+}
+
+
 .btn-primary {
     color: #fff;
     background-color: #5F0F40;
@@ -129,3 +199,11 @@
         background-color: #9A031E;
         border-color: #800215;
     }
+
+.bg-white {
+    background-color: #fff !important;
+}
+
+.bg-test {
+    background-color: #5F0F40 !important;
+}

@@ -11,7 +11,7 @@
 <br />
 <br />
 
-@if (Model.lNews!=null && Model.lNews.Any())
+@if (Model.lNews != null && Model.lNews.Any())
 {
     <table class="table table-striped" id="myTable">
         <thead>
@@ -27,44 +27,53 @@
             @foreach (News news in Model.lNews)
             {
 
-            <tr>
-                <td>@Html.Label("", news.Titre)</td>
-                <td>@Html.Label("", news.DatePublication.ToString("dd/MM/yyyy"))</td>
-                <td>@Html.ActionLink("Modifier", "Edit", "AdministrationNews", new { id = news.Id }, new { @class = "btn btn-primary" })</td>
+                <tr>
+                    <td>@Html.Label("", news.Titre)</td>
+                    <td>@Html.Label("", news.DatePublication.ToString("dd/MM/yyyy"))</td>
+                    <td>@Html.ActionLink("Modifier", "Edit", "AdministrationNews", new { id = news.Id }, new { @class = "btn btn-primary" })</td>
 
 
-                <td>
-                    @using (Html.BeginForm("DeleteNews", "AdministrationNews", new { id = news.Id }, FormMethod.Post))
+                    <td>
+                        @using (Html.BeginForm("DeleteNews", "AdministrationNews", new { id = news.Id }, FormMethod.Post))
+                        {
+                            <span id="confirmDeleteSpan_@news.Id" style="display:none">
+                                <span>Etes-vous sûr de vouloir supprimer cette news ?</span>
+                                <button type="submit" class="btn btn-danger">Oui</button>
+                                <a href="#" class="btn btn-primary" onclick="confirmDelete('@news.Id', false)">Non</a>
+                            </span>
+
+                            <span id="deleteSpan_@news.Id">
+                                <a href="#" class="btn btn-danger" onclick="confirmDelete('@news.Id', true)">Supprimer</a>
+                            </span>
+                        }
+                    </td>
+
+                    @using (Html.BeginForm("Afficher", "AdministrationNews", new { id = news.Id }, FormMethod.Post))
                     {
-                        <span id="confirmDeleteSpan_@news.Id" style="display:none">
-                            <span>Etes-vous sûr de vouloir supprimer cette news ?</span>
-                            <button type="submit" class="btn btn-danger">Oui</button>
-                            <a href="#" class="btn btn-primary" onclick="confirmDelete('@news.Id', false)">Non</a>
-                        </span>
+                        @if (news.estAffichePremier)
+                        {
+                            <td>@Html.Label("", "Affiché", new { @class = "btn btn-success" })</td>
+                        }
+                        else
+                        {
 
-                        <span id="deleteSpan_@news.Id">
-                            <a href="#" class="btn btn-danger" onclick="confirmDelete('@news.Id', true)">Supprimer</a>
-                        </span>
+                            <td><button type="submit" name="button" value="true" class="btn btn-warning">Mettre en premier</button></td>
+                        }
                     }
-                </td>
+                </tr>
 
-                @using (Html.BeginForm("Afficher", "AdministrationNews", new { id = news.Id }, FormMethod.Post))
-                {
-                    @if (news.estAffichePremier)
-                    {
-                        <td>@Html.Label("", "Affiché", new { @class = "btn btn-success" })</td>
-                    }
-                    else
-                    {
-
-                        <td><button type="submit" name="button" value="true" class="btn btn-warning">Mettre en premier</button></td>
-                    }
-                }
-            </tr>
-                
             }
         </tbody>
     </table>
+
+    <div id="centerAll" class="pagination">
+        <a id="paginationButtonPrevious" href="#">&laquo;</a>
+        <a id="" class="paginationButtonNum active" href="#"></a>
+        <a id="" class="paginationButtonNum" href="#"></a>
+        <a id="" class="paginationButtonNum" href="#"></a>
+        <a id="paginationButtonNext" href="#">&raquo;</a>
+    </div>
+
 }
 
 else
@@ -76,4 +85,5 @@ else
 @section Scripts{
     <script src="~/js/site.js"></script>
     <script src="~/js/SortTable.js"></script>
+    <script src="~/js/Pagination.js"></script>
 }
