@@ -1,7 +1,4 @@
 ﻿$(document).ready(function () {
-
-    //window.open("http://localhost:5000/News/GetPopUp");
-
     $.get("http://localhost:5000/News/GetPopUp", function (data) {
 
 

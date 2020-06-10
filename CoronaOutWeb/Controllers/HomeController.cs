@@ -37,18 +37,26 @@ namespace CoronaOutWeb.Controllers
         }
 
 
+        [Route("{id?}")]
+        [Route("Home")]
+        [Route("Home/Index")]
+        [Route("Home/Index/{id?}")]
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string id)
         {
-            HomeViewModel model = new HomeViewModel();
-            model.MapBox = this.Mapbox;
-            model.isLogged = User.Identity.IsAuthenticated;
+            if (id == null)
+            {
+                HomeViewModel model = new HomeViewModel();
+                model.MapBox = this.Mapbox;
+                model.isLogged = User.Identity.IsAuthenticated;
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Fiche", "Etablissements", new { id = id});
+            }
 
-            return View(model);
         }
-
-
-
 
         [Authorize]
         public async Task<IActionResult> Privacy()

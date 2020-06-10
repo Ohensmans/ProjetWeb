@@ -14,7 +14,7 @@
 
 @Html.Hidden("Title", "CoronaOut!!!")
 @Html.Hidden("Decription", Model.Etab.ZoneTexteLibre)
-@if (Model.lPathPhotos[0].Path != null)
+@if (Model.lPathPhotos.Any())
 {
     @Html.Hidden("Image", Model.lPathPhotos[0].Path)
 }

@@ -125,5 +125,6 @@ namespace CoronaOutWeb
             app.UseAuthorization();
             app.UseMvcWithDefaultRoute();
         }
+
     }
 }
