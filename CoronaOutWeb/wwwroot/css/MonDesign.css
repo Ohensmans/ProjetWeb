@@ -6,6 +6,17 @@
     --danger: #9A031E;
 }
 
+#sharebuttons{
+    float:right;
+}
+
+.fb_iframe_widget span {
+    vertical-align: inherit !important;
+}
+
+.IN-widget {
+    vertical-align: inherit !important;
+}
 
 .pagination {
     display: inline-block;

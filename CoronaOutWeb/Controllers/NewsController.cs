@@ -11,6 +11,7 @@ using ModelesApi.POC;
 
 namespace CoronaOutWeb.Controllers
 {
+
     public class NewsController : Controller
     {
         private readonly INewsService newsService;
@@ -22,7 +23,7 @@ namespace CoronaOutWeb.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Liste()
         {
             try
             {
@@ -40,29 +41,46 @@ namespace CoronaOutWeb.Controllers
 
         public async Task<IActionResult> Get(Guid newsId)
         {
-            News news = await newsService.GetNewsAsync(newsId);
-            ViewBag.photoPath = Path.Combine("\\", "img", "News", newsId.ToString(), "Image", news.ImageName);
-            ViewBag.isLogged = User.Identity.IsAuthenticated;
+            try
+            {
+                News news = await newsService.GetNewsAsync(newsId);
+                ViewBag.photoPath = Path.Combine("\\", "img", "News", newsId.ToString(), "Image", news.ImageName);
+                ViewBag.isLogged = User.Identity.IsAuthenticated;
 
-            return View(news);
+                return View(news);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel vme = new ErrorViewModel() { RequestId = ex.Message };
+                return View("Error", vme);
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> GetPopUp()
         {
-            List<News> lNewsTotale = await newsService.GetAllNewsAsync();
-
-            if (lNewsTotale != null)
+            try
             {
-                News newsPopUp = lNewsTotale.FirstOrDefault(n => n.estAffichePremier == true);
+                List<News> lNewsTotale = await newsService.GetAllNewsAsync();
 
-                if (newsPopUp!=null)
+                if (lNewsTotale != null)
                 {
-                    ViewBag.photoPath = Path.Combine("\\", "img", "News", newsPopUp.Id.ToString(), "Image", newsPopUp.ImageName);
-                    return PartialView("Get", newsPopUp);
+                    News newsPopUp = lNewsTotale.FirstOrDefault(n => n.estAffichePremier == true);
+
+                    if (newsPopUp != null)
+                    {
+                        ViewBag.isLogged = User.Identity.IsAuthenticated;
+                        ViewBag.photoPath = Path.Combine("\\", "img", "News", newsPopUp.Id.ToString(), "Image", newsPopUp.ImageName);
+                        return PartialView("Get", newsPopUp);
+                    }
                 }
+                return null;
             }
-            return null;           
+            catch (Exception ex)
+            {
+                ErrorViewModel vme = new ErrorViewModel() { RequestId = ex.Message };
+                return View("Error", vme);
+            }
         }
     }
 }

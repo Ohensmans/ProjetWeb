@@ -34,73 +34,83 @@ namespace CoronaOutWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> ListeEtablissements()
         {
+            try
+            {
+                ListeEtablissementsViewModel vm = new ListeEtablissementsViewModel();
 
+                vm.Etablissements = await etablissementService.GetAllEtablissementsAsync();
 
-            ListeEtablissementsViewModel vm = new ListeEtablissementsViewModel();
-
-            vm.Etablissements = await etablissementService.GetAllEtablissementsAsync();
-
-            return View(vm);
+                return View(vm);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel vme = new ErrorViewModel() { RequestId = ex.Message };
+                return View("Error", vme);
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> Fiche(string id)
         {
-            FicheViewModel model = new FicheViewModel();
-
-            List<Etablissement> lEtabs = await etablissementService.GetAllEtablissementsAsync();
-
-            if (id != null)
+            try
             {
-                model.Etab = lEtabs.FirstOrDefault(x => x.NomUrl == id);
+                FicheViewModel model = new FicheViewModel();
 
-                if (model.Etab != null)
+                List<Etablissement> lEtabs = await etablissementService.GetAllEtablissementsAsync();
+
+                if (id != null)
                 {
-                    List<Horaire> lHoraire = await horaireService.GetAllHorairesAsync();
-                    if (lHoraire.Any(x => x.EtablissementId == model.Etab.Id))
+                    model.Etab = lEtabs.FirstOrDefault(x => x.NomUrl == id);
+
+                    if (model.Etab != null)
                     {
-                        model.Etab.lHoraire = lHoraire.Where(x => x.EtablissementId == model.Etab.Id).ToList();
-
-                        List<string> lJours = new JoursSemaine().lJours;
-                        model.Etab.lHoraire = model.Etab.lHoraire.OrderBy(h => lJours.IndexOf(h.Jour)).ThenBy(h => h.HeureOuverture).ToList();
-                    }
-
-                    List<PhotoEtablissement> lPhotos = await photoService.GetAllPhotosAsync();
-
-                    if (lPhotos.Any(x => x.EtablissementId == model.Etab.Id))
-                    {
-                        lPhotos = lPhotos.Where(x => x.EtablissementId == model.Etab.Id).ToList();
-
-                        List<PhotoGeneriqueViewModel> lPathImages = new List<PhotoGeneriqueViewModel>();
-                        if (lPhotos != null)
+                        List<Horaire> lHoraire = await horaireService.GetAllHorairesAsync();
+                        if (lHoraire.Any(x => x.EtablissementId == model.Etab.Id))
                         {
-                            foreach (PhotoEtablissement photo in lPhotos)
-                            {
-                                PhotoGeneriqueViewModel photoGenerique = new PhotoGeneriqueViewModel();
-                                photoGenerique.Path = Path.Combine("\\", "img", "Etablissement", model.Etab.Id.ToString(), "Photos", photo.NomFichier);
-                                photoGenerique.id = photo.Id;
-                                lPathImages.Add(photoGenerique);
-                            }
+                            model.Etab.lHoraire = lHoraire.Where(x => x.EtablissementId == model.Etab.Id).ToList();
+
+                            List<string> lJours = new JoursSemaine().lJours;
+                            model.Etab.lHoraire = model.Etab.lHoraire.OrderBy(h => lJours.IndexOf(h.Jour)).ThenBy(h => h.HeureOuverture).ToList();
                         }
-                        model.lPathPhotos = lPathImages;
-                    }
 
-                    if (model.Etab.Logo != null)
-                    {
-                        model.PathLogo = Path.Combine("\\", "img", "Etablissement", model.Etab.Id.ToString(), "Logo", model.Etab.Logo);
-                    }
-                    ViewBag.isLogged = User.Identity.IsAuthenticated;
+                        List<PhotoEtablissement> lPhotos = await photoService.GetAllPhotosAsync();
 
-                    return View(model);
+                        if (lPhotos.Any(x => x.EtablissementId == model.Etab.Id))
+                        {
+                            lPhotos = lPhotos.Where(x => x.EtablissementId == model.Etab.Id).ToList();
+
+                            List<PhotoGeneriqueViewModel> lPathImages = new List<PhotoGeneriqueViewModel>();
+                            if (lPhotos != null)
+                            {
+                                foreach (PhotoEtablissement photo in lPhotos)
+                                {
+                                    PhotoGeneriqueViewModel photoGenerique = new PhotoGeneriqueViewModel();
+                                    photoGenerique.Path = Path.Combine("\\", "img", "Etablissement", model.Etab.Id.ToString(), "Photos", photo.NomFichier);
+                                    photoGenerique.id = photo.Id;
+                                    lPathImages.Add(photoGenerique);
+                                }
+                            }
+                            model.lPathPhotos = lPathImages;
+                        }
+
+                        if (model.Etab.Logo != null)
+                        {
+                            model.PathLogo = Path.Combine("\\", "img", "Etablissement", model.Etab.Id.ToString(), "Logo", model.Etab.Logo);
+                        }
+                        ViewBag.isLogged = User.Identity.IsAuthenticated;
+
+                        return View(model);
+                    }
                 }
+
+                return RedirectToAction("ListeEtablissements");
             }
-
-            return RedirectToAction("ListeEtablissements");       
+            catch (Exception ex)
+            {
+                ErrorViewModel vme = new ErrorViewModel() { RequestId = ex.Message };
+                return View("Error", vme);
+            }
         }
-
-
-
-
 
     }
 }

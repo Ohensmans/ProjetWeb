@@ -12,5 +12,7 @@ namespace CoronaOutWeb.Models
         public int NbMaxPhotos { get; set; }
 
         public int TailleMaxImage { get; set; }
+
+        public int TailleMaxLogo { get; set; }
     }
 }

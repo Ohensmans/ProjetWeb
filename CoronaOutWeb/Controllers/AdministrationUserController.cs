@@ -1,6 +1,7 @@
 ﻿using CoronaOutWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
 
 namespace CoronaOutWeb.Controllers
 {

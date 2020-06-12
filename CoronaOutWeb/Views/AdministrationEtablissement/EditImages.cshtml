@@ -10,6 +10,7 @@
     @Html.HiddenFor(model => model.EtablissementId, new { @id = "id" })
     @Html.HiddenFor(model => model.NombrePhotos, new { @id = "nbPhotos", @value = Model.NombrePhotos })
     @Html.HiddenFor(model => model.TailleMaxImages, new { @id = "tailleMaxImage", @value = Model.TailleMaxImages })
+    @Html.HiddenFor(model => model.TailleMaxLogo, new { @id = "tailleMaxLogo", @value = Model.TailleMaxLogo })
 
     @for (int i = 0; i < Model.lPathImages.Count; i++)
     {

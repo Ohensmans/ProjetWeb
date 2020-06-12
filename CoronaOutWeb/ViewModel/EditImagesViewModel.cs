@@ -7,7 +7,7 @@ namespace CoronaOutWeb.ViewModel
 {
     public class EditImagesViewModel
     {
-        public EditImagesViewModel(int nombrePhotos, int tailleMaxImages, Guid etablissementId)
+        public EditImagesViewModel(int nombrePhotos, int tailleMaxImages, Guid etablissementId, int tailleMaxLogo)
         {
             this.Photos = new PhotoGeneriqueViewModel[nombrePhotos];
             for (int i = 0; i < nombrePhotos; i++)
@@ -17,6 +17,7 @@ namespace CoronaOutWeb.ViewModel
             NombrePhotos = nombrePhotos;
             TailleMaxImages = tailleMaxImages;
             EtablissementId = etablissementId;
+            TailleMaxLogo = tailleMaxLogo;
             lPathImages = new List<PhotoGeneriqueViewModel>();
         }
 
@@ -33,6 +34,7 @@ namespace CoronaOutWeb.ViewModel
 
         public int NombrePhotos { get; set; }
         public int TailleMaxImages { get; set; }
+        public int TailleMaxLogo { get; set; }
 
         public IFormFile Logo { get; set; }
 

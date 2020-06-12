@@ -2,7 +2,7 @@
 $(document).ready(function () {
 
     var greenIcon = L.icon({
-        iconUrl: 'img/markers/markerVert.png',
+        iconUrl: 'img/Markers/markerVert.png',
 
         iconSize: [25, 35], // size of the icon
         iconAnchor: [12, 35], // point of the icon which will correspond to marker's location
@@ -10,7 +10,7 @@ $(document).ready(function () {
     });
 
     var orangeIcon = L.icon({
-        iconUrl: 'img/markers/markerOrange.png',
+        iconUrl: 'img/Markers/markerOrange.png',
 
         iconSize: [25, 35], // size of the icon
         iconAnchor: [12, 35], // point of the icon which will correspond to marker's location

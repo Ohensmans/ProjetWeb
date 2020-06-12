@@ -24,12 +24,12 @@ namespace CoronaOutWeb.ExternalApiCall.VAT
 
         public async Task<VATResponseModele> GetVATResponse(String VAT)
         {
-            string vatRequest = "vat_number=" + VAT;
+            string vatRequest = "&vat_number=" + VAT;
             var httpResponse = await _client.GetAsync(this.baseUrl + this.baseKey + vatRequest);
 
             if (!httpResponse.IsSuccessStatusCode)
             {
-                throw new Exception("Cannot retrieve tasks");
+                throw new Exception("Cannot retrieve VAT statuts");
             }
 
             var content = await httpResponse.Content.ReadAsStringAsync();

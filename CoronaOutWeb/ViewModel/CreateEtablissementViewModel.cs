@@ -6,13 +6,14 @@ namespace CoronaOutWeb.ViewModel
 {
     public class CreateEtablissementViewModel
     {
-        public CreateEtablissementViewModel(int nombrePhotos, int tailleMaxImages)
+        public CreateEtablissementViewModel(int nombrePhotos, int tailleMaxImages, int tailleMaxLogo)
         {
             lTypeEtablissement = new TypeEtablissement().types;
             lPays = new Pays().lPays;
             lJoursSemaines = new JoursSemaine().lJours;
             NombrePhotos = nombrePhotos;
             TailleMaxImages = tailleMaxImages;
+            TailleMaxLogo = tailleMaxLogo;
             this.Etab = new Etablissement();
             this.lHoraire = new List<Horaire>();
 
@@ -54,5 +55,6 @@ namespace CoronaOutWeb.ViewModel
         public List<Horaire> lHoraire { get; set; }
         public int NombrePhotos { get; set; }
         public int TailleMaxImages { get; set; }
+        public int TailleMaxLogo { get; set; }
     }
 }

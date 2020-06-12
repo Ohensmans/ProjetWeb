@@ -10,6 +10,7 @@
 {
     @Html.HiddenFor(model => model.NombrePhotos, new { @id = "nbPhotos", @value = Model.NombrePhotos })
     @Html.HiddenFor(model => model.TailleMaxImages, new { @id = "tailleMaxImage", @value = Model.TailleMaxImages })
+    @Html.HiddenFor(model => model.TailleMaxLogo, new { @id = "tailleMaxLogo", @value = Model.TailleMaxLogo })
     @Html.HiddenFor(model => model.Etab.Id, new { @id = "etabId" })
 
     @Html.ValidationSummary(false, "", new { @class = "text-danger", @id = "validation-summary" })
@@ -180,28 +181,28 @@
 
 
     <!--Horaires-->
-<div class="col-md-12">
-    @Html.Label("", "Horaire de l'établissement", new { @class = "control-label" })
-    <table id="tab-horaires" class="table table-striped col-md-12">
-        <tr id="titre">
-            <th>Jour</th>
-            <th>Heure d'ouverture</th>
-            <th>Heure de fermeture</th>
+    <div class="col-md-12">
+        @Html.Label("", "Horaire de l'établissement", new { @class = "control-label" })
+        <table id="tab-horaires" class="table table-striped col-md-12">
+            <tr id="titre">
+                <th>Jour</th>
+                <th>Heure d'ouverture</th>
+                <th>Heure de fermeture</th>
 
-        </tr>
-        <tbody id="horaire-container">
-            @foreach (Horaire horaire in Model.lHoraire)
-            {
-                @await Html.PartialAsync("~/Views/Shared/EditorTemplates/Horaire.cshtml", horaire);
-            }
-        </tbody>
+            </tr>
+            <tbody id="horaire-container">
+                @foreach (Horaire horaire in Model.lHoraire)
+                {
+                    @await Html.PartialAsync("~/Views/Shared/EditorTemplates/Horaire.cshtml", horaire);
+                }
+            </tbody>
 
-    </table>
-    <br />
-    <input class="btn btn-success" type="button" id="addHoraire" value="Ajouter un horaire" />
-    <input class="btn btn-danger" type="button" id="deleteHoraire-0" value="Supprimer le dernier horaire" />
-    <br />
-</div>
+        </table>
+        <br />
+        <input class="btn btn-success" type="button" id="addHoraire" value="Ajouter un horaire" />
+        <input class="btn btn-danger" type="button" id="deleteHoraire-0" value="Supprimer le dernier horaire" />
+        <br />
+    </div>
 
     <br />
 

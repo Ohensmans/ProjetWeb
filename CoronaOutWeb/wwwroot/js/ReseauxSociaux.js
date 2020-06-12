@@ -9,7 +9,9 @@ $(document).ready(function () {
     var textTwt = "" + document.getElementById("Title").value;
     var hashTwt = "CoronaOut," + document.getElementById("Decription").value;
 
-    twttr.widgets.createShareButton(document.URL, document.getElementById('tweet'),
+    $("#linkedinButton").attr('data-url',document.URL);
+
+    twttr.widgets.createShareButton(document.URL, document.querySelector("[id*='tweet']"),
         {
             text: textTwt,
             hashtags: hashTwt,

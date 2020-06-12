@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using IdentityServer.ViewModel;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
@@ -42,73 +43,97 @@ namespace IdentityServer.Controllers
         [HttpGet]
         public IActionResult Register(string ReturnUrl)
         {
-            RegisterViewModel rvm = new RegisterViewModel();
-            rvm.ReturnUrl = ReturnUrl;
-            rvm.lGenres = new GenreUtilisateur().genres;
+            try
+            {
+                RegisterViewModel rvm = new RegisterViewModel();
+                rvm.ReturnUrl = ReturnUrl;
+                rvm.lGenres = new GenreUtilisateur().genres;
 
-            return View(rvm);
+                return View(rvm);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel vme = new ErrorViewModel(ex.Message);
+                return View("Error", vme);
+            }
+
         }
 
 
         public async Task<bool> PutInRole(Utilisateur user)
         {
-            var roles = await _userManager.GetRolesAsync(user);
-            var result = await _userManager.RemoveFromRolesAsync(user, roles);
-            if (result.Succeeded)
+            try
             {
-
-                string role;
-
-                if (user.estProfessionel)
-                {
-                    role = "Gestionnaire";
-                }
-                else
-                {
-                    role = "Utilisateur";
-                }
-
-                result = await _userManager.AddToRoleAsync(user, role);
-
+                var roles = await _userManager.GetRolesAsync(user);
+                var result = await _userManager.RemoveFromRolesAsync(user, roles);
                 if (result.Succeeded)
                 {
-                    return true;
+
+                    string role;
+
+                    if (user.estProfessionel)
+                    {
+                        role = "Gestionnaire";
+                    }
+                    else
+                    {
+                        role = "Utilisateur";
+                    }
+
+                    result = await _userManager.AddToRoleAsync(user, role);
+
+                    if (result.Succeeded)
+                    {
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
         }
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model, string button)
         {
-            model.lGenres = new GenreUtilisateur().genres;
-
-            if (button.Equals("register"))
+            try
             {
-                if (ModelState.IsValid)
+                model.lGenres = new GenreUtilisateur().genres;
+
+                if (button.Equals("register"))
                 {
-                    var result = await _userManager.CreateAsync(model.User, model.Password);
-
-                    if (result.Succeeded)
+                    if (ModelState.IsValid)
                     {
-                        if (await PutInRole(model.User))
-                        {
+                        var result = await _userManager.CreateAsync(model.User, model.Password);
 
-                            if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrateur"))
+                        if (result.Succeeded)
+                        {
+                            if (await PutInRole(model.User))
                             {
-                                return RedirectToAction("ListeUser", "Administration", new { returnUrl = model.ReturnUrl });
+
+                                if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrateur"))
+                                {
+                                    return RedirectToAction("ListeUser", "Administration", new { returnUrl = model.ReturnUrl });
+                                }
+                                var signInResult = await _signInManager.PasswordSignInAsync(model.User, model.Password, false, false);
+                                return Redirect(model.ReturnUrl);
                             }
-                            var signInResult = await _signInManager.PasswordSignInAsync(model.User, model.Password, false, false);
-                            return Redirect(model.ReturnUrl);
                         }
                     }
+                    return View(model);
                 }
-                return View(model);
+                else
+                {
+                    return Redirect(model.ReturnUrl);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Redirect(model.ReturnUrl);
+                ErrorViewModel vme = new ErrorViewModel(ex.Message);
+                return View("Error", vme);
             }
         }
 
@@ -121,43 +146,51 @@ namespace IdentityServer.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginInputViewModel vm, string button)
         {
-            // check if we are in the context of an authorization request
-            var context = await _interaction.GetAuthorizationContextAsync(vm.ReturnUrl);
+            try
+            {
+                // check if we are in the context of an authorization request
+                var context = await _interaction.GetAuthorizationContextAsync(vm.ReturnUrl);
 
-            if (button.Equals("register"))
-            {
-                return RedirectToAction("Register","Account",new { returnUrl = vm.ReturnUrl });
-            }
-            else if (button.Equals("login"))
-            {
-                if (ModelState.IsValid)
+                if (button.Equals("register"))
                 {
-                    var result = await _signInManager.PasswordSignInAsync(vm.Username, vm.Password, vm.RememberLogin, false);
-
-                    if (result.Succeeded)
+                    return RedirectToAction("Register", "Account", new { returnUrl = vm.ReturnUrl });
+                }
+                else if (button.Equals("login"))
+                {
+                    if (ModelState.IsValid)
                     {
-                        //voir pour event si nécessaire
+                        var result = await _signInManager.PasswordSignInAsync(vm.Username, vm.Password, vm.RememberLogin, false);
+
+                        if (result.Succeeded)
+                        {
+                            //voir pour event si nécessaire
+
+                            return Redirect(vm.ReturnUrl);
+                        }
+                        else
+                            ModelState.AddModelError(string.Empty, "User ou mot de passe invalide");
+                    }
+                    return View(BuildLoginInputModel(vm));
+                }
+                else
+                {
+                    if (context != null)
+                    {
+                        // if the user cancels, send a result back into IdentityServer as if they 
+                        // denied the consent (even if this client does not require consent).
+                        // this will send back an access denied OIDC error response to the client.
+                        await _interaction.GrantConsentAsync(context, ConsentResponse.Denied);
 
                         return Redirect(vm.ReturnUrl);
                     }
                     else
-                        ModelState.AddModelError(string.Empty, "User ou mot de passe invalide");                   
+                        return Redirect("~/");
                 }
-                return View(BuildLoginInputModel(vm));
             }
-            else
+            catch (Exception ex)
             {
-                if (context != null)
-                {
-                    // if the user cancels, send a result back into IdentityServer as if they 
-                    // denied the consent (even if this client does not require consent).
-                    // this will send back an access denied OIDC error response to the client.
-                    await _interaction.GrantConsentAsync(context, ConsentResponse.Denied);
-
-                    return Redirect(vm.ReturnUrl);
-                }
-                else
-                    return Redirect("~/");
+                ErrorViewModel vme = new ErrorViewModel(ex.Message);
+                return View("Error", vme);
             }
         }
 
@@ -174,132 +207,174 @@ namespace IdentityServer.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout(string logoutId)
         {
-            // get context information (client name, post logout redirect URI and iframe for federated signout)
-            var logout = await _interaction.GetLogoutContextAsync(logoutId);
-            var PostLogoutRedirectUri = logout?.PostLogoutRedirectUri;
-
-            if (User?.Identity.IsAuthenticated == true)
+            try
             {
-                // delete local authentication cookie
-                await _signInManager.SignOutAsync();
+                // get context information (client name, post logout redirect URI and iframe for federated signout)
+                var logout = await _interaction.GetLogoutContextAsync(logoutId);
+                var PostLogoutRedirectUri = logout?.PostLogoutRedirectUri;
 
-                // raise the logout event
-                await _events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
+                if (User?.Identity.IsAuthenticated == true)
+                {
+                    // delete local authentication cookie
+                    await _signInManager.SignOutAsync();
+
+                    // raise the logout event
+                    await _events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
+                }
+
+                return Redirect(PostLogoutRedirectUri);
             }
-
-            return Redirect(PostLogoutRedirectUri);
+            catch (Exception ex)
+            {
+                ErrorViewModel vme = new ErrorViewModel(ex.Message);
+                return View("Error", vme);
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> Modifier(string ReturnUrl)
         {
-            if (User?.Identity.IsAuthenticated == true)
+            try
             {
-                ModifierViewModel vm = new ModifierViewModel();
-                vm.ReturnUrl = ReturnUrl;
-                vm.lGenres = new GenreUtilisateur().genres;
-                var userId = User.GetSubjectId();
 
-                Utilisateur user = await _userManager.FindByIdAsync(userId);
-
-                if (user != null)
+                if (User?.Identity.IsAuthenticated == true)
                 {
-                    vm.User = user;
-                    return View(vm);
+                    ModifierViewModel vm = new ModifierViewModel();
+                    vm.ReturnUrl = ReturnUrl;
+                    vm.lGenres = new GenreUtilisateur().genres;
+                    var userId = User.GetSubjectId();
+
+                    Utilisateur user = await _userManager.FindByIdAsync(userId);
+
+                    if (user != null)
+                    {
+                        vm.User = user;
+                        return View(vm);
+                    }
                 }
+                ErrorViewModel evm = new ErrorViewModel("L'identité n'a pas pu être verifiée");
+                return View("Error", evm);
             }
-            ErrorViewModel evm = new ErrorViewModel("L'identité n'a pas pu être verifiée");
-            return View("Error", evm);
+            catch (Exception ex)
+            {
+                ErrorViewModel vme = new ErrorViewModel(ex.Message);
+                return View("Error", vme);
+            }
+
         }
 
 
         [HttpPost]
         public async Task<IActionResult> Modifier(ModifierViewModel vm, string button)
         {
-            vm.lGenres = new GenreUtilisateur().genres;
-
-            if (button.Equals("register"))
+            try
             {
-                if (ModelState.IsValid)
+                vm.lGenres = new GenreUtilisateur().genres;
+
+                if (button.Equals("register"))
                 {
-
-                    var result = await _userManager.UpdateAsync(vm.User);
-
-                    if (result.Succeeded)
+                    if (ModelState.IsValid)
                     {
-                        if (await PutInRole(vm.User))
-                        {
-                            if (vm.Password != null && vm.ConfirmPassword != null && vm.NewPassword != null)
-                            {
-                                if (vm.Password != null)
-                                {
-                                    var resultlogin = await _signInManager.CheckPasswordSignInAsync(vm.User, vm.Password, true);
-                                    if (!resultlogin.Succeeded)
-                                    {
-                                        ModelState.AddModelError(string.Empty, "Mot de passe invalide");
-                                        return View(vm);
-                                    }
-                                    var modifPass = await _userManager.ChangePasswordAsync(vm.User, vm.Password, vm.NewPassword);
-                                    if (modifPass.Succeeded)
-                                    {
-                                        if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrateur"))
-                                        {
-                                            return RedirectToAction("ListeUser", "Administration", new { returnUrl = vm.ReturnUrl });
-                                        }
 
-                                        if (vm.ReturnUrl != null)
-                                            return Redirect(vm.ReturnUrl);
-                                        else
-                                            return Redirect("~/");
+                        var result = await _userManager.UpdateAsync(vm.User);
+
+                        if (result.Succeeded)
+                        {
+                            if (await PutInRole(vm.User))
+                            {
+                                if (vm.Password != null && vm.ConfirmPassword != null && vm.NewPassword != null)
+                                {
+                                    if (vm.Password != null)
+                                    {
+                                        var resultlogin = await _signInManager.CheckPasswordSignInAsync(vm.User, vm.Password, true);
+                                        if (!resultlogin.Succeeded)
+                                        {
+                                            ModelState.AddModelError(string.Empty, "Mot de passe invalide");
+                                            return View(vm);
+                                        }
+                                        var modifPass = await _userManager.ChangePasswordAsync(vm.User, vm.Password, vm.NewPassword);
+                                        if (modifPass.Succeeded)
+                                        {
+                                            if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrateur"))
+                                            {
+                                                return RedirectToAction("ListeUser", "Administration", new { returnUrl = vm.ReturnUrl });
+                                            }
+
+                                            if (vm.ReturnUrl != null)
+                                                return Redirect(vm.ReturnUrl);
+                                            else
+                                                return Redirect("~/");
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
+                if (vm.ReturnUrl != null)
+                    return Redirect(vm.ReturnUrl);
+                else
+                    return Redirect("~/");
             }
-            if (vm.ReturnUrl != null)
-                return Redirect(vm.ReturnUrl);
-            else
-                return Redirect("~/");
+            catch (Exception ex)
+            {
+                ErrorViewModel vme = new ErrorViewModel(ex.Message);
+                return View("Error", vme);
+            }
 
         }
 
         [HttpGet]
         public async Task<IActionResult> MonCompte(string ReturnUrl)
         {
-            if (User?.Identity.IsAuthenticated == true)
+            try
             {
-                MonCompteViewModel vm = new MonCompteViewModel();
-                vm.ReturnUrl = ReturnUrl;
-                var userId = User.GetSubjectId();
-
-                Utilisateur user = await _userManager.FindByIdAsync(userId);
-
-                if (user != null)
+                if (User?.Identity.IsAuthenticated == true)
                 {
-                    vm.User = user;
-                    return View(vm);
+                    MonCompteViewModel vm = new MonCompteViewModel();
+                    vm.ReturnUrl = ReturnUrl;
+                    var userId = User.GetSubjectId();
+
+                    Utilisateur user = await _userManager.FindByIdAsync(userId);
+
+                    if (user != null)
+                    {
+                        vm.User = user;
+                        return View(vm);
+                    }
                 }
+                ErrorViewModel evm = new ErrorViewModel("Veuillez vous connecter pour accéder à votre compte");
+                return View("Error", evm);
             }
-            ErrorViewModel evm = new ErrorViewModel("Veuillez vous connecter pour accéder à votre compte");
-            return View("Error", evm);
+            catch (Exception ex)
+            {
+                ErrorViewModel vme = new ErrorViewModel(ex.Message);
+                return View("Error", vme);
+            }
         }
 
         [HttpPost]
         public IActionResult MonCompte(MonCompteViewModel vm, string button)
         {
-            if (ModelState.IsValid)
+            try
             {
-                if (button.Equals("modifier"))
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("Modifier", new { ReturnUrl = vm.ReturnUrl });
+                    if (button.Equals("modifier"))
+                    {
+                        return RedirectToAction("Modifier", new { ReturnUrl = vm.ReturnUrl });
+                    }
                 }
+                if (vm.ReturnUrl != null)
+                    return Redirect(vm.ReturnUrl);
+                else
+                    return Redirect("~/");
             }
-            if (vm.ReturnUrl != null)
-                return Redirect(vm.ReturnUrl);
-            else
-                return Redirect("~/");
+            catch (Exception ex)
+            {
+                ErrorViewModel vme = new ErrorViewModel(ex.Message);
+                return View("Error", vme);
+            }
         }
 
         [HttpGet]

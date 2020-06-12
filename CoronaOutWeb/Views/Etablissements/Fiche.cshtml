@@ -208,15 +208,30 @@
 
 @if (isLogged)
 {
-    <div id="fb-root"></div>
-    <div class="fb-share-button"
-         data-href=""
-         data-layout="button_count">
-    </div>
-    <div id="twitter-wjs"></div>
-    <div id="tweet"></div>
-}
+    <div class="form-row" id="sharebuttons">
+        <div>
+            <div id="fb-root"></div>
+            <div class="fb-share-button"
+                 data-href=""
+                 data-layout="button_count">
+            </div>
+        </div>
 
+        <div>
+            <div id="twitter-wjs"></div>
+            <div id="tweet"></div>
+        </div>
+
+        <div>
+            <script type="IN/Share" id="linkedinButton" data-url="">
+            </script>
+        </div>
+    </div>
+
+}
+<br />
+<br />
+<br />
 <div class="col-md-12" id="centerAll">
     @Html.ActionLink("Retour à la liste des établissements", "ListeEtablissements", "Etablissements", "", new { @class = "btn btn-primary" })
 </div>
@@ -230,5 +245,6 @@
     <script src="https://platform.twitter.com/widgets.js"></script>
     <script src="~/js/popper.min.js"></script>
     <script src="~/js/ReseauxSociaux.js"></script>
+    <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: fr</script>
 }
 

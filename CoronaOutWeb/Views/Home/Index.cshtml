@@ -53,15 +53,26 @@ else
         <div class="custom-control-label">L'établissement ferme dans les 15 prochaines minutes</div>
     </div>
 
+    <div class="form-row" id="sharebuttons">
+        <div>
+            <div id="fb-root"></div>
+            <div class="fb-share-button"
+                 data-href=""
+                 data-layout="button_count">
+            </div>
+        </div>
 
-    <div id="fb-root"></div>
-    <div class="fb-share-button"
-         data-href=""
-         data-layout="button_count">
+        <div>
+            <div id="twitter-wjs"></div>
+            <div id="tweet"></div>
+        </div>
+
+        <div>
+            <script type="IN/Share" id="linkedinButton" data-url="">
+            </script>
+        </div>
     </div>
 
-    <div id="twitter-wjs"></div>
-    <div id="tweet"></div>
 }
 
 
@@ -70,5 +81,6 @@ else
     <script src="~/js/ReseauxSociaux.js"></script>
     <script src="~/js/Map.js"></script>
     <script src="~/js/PopUp.js"></script>
+    <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: fr</script>
 }
 

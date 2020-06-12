@@ -1,6 +1,7 @@
 ﻿
 var nombreMaxPhoto;
 
+//vérifie si il y a un nombre de photo max si oui l'assigne
 function NombrePhoto() {
     if ($("#nbPhotos").length) {
         nombreMaxPhoto = $("#nbPhotos").val();
@@ -11,6 +12,7 @@ function NombrePhoto() {
 }
 
 const tailleMaxImage = $("#tailleMaxImage").val();
+const tailleMaxLogo = $("#tailleMaxLogo").val();
 
 var nombrePreviewImage = $("#PhotosPreview").find("ul").length;
 
@@ -26,12 +28,12 @@ $(document).ready(function () {
     $("#logo-input").on("change", function () {
         if (fileName !== null) {
             //vérifie la taille du fichier
-            if (checkSize(this)) {
+            if (checkSize(this, tailleMaxLogo)) {
                 var fileName = $(this).val().split("\\").pop();
                 $(this).next("#logo-label").html(fileName);
             }
             else {
-                toastRMaxSize();
+                toastRMaxSize("le logo", tailleMaxLogo);
             }
 
         }
@@ -43,7 +45,7 @@ $(document).ready(function () {
     $("[id*='photo-input-']").on("change", function () {
         if (fileName !== null) {
             //vérifie la taille du fichier
-            if (checkSize(this)) {
+            if (checkSize(this, tailleMaxImage)) {
                 var num = $(this).attr('id').split("-")[2];
                 var labelTextBox = "#photo-label-" + num;
 
@@ -56,12 +58,12 @@ $(document).ready(function () {
                 AffichePremierPhotoUpload()
             }
             else {
-                toastRMaxSize();
+                toastRMaxSize("une image", tailleMaxImage);
             }
         }
     })
 
-    NombrePhoto()
+    
 
 })
 
@@ -91,7 +93,9 @@ function AffichePremierPhotoUpload() {
 
 
 window.onload = function () {
-  
+
+    NombrePhoto()
+
     //cache tous les boutons
     for (var i = 0; i < nombreMaxPhoto; i++) {
         var photoId = "#photo-" + (i);
@@ -112,12 +116,13 @@ window.onload = function () {
 
 }
 
-function checkSize(element) {
-    if (element.files[0].size > tailleMaxImage) {
+function checkSize(element, tailleMax) {
+    if (element.files[0].size > tailleMax) {
 
-        var num = element.id.split("-")[2];
+        element.value = "";
+        //var num = element.id.split("-")[2];
         //supprime le fichier
-        supprimerPhoto(num)
+        //supprimerPhoto(num)
 
         return false;
     }
@@ -127,10 +132,10 @@ function checkSize(element) {
 
 
 
-function toastRMaxSize() {
+function toastRMaxSize(name, tailleMax) {
 
-    var tailleMaxImageLisible = tailleMaxImage / 1000;
-    var message = "La taille maximum autorisée pour une image est de " + tailleMaxImageLisible + " Ko";
+    var tailleMaxImageLisible = tailleMax / 1000;
+    var message = "La taille maximum autorisée pour "+name+" est de " + tailleMaxImageLisible + " Ko";
     toastr["error"](message, "Image trop lourde");
 
     toastr.options = {
@@ -290,5 +295,13 @@ function reinitializebutton(num) {
     var selectorName = "photo-label-" + num;
     var labelTextBox = document.getElementById(selectorName);
     labelTextBox.innerHTML = "Sélectionner l'image";
+
+    //cache le button si il en reste plus d'un
+    var lBoutonDesactives = $("div[style*='display: none;']").filter("[id^='photo-']");
+
+    if (lBoutonDesactives.length !== (nombreMaxPhoto - 1)) {
+        var bouton = "#photo-" + num;
+        $(bouton).hide();
+    }
 
 }

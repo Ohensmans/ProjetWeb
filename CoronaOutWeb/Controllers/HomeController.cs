@@ -19,6 +19,7 @@ using System.Globalization;
 
 namespace CoronaOutWeb.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -36,27 +37,50 @@ namespace CoronaOutWeb.Controllers
             this.Mapbox = key.Value.MapBox;
         }
 
-
-        [Route("{id?}")]
-        [Route("Home")]
-        [Route("Home/Index")]
-        [Route("Home/Index/{id?}")]
+        [Route("")]
         [HttpGet]
-        public IActionResult Index(string id)
+        public IActionResult Index()
         {
-            if (id == null)
+            try
             {
                 HomeViewModel model = new HomeViewModel();
                 model.MapBox = this.Mapbox;
                 model.isLogged = User.Identity.IsAuthenticated;
                 return View(model);
             }
-            else
+            catch (Exception ex)
             {
-                return RedirectToAction("Fiche", "Etablissements", new { id = id});
+                ErrorViewModel vme = new ErrorViewModel() { RequestId = ex.Message };
+                return View("Error", vme);
+            }
+        }
+
+        [Route("")]
+        [HttpGet("{id}")]
+        public IActionResult ShortUrl(string id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    HomeViewModel model = new HomeViewModel();
+                    model.MapBox = this.Mapbox;
+                    model.isLogged = User.Identity.IsAuthenticated;
+                    return View(model);
+                }
+                else
+                {
+                    return RedirectToAction("Fiche", "Etablissements", new { id = id });
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel vme = new ErrorViewModel() { RequestId = ex.Message };
+                return View("Error", vme);
             }
 
         }
+
 
         [Authorize]
         public async Task<IActionResult> Privacy()
@@ -65,7 +89,7 @@ namespace CoronaOutWeb.Controllers
 
             var _accessToken = new JwtSecurityTokenHandler().ReadJwtToken(idToken);
 
-            var test = User.Claims.Any(x => x.Value == "Administrateur" && x.Type.ToString()=="role");
+            var test = User.Claims.Any(x => x.Value == "Administrateur" && x.Type.ToString() == "role");
 
             var test2 = User.Claims.FirstOrDefault(x => x.Type.ToString() == "sub").Value;
 
@@ -83,12 +107,12 @@ namespace CoronaOutWeb.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-            return Redirect("Index");    
+            return Redirect("Index");
         }
 
         //pour actionner le log in
         [Authorize]
-        public  IActionResult Login()
+        public IActionResult Login()
         {
             return Redirect("Index");
         }
@@ -97,61 +121,76 @@ namespace CoronaOutWeb.Controllers
         [HttpGet]
         public async Task<List<string>> getCoordinates()
         {
-            List<Etablissement> lEtabl = await etablissementService.GetAllEtablissementsAsync();
-            List<string> lCoordinates = new List<string>();
-
-            foreach (Etablissement etab in lEtabl)
+            try
             {
-                if (etab.estValide)
-                {
-                    string adresse = etab.NumeroBoite + "+" + etab.Rue + ",+" + etab.CodePostal + ",+" + etab.Ville + ",+" + etab.Pays;
-                    Marker marker = await mapService.GetCoordinates(adresse);
-                    marker.Nom = etab.Nom;
-                    marker.NomUrl = etab.NomUrl;
-                    marker.nbMinAvantFermeture = await estOuvert(etab.Id);
+                List<Etablissement> lEtabl = await etablissementService.GetAllEtablissementsAsync();
+                List<string> lCoordinates = new List<string>();
 
-                    string coordinates = JsonConvert.SerializeObject(marker);
-                    lCoordinates.Add(coordinates);
+                foreach (Etablissement etab in lEtabl)
+                {
+                    if (etab.estValide)
+                    {
+                        string adresse = etab.NumeroBoite + "+" + etab.Rue + ",+" + etab.CodePostal + ",+" + etab.Ville + ",+" + etab.Pays;
+                        Marker marker = await mapService.GetCoordinates(adresse);
+                        marker.Nom = etab.Nom;
+                        marker.NomUrl = etab.NomUrl;
+                        marker.nbMinAvantFermeture = await estOuvert(etab.Id);
+
+                        string coordinates = JsonConvert.SerializeObject(marker);
+                        lCoordinates.Add(coordinates);
+                    }
                 }
+                return lCoordinates;
             }
-            return lCoordinates;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<int> estOuvert(Guid etablissementId)
         {
-            int nbMinAvantFermeture = 0;
-
-            List<Horaire> lHoraire = await horaireService.GetAllHorairesAsync();
-            if (lHoraire.Any(x => x.EtablissementId == etablissementId))
+            try
             {
-                lHoraire = lHoraire.Where(x => x.EtablissementId == etablissementId).ToList();
+                int nbMinAvantFermeture = 0;
 
-                CultureInfo culture = CultureInfo.CurrentCulture;
-                string jour = culture.DateTimeFormat.GetDayName(DateTime.Now.Date.DayOfWeek).ToString().ToLower();
-                TimeSpan heure = DateTime.Now.TimeOfDay;
-
-                Horaire horaireJour = lHoraire.FirstOrDefault(h => h.Jour.ToLower().Equals(jour) && h.HeureOuverture<=heure && h.HeureFermeture>=heure);
-
-                if (horaireJour!=null)
+                List<Horaire> lHoraire = await horaireService.GetAllHorairesAsync();
+                if (lHoraire.Any(x => x.EtablissementId == etablissementId))
                 {
-                    nbMinAvantFermeture = (int)(horaireJour.HeureFermeture.TotalMinutes - heure.TotalMinutes)/1;
+                    lHoraire = lHoraire.Where(x => x.EtablissementId == etablissementId).ToList();
 
-                    if (horaireJour.HeureFermeture==new TimeSpan(23,59,00)|| horaireJour.HeureFermeture == new TimeSpan(00, 00, 00))
+                    CultureInfo culture = CultureInfo.CurrentCulture;
+                    string jour = culture.DateTimeFormat.GetDayName(DateTime.Now.Date.DayOfWeek).ToString().ToLower();
+                    TimeSpan heure = DateTime.Now.TimeOfDay;
+
+                    Horaire horaireJour = lHoraire.FirstOrDefault(h => h.Jour.ToLower().Equals(jour) && h.HeureOuverture <= heure && h.HeureFermeture >= heure);
+
+                    if (horaireJour != null)
                     {
-                        string demain = culture.DateTimeFormat.GetDayName(DateTime.Now.Date.AddDays(1).DayOfWeek).ToString().ToLower();
-                        Horaire horaireDemain = lHoraire.FirstOrDefault(h => h.Jour.ToLower().Equals(demain) && h.HeureOuverture == new TimeSpan(00, 00, 00));
-                        if (horaireDemain!=null)
+                        nbMinAvantFermeture = (int)(horaireJour.HeureFermeture.TotalMinutes - heure.TotalMinutes) / 1;
+
+                        if (horaireJour.HeureFermeture == new TimeSpan(23, 59, 00) || horaireJour.HeureFermeture == new TimeSpan(00, 00, 00))
                         {
-                            nbMinAvantFermeture = (int)(horaireDemain.HeureFermeture.Add(new TimeSpan(1, 0, 0, 0)).TotalMinutes - heure.TotalMinutes)/1;
+                            string demain = culture.DateTimeFormat.GetDayName(DateTime.Now.Date.AddDays(1).DayOfWeek).ToString().ToLower();
+                            Horaire horaireDemain = lHoraire.FirstOrDefault(h => h.Jour.ToLower().Equals(demain) && h.HeureOuverture == new TimeSpan(00, 00, 00));
+                            if (horaireDemain != null)
+                            {
+                                nbMinAvantFermeture = (int)(horaireDemain.HeureFermeture.Add(new TimeSpan(1, 0, 0, 0)).TotalMinutes - heure.TotalMinutes) / 1;
+                            }
+
                         }
 
                     }
 
                 }
 
-            }
+                return nbMinAvantFermeture;
 
-            return nbMinAvantFermeture;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }
