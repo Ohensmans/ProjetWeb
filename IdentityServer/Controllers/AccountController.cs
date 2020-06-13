@@ -5,8 +5,6 @@ using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
-using IdentityServer4.Stores;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,23 +17,17 @@ namespace IdentityServer.Controllers
         private readonly UserManager<Utilisateur> _userManager;
         private readonly SignInManager<Utilisateur> _signInManager;
         private readonly IIdentityServerInteractionService _interaction;
-        private readonly IClientStore _clientStore;
-        private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
 
         public AccountController(
             UserManager<Utilisateur> userManager,
             SignInManager<Utilisateur> signInManager,
             IIdentityServerInteractionService interaction,
-            IClientStore clientStore,
-            IAuthenticationSchemeProvider schemeProvider,
             IEventService events)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _interaction = interaction;
-            _clientStore = clientStore;
-            _schemeProvider = schemeProvider;
             _events = events;
         }
 

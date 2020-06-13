@@ -1,7 +1,6 @@
 ﻿using CoronaOutWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System;
 
 namespace CoronaOutWeb.Controllers
 {
@@ -16,7 +15,7 @@ namespace CoronaOutWeb.Controllers
             this.returnHomecoronaOutWebParam = "?ReturnUrl=" + url.Value.CoronaOutWeb;
         }
 
-        public IActionResult Index()
+        public IActionResult Admin()
         {
             return Redirect(identityAdminUrl + returnHomecoronaOutWebParam);
         }

@@ -15,9 +15,9 @@ namespace CoronaOutWeb.ExternalApiCall.VAT
         private readonly HttpClient _client;
 
 
-        public VATService(IOptions<BaseUrl> url, IOptions<BaseKey> key)
+        public VATService(IOptions<BaseUrl> url, IOptions<BaseKey> key, HttpClient client)
         {
-            _client = Program.client;
+            _client = client;
             this.baseKey = key.Value.VATApi;
             this.baseUrl = url.Value.VAT;
         }

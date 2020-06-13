@@ -2,7 +2,6 @@
 using IdentityServer.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using ModelesApi.POC;
-using System.Data;
 
 namespace IdentityServer.Validator
 {

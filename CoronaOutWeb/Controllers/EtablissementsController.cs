@@ -4,7 +4,6 @@ using CoronaOutWeb.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using ModelesApi.POC;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;

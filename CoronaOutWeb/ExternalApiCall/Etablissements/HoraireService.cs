@@ -20,10 +20,10 @@ namespace CoronaOutWeb.ExternalApiCall.Etablissements
         private readonly string baseUrl;
         private readonly HttpClient client;
 
-        public HoraireService(IOptions<BaseUrl> url)
+        public HoraireService(IOptions<BaseUrl> url, HttpClient client)
         {
             this.baseUrl = url.Value.ApiHoraire;
-            this.client = Program.client;
+            this.client = client;
 
         }
 

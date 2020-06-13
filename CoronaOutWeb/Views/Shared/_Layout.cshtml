@@ -51,7 +51,7 @@
                                     {
                                         @Html.ActionLink("Gérer les établissements", "ListeEtablissementOwned", "AdministrationEtablissement", null, new { @class = "nav-link text-dark" })
                                         <div class="dropdown-divider"></div>
-                                        @Html.ActionLink("Utilisateurs", "Index", "AdministrationUser", null, new { @class = "nav-link text-dark" })
+                                        @Html.ActionLink("Utilisateurs", "Admin", "AdministrationUser", null, new { @class = "nav-link text-dark" })
                                         <div class="dropdown-divider"></div>
                                         @Html.ActionLink("News", "ListeNews", "AdministrationNews", null, new { @class = "nav-link text-dark" })
                                     }
@@ -96,7 +96,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - CoronaOutWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - CoronaOutWeb - <a asp-area="" class = "text-dark" asp-controller="Home" asp-action="HowTo">Comment enregistrer son établissement</a> - <a asp-area="" class = "text-dark" asp-controller="Home" asp-action="Remerciements">Remerciements</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -107,7 +107,6 @@ C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\IdentityServer\obj\Debug\netcorea
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\IdentityServer\bin\Debug\netcoreapp3.1\FluentValidation.dll
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\IdentityServer\bin\Debug\netcoreapp3.1\FluentValidation.AspNetCore.dll
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\IdentityServer\bin\Debug\netcoreapp3.1\FluentValidation.DependencyInjectionExtensions.dll
-C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\IdentityServer\obj\Debug\netcoreapp3.1\Razor\Views\Home\Test.cshtml.g.cs
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\IdentityServer\obj\Debug\netcoreapp3.1\Razor\Views\Account\Modifier.cshtml.g.cs
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\IdentityServer\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Razor.Language.dll
 C:\Users\Olivier\Desktop\Projets Git\ProjetWeb\IdentityServer\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.dll

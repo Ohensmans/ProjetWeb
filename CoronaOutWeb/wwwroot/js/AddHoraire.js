@@ -6,12 +6,35 @@
         url: "/AdministrationEtablissement/AddHoraire",
         success: function (partialView) {
 
-            console.log("charge");
             $("#horaire-container").html(partialView);
 
         }
     });
+    infoHoraire();
 });
+
+
+function infoHoraire() {
+
+    Command: toastr["info"]("Une journée termine à 23h59", "Horaires")
+
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }}
 
 
 

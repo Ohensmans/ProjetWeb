@@ -14,9 +14,9 @@ namespace CoronaOutWeb.ExternalApiCall.Map
         private readonly string baseKey;
         private readonly string baseParam;
 
-        public MapService(IOptions<BaseUrl> url, IOptions<BaseKey> key, IOptions<BaseParams> param)
+        public MapService(IOptions<BaseUrl> url, IOptions<BaseKey> key, IOptions<BaseParams> param, HttpClient client)
         {
-            _client = Program.client;
+            _client = client;
             this.baseUrl = url.Value.MapQuest;
             this.baseKey = key.Value.MapQuest;
             this.baseParam = param.Value.MapQuest;

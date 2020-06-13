@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ModelesApi.POC;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Repo.Contexts
 {

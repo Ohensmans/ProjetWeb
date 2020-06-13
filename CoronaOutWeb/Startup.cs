@@ -68,12 +68,7 @@ namespace CoronaOutWeb
                         };
 
                         options.Scope.Add("Api");
-                        options.Scope.Add("ApiExterne");
                         options.Scope.Add("role");
-
-
-
-                        //options.ClaimActions.Add(new JsonKeyClaimAction("role", "role", "role"));
                     });
 
             services.AddAuthorization(options =>
@@ -86,12 +81,10 @@ namespace CoronaOutWeb
 
             services.UseServicesVAT();
             services.UseServicesEtablissements();
-            services.AddTransient<IVATService, VATService>();
-            services.AddTransient<IEtablissementService, EtablissementService>();
-            services.AddTransient<IPhotoService, PhotoService>();
-            services.AddTransient<IHoraireService, HoraireService>();
-            services.AddTransient<IMapService, MapService>();
-            services.AddTransient<INewsService, NewsService>();
+            services.UseServicesNews();
+            services.UseServicesHoraires();
+            services.UseServicesPhotos();
+            services.UseServicesMap();
             services.AddTransient<IValidator<Horaire>, HoraireValidator>();
             services.AddTransient<IValidator<Etablissement>, EtablissementValidator>();
             services.AddTransient<IValidator<News>, NewsValidator>();

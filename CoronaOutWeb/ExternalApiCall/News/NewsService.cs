@@ -18,10 +18,10 @@ namespace CoronaOutWeb.ExternalApiCall.News
         private readonly string baseUrl;
         private readonly HttpClient client;
 
-        public NewsService(IOptions<BaseUrl> url)
+        public NewsService(IOptions<BaseUrl> url, HttpClient client)
         {
             this.baseUrl = url.Value.ApiNews;
-            this.client = Program.client;
+            this.client = client;
         }
 
         public async Task<ModelesApi.POC.News> CreateNewstAsync(ModelesApi.POC.News news, string idToken)

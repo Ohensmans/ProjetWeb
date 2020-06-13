@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using IdentityServer.Models;
 using IdentityServer.ViewModel;
@@ -10,7 +8,6 @@ using IdentityServer.ViewModel.Administration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using ModelesApi.POC;
 
@@ -157,8 +154,7 @@ namespace IdentityServer.Controllers
             }
             catch (Exception ex)
             {
-                ErrorViewModel vme = new ErrorViewModel(ex.Message);
-                return View("Error", vme);
+                throw ex;
             }
         }
 

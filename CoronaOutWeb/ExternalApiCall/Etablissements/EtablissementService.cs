@@ -16,10 +16,10 @@ namespace CoronaOutWeb.ExternalApiCall.Etablissements
         private readonly string baseUrl;
         private readonly HttpClient client;
 
-        public EtablissementService(IOptions<BaseUrl> url)
+        public EtablissementService(IOptions<BaseUrl> url, HttpClient client)
         {
             this.baseUrl = url.Value.ApiEtablissement;
-            this.client = Program.client;
+            this.client = client;
             
         }
 

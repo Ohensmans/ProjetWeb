@@ -5,7 +5,6 @@ using CoronaOutWeb.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using System.Threading.Tasks;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using Microsoft.Extensions.Options;
 using CoronaOutWeb.ViewModel;
@@ -82,19 +81,18 @@ namespace CoronaOutWeb.Controllers
         }
 
 
-        [Authorize]
-        public async Task<IActionResult> Privacy()
+        [HttpGet]
+        public IActionResult HowTo()
         {
-            var idToken = await HttpContext.GetTokenAsync("id_token");
-
-            var _accessToken = new JwtSecurityTokenHandler().ReadJwtToken(idToken);
-
-            var test = User.Claims.Any(x => x.Value == "Administrateur" && x.Type.ToString() == "role");
-
-            var test2 = User.Claims.FirstOrDefault(x => x.Type.ToString() == "sub").Value;
-
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Remerciements()
+        {
+            return View();
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
